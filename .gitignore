@@ -27,3 +27,6 @@ tools/output/
 
 # WordPress core, if you download it manually for offline setup
 /wordpress/
+
+# gói zip do tools/package.sh tạo
+dist/

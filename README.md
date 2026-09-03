@@ -13,10 +13,12 @@ wp-content/plugins/annamleaf-core/  Plugin — toàn bộ nội dung có cấu t
 demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thiết kế gốc
 docs/                            Kiến trúc WordPress, shot list ảnh, danh sách placeholder
 tools/render-check.php           Render thử template không cần cài WordPress
+tools/package.sh                 Đóng gói theme + plugin thành zip để upload
 ```
 
 Chưa dùng WordPress bao giờ? Xem **[docs/chay-thu-local.md](docs/chay-thu-local.md)** —
-hướng dẫn từng bước chạy thử trên máy.
+hướng dẫn từng bước chạy thử trên máy. Muốn cho khách xem hoặc go-live:
+**[docs/dua-len-mang.md](docs/dua-len-mang.md)**.
 
 Site chạy trên **WordPress** để khách hàng tự sửa nội dung sau này. Ranh giới theme/plugin
 là điểm chính của kiến trúc: nội dung nằm trong plugin nên đổi giao diện về sau không mất dữ liệu.
@@ -64,6 +66,7 @@ Theme WordPress dùng đúng bảng màu, typography và khung ảnh của nó.
 ```sh
 sh tools/lint.sh             # php -l toàn bộ + validate theme.json + render 8 template
 docker compose up -d         # dựng WordPress local ở http://localhost:8888
+sh tools/package.sh          # đóng gói dist/*.zip để upload lên hosting
 ```
 
 `tools/render-check.php` giả lập các hàm WordPress để render thật 8 template ra
