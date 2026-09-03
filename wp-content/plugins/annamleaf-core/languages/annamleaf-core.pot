@@ -1,0 +1,560 @@
+# Translation template for Annam Leaf Core.
+# Copyright (C) 2026
+# This file is distributed under the same license as the Annam Leaf Core package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Annam Leaf Core\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-03 06:52+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: annamleaf-core\n"
+
+#: includes/seed.php:32
+msgid "A field technician standing with a farmer between the rows"
+msgstr ""
+
+#: includes/seed.php:204 includes/seed.php:239
+msgid "About"
+msgstr ""
+
+#: includes/seed.php:207
+msgid "About us"
+msgstr ""
+
+#: includes/post-types.php:65
+msgid "Add growing region"
+msgstr ""
+
+#: includes/post-types.php:44
+msgid "Add leaf type"
+msgstr ""
+
+#: includes/post-types.php:21
+msgid "Add process stage"
+msgstr ""
+
+#: includes/seed.php:78 includes/seed.php:90
+msgid "Air-cured"
+msgstr ""
+
+#: includes/seed.php:79
+msgid "Air-cured, low sugar, high filling power and casing absorption."
+msgstr ""
+
+#: includes/meta.php:71
+msgid "Area (ha)"
+msgstr ""
+
+#: includes/settings.php:71
+msgid "Asks visitors to confirm they are 18 or older and in the trade before the site is shown."
+msgstr ""
+
+#: includes/seed.php:42
+msgid "Barn exteriors; golden leaf hanging inside — the signature shot"
+msgstr ""
+
+#: includes/seed.php:73
+msgid "Bright leaf, high sugar, cured in temperature-controlled barns."
+msgstr ""
+
+#: includes/seed.php:76
+msgid "Burley"
+msgstr ""
+
+#: includes/settings.php:24
+msgid "Business registration no."
+msgstr ""
+
+#: includes/meta.php:103
+msgid "Button label"
+msgstr ""
+
+#: includes/meta.php:107
+msgid "Button link"
+msgstr ""
+
+#: includes/seed.php:45
+msgid "Buying & grading"
+msgstr ""
+
+#: includes/settings.php:48
+msgid "Capacity figures"
+msgstr ""
+
+#: includes/meta.php:113
+msgid "Caption on the placeholder illustration, until a featured image is set."
+msgstr ""
+
+#: includes/settings.php:20
+msgid "Company"
+msgstr ""
+
+#: includes/settings.php:149 includes/settings.php:150 includes/settings.php:172
+msgid "Company profile"
+msgstr ""
+
+#: includes/seed.php:224 includes/seed.php:227 includes/seed.php:243 includes/settings.php:35
+msgid "Contact"
+msgstr ""
+
+#: includes/api.php:111
+msgid "Contracted growing area"
+msgstr ""
+
+#: includes/seed.php:31
+msgid "Contracted hectares across our growing regions. Inputs come from us, technicians visit on a set schedule, and a field diary is kept plot by plot."
+msgstr ""
+
+#: includes/meta.php:48 includes/seed.php:40
+msgid "Curing"
+msgstr ""
+
+#: includes/seed.php:88
+msgid "Dark air-cured"
+msgstr ""
+
+#: includes/post-types.php:66
+msgid "Edit growing region"
+msgstr ""
+
+#: includes/post-types.php:45
+msgid "Edit leaf type"
+msgstr ""
+
+#: includes/post-types.php:22
+msgid "Edit process stage"
+msgstr ""
+
+#: includes/api.php:114
+msgid "Export markets"
+msgstr ""
+
+#: includes/meta.php:89
+msgid "Eyebrow"
+msgstr ""
+
+#: includes/seed.php:209
+msgid "Facility exterior, or the company team"
+msgstr ""
+
+#: includes/settings.php:26
+msgid "Factory address"
+msgstr ""
+
+#: includes/seed.php:52
+msgid "Factory conveyor; the threshing line; a labelled finished bale"
+msgstr ""
+
+#: includes/api.php:112
+msgid "Farming households"
+msgstr ""
+
+#: includes/seed.php:30
+msgid "Fields & farmer training"
+msgstr ""
+
+#: includes/settings.php:50
+msgid "Figure 1"
+msgstr ""
+
+#: includes/settings.php:52
+msgid "Figure 2"
+msgstr ""
+
+#: includes/settings.php:54
+msgid "Figure 3"
+msgstr ""
+
+#: includes/settings.php:56
+msgid "Figure 4"
+msgstr ""
+
+#: includes/seed.php:72
+msgid "Flue-cured"
+msgstr ""
+
+#: includes/seed.php:70
+msgid "Flue-cured Virginia"
+msgstr ""
+
+#: includes/meta.php:50
+msgid "Flue-cured, air-cured, sun-cured."
+msgstr ""
+
+#: includes/seed.php:41
+msgid "Flue-curing for Virginia, air-curing for Burley. Temperature and humidity follow a set curve — the stage that decides colour, aroma and sugar."
+msgstr ""
+
+#: includes/settings.php:64
+msgid "Footer notice"
+msgstr ""
+
+#: includes/meta.php:53
+msgid "Grades"
+msgstr ""
+
+#: includes/post-types.php:64
+msgid "Growing region"
+msgstr ""
+
+#: includes/seed.php:137
+msgid "Growing region %d"
+msgstr ""
+
+#: includes/post-types.php:63
+msgid "Growing regions"
+msgstr ""
+
+#: includes/seed.php:37
+msgid "Hands picking a leaf; a full basket of green leaf"
+msgstr ""
+
+#: includes/seed.php:35
+msgid "Harvest"
+msgstr ""
+
+#: includes/seed.php:141
+msgid "Harvest months to confirm"
+msgstr ""
+
+#: includes/meta.php:79
+msgid "Harvest period"
+msgstr ""
+
+#: includes/meta.php:123
+msgid "Heading beside the page text."
+msgstr ""
+
+#: includes/seed.php:91
+msgid "Heavier, darker leaf for full-bodied blends."
+msgstr ""
+
+#: includes/meta.php:94
+msgid "Hero heading"
+msgstr ""
+
+#: includes/meta.php:99
+msgid "Hero text"
+msgstr ""
+
+#: includes/seed.php:190 includes/seed.php:238
+msgid "Home"
+msgstr ""
+
+#: includes/settings.php:51
+msgid "Label 1"
+msgstr ""
+
+#: includes/settings.php:53
+msgid "Label 2"
+msgstr ""
+
+#: includes/settings.php:55
+msgid "Label 3"
+msgstr ""
+
+#: includes/settings.php:57
+msgid "Label 4"
+msgstr ""
+
+#: includes/meta.php:75
+msgid "Leaf grown here"
+msgstr ""
+
+#: includes/meta.php:39
+msgid "Leaf specification"
+msgstr ""
+
+#: includes/post-types.php:43
+msgid "Leaf type"
+msgstr ""
+
+#: includes/seed.php:140
+msgid "Leaf type to confirm"
+msgstr ""
+
+#: includes/post-types.php:42
+msgid "Leaf types"
+msgstr ""
+
+#: includes/meta.php:96
+msgid "Leave empty to use the page title."
+msgstr ""
+
+#: includes/settings.php:23
+msgid "Legal name"
+msgstr ""
+
+#: includes/seed.php:56
+msgid "Lot samples are tested against CORESTA guidance residue levels, held in condition-controlled storage, then stuffed and shipped on your chosen Incoterms."
+msgstr ""
+
+#: includes/settings.php:28
+msgid "Mark empty fields"
+msgstr ""
+
+#: includes/meta.php:57
+msgid "Moisture"
+msgstr ""
+
+#: includes/seed.php:191
+msgid "Most leaf suppliers buy whatever the market offers. We start earlier: our own nurseries, our own seed selection, and field technicians who work alongside every contracted household through the season."
+msgstr ""
+
+#: includes/post-types.php:47
+msgid "No leaf types yet."
+msgstr ""
+
+#: includes/post-types.php:68
+msgid "No regions yet."
+msgstr ""
+
+#: includes/post-types.php:24
+msgid "No stages yet."
+msgstr ""
+
+#: includes/settings.php:25
+msgid "Office address"
+msgstr ""
+
+#: includes/seed.php:194
+msgid "One company across the whole chain"
+msgstr ""
+
+#: includes/seed.php:208
+msgid "One company from the seedbed to the sealed container."
+msgstr ""
+
+#: includes/post-types.php:105
+msgid "Order"
+msgstr ""
+
+#: includes/seed.php:82
+msgid "Oriental"
+msgstr ""
+
+#: includes/post-types.php:46 includes/seed.php:241
+msgid "Our Leaf"
+msgstr ""
+
+#: includes/seed.php:51
+msgid "Our line separates lamina from stem, redries to specification moisture, then presses bales labelled by lot."
+msgstr ""
+
+#: includes/meta.php:61
+msgid "Packing"
+msgstr ""
+
+#: includes/meta.php:85
+msgid "Page hero"
+msgstr ""
+
+#: includes/settings.php:38
+msgid "Phone"
+msgstr ""
+
+#: includes/meta.php:32 includes/meta.php:111
+msgid "Photo brief"
+msgstr ""
+
+#: includes/seed.php:36
+msgid "Picked by stalk position and ripeness, in several passes through the season. Leaf reaches the barn the same day to hold its grade."
+msgstr ""
+
+#: includes/seed.php:283
+msgid "Primary"
+msgstr ""
+
+#: includes/post-types.php:23 includes/seed.php:240
+msgid "Process"
+msgstr ""
+
+#: includes/post-types.php:20
+msgid "Process stage"
+msgstr ""
+
+#: includes/post-types.php:19
+msgid "Process stages"
+msgstr ""
+
+#: includes/api.php:113
+msgid "Processed leaf per year"
+msgstr ""
+
+#: includes/seed.php:242
+msgid "Quality"
+msgstr ""
+
+#: includes/seed.php:214
+msgid "Quality & Sustainability"
+msgstr ""
+
+#: includes/seed.php:217
+msgid "Quality & sustainability"
+msgstr ""
+
+#: includes/meta.php:67
+msgid "Region details"
+msgstr ""
+
+#: includes/post-types.php:67
+msgid "Regions"
+msgstr ""
+
+#: includes/seed.php:228
+msgid "Request samples and an offer"
+msgstr ""
+
+#: includes/settings.php:37
+msgid "Sales email"
+msgstr ""
+
+#: includes/meta.php:121
+msgid "Section heading"
+msgstr ""
+
+#: includes/meta.php:116
+msgid "Section label"
+msgstr ""
+
+#: includes/seed.php:25
+msgid "Seed & nursery"
+msgstr ""
+
+#: includes/seed.php:27
+msgid "Seedling trays in the greenhouse; hands holding a plant"
+msgstr ""
+
+#: includes/settings.php:41
+msgid "Send enquiries to"
+msgstr ""
+
+#: includes/settings.php:69
+msgid "Show the 18+ age gate"
+msgstr ""
+
+#: includes/meta.php:29
+msgid "Shown above the title, e.g. 01."
+msgstr ""
+
+#: includes/settings.php:66
+msgid "Shown in the footer on every page. Keep the site addressed to industrial buyers, not consumers."
+msgstr ""
+
+#: includes/meta.php:45
+msgid "Shown under the English name on the card."
+msgstr ""
+
+#: includes/meta.php:91
+msgid "Small label above the heading."
+msgstr ""
+
+#: includes/meta.php:118
+msgid "Small label beside the page text, e.g. \"Who we are\"."
+msgstr ""
+
+#: includes/seed.php:85
+msgid "Small sun-cured leaf, aromatic, used to lift a blend."
+msgstr ""
+
+#: includes/meta.php:23
+msgid "Stage details"
+msgstr ""
+
+#: includes/meta.php:27
+msgid "Stage number"
+msgstr ""
+
+#: includes/post-types.php:25
+msgid "Stage published."
+msgstr ""
+
+#: includes/post-types.php:26
+msgid "Stage updated."
+msgstr ""
+
+#: includes/seed.php:84
+msgid "Sun-cured"
+msgstr ""
+
+#: includes/seed.php:225
+msgid "Tell us the type, grade and volume you need. Our sales desk replies within five working days, with samples if you ask for them."
+msgstr ""
+
+#: includes/seed.php:55
+msgid "Testing, storage & export"
+msgstr ""
+
+#: includes/seed.php:47
+msgid "The grading table; a buyer matching a hand of leaf to a sample"
+msgstr ""
+
+#: includes/seed.php:219
+msgid "The lab, or stacked lot-labelled bales"
+msgstr ""
+
+#: includes/seed.php:57
+msgid "The lab; stacked bales in the warehouse; a container loading on site"
+msgstr ""
+
+#: includes/settings.php:174
+msgid "These details appear across the site — in the header, the footer, the contact page and the capacity strip on the home page. Change them once here."
+msgstr ""
+
+#: includes/seed.php:252
+msgid "This site is intended for industrial buyers and trade partners. It is not directed at consumers."
+msgstr ""
+
+#: includes/seed.php:50
+msgid "Threshing, redrying & baling"
+msgstr ""
+
+#: includes/seed.php:215
+msgid "Traceability is not a certificate on a wall — it follows from growing, curing and processing the leaf ourselves. Add the standards and sustainability sections from the block inserter."
+msgstr ""
+
+#: includes/settings.php:61
+msgid "Trade notice"
+msgstr ""
+
+#: includes/settings.php:22
+msgid "Trading name"
+msgstr ""
+
+#: includes/seed.php:26
+msgid "Varieties are chosen for the destination market, sown in our own nurseries and raised before transplanting. Control here decides how even the whole crop turns out."
+msgstr ""
+
+#: includes/meta.php:43
+msgid "Vietnamese name"
+msgstr ""
+
+#: includes/seed.php:205
+msgid "We are a vertically integrated leaf tobacco supplier: we grow, cure, process and export ourselves. Add the company story here, then drop in the \"Three points\" section from the block inserter."
+msgstr ""
+
+#: includes/seed.php:218
+msgid "We can control it because we are present at every stage."
+msgstr ""
+
+#: includes/meta.php:34
+msgid "What to photograph for this stage. Shown as a caption on the placeholder illustration and hidden as soon as you set a featured image."
+msgstr ""
+
+#: includes/settings.php:39
+msgid "WhatsApp / Zalo"
+msgstr ""
+
+#: includes/settings.php:43
+msgid "Where the quote request form delivers. Falls back to the sales email."
+msgstr ""
+
+#: includes/settings.php:30
+msgid "While the site is being built, every field still missing content is highlighted on the page. Switch this off before launch."
+msgstr ""
+
+#: includes/seed.php:193
+msgid "Who we are"
+msgstr ""

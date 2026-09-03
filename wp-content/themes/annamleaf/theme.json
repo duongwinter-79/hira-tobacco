@@ -1,0 +1,52 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"settings": {
+		"appearanceTools": false,
+		"layout": { "contentSize": "700px", "wideSize": "1124px" },
+		"color": {
+			"custom": false,
+			"customGradient": false,
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "field", "name": "Field green", "color": "#1E3D25" },
+				{ "slug": "leaf", "name": "Leaf", "color": "#2F6136" },
+				{ "slug": "cured", "name": "Cured gold", "color": "#B8841C" },
+				{ "slug": "paper", "name": "Paper", "color": "#F1F2EA" },
+				{ "slug": "card", "name": "Card", "color": "#FAFAF4" },
+				{ "slug": "ink", "name": "Ink", "color": "#1B2018" },
+				{ "slug": "ink-soft", "name": "Soft ink", "color": "#4E5748" }
+			]
+		},
+		"typography": {
+			"customFontSize": false,
+			"dropCap": false,
+			"fontFamilies": [
+				{ "slug": "display", "name": "Lora (headings)", "fontFamily": "Lora, Georgia, serif" },
+				{ "slug": "body", "name": "Be Vietnam Pro (text)", "fontFamily": "\"Be Vietnam Pro\", \"Segoe UI\", system-ui, sans-serif" },
+				{ "slug": "mono", "name": "IBM Plex Mono (labels)", "fontFamily": "\"IBM Plex Mono\", ui-monospace, monospace" }
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Small", "size": "14px" },
+				{ "slug": "medium", "name": "Body", "size": "16px" },
+				{ "slug": "large", "name": "Lead", "size": "19px" },
+				{ "slug": "x-large", "name": "Heading", "size": "31px" }
+			]
+		},
+		"spacing": { "units": [ "px", "rem", "%" ] }
+	},
+	"styles": {
+		"color": { "background": "#F1F2EA", "text": "#1B2018" },
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--body)",
+			"fontSize": "16px",
+			"lineHeight": "1.65"
+		},
+		"elements": {
+			"link": { "color": { "text": "#2F6136" } },
+			"h2": { "typography": { "fontFamily": "var(--wp--preset--font-family--display)", "fontWeight": "600" } },
+			"h3": { "typography": { "fontFamily": "var(--wp--preset--font-family--display)", "fontWeight": "600" } }
+		}
+	}
+}

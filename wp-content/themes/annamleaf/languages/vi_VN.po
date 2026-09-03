@@ -1,0 +1,545 @@
+# Vietnamese translation of the Annam Leaf theme interface strings.
+# Page and record content is translated in the editor (Polylang), not here.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: Annam Leaf\n"
+"PO-Revision-Date: 2026-09-03 06:54+0000\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: annamleaf\n"
+
+#: front-page.php:29
+msgid "%1$s grows, cures, grades and processes its own leaf in %2$s, Vietnam — one company from the seedbed to the sealed container."
+msgstr "%1$s tự trồng, tự sấy, tự phân cấp và chế biến lá thuốc lá tại %2$s, Việt Nam — một đầu mối duy nhất từ vườn ươm đến container niêm phong."
+
+#: inc/template-tags.php:292
+msgid "A site for the tobacco trade"
+msgstr "Trang dành cho khách hàng ngành thuốc lá"
+
+#: patterns/standards.php:18
+msgid "Agricultural Labour Practices: no child labour, safe hours and conditions."
+msgstr "Chuẩn mực lao động nông nghiệp: không lao động trẻ em, giờ làm và điều kiện an toàn."
+
+#: functions.php:135
+msgid "Annam Leaf sections"
+msgstr "Khối nội dung Annam Leaf"
+
+#: archive-annam_stage.php:70
+msgid "Arrange a visit"
+msgstr "Đặt lịch thăm"
+
+#: archive-annam_stage.php:18
+msgid "Barn exteriors, or golden leaf hanging inside"
+msgstr "Dãy lò sấy, hoặc lá vàng treo trong lò"
+
+#: inc/rfq.php:30
+msgid "Burley"
+msgstr ""
+
+#: footer.php:31
+msgid "Business reg."
+msgstr "Số ĐKKD"
+
+#: footer.php:29 footer.php:68
+msgid "COMPANY LEGAL NAME"
+msgstr "TÊN PHÁP LÝ CÔNG TY"
+
+#: inc/template-tags.php:69
+msgid "COMPANY NAME"
+msgstr "TÊN CÔNG TY"
+
+#: patterns/standards.php:20
+msgid "Certificate number to be confirmed."
+msgstr "Số chứng nhận chờ xác nhận."
+
+#: inc/rfq.php:39
+msgid "Company"
+msgstr "Công ty"
+
+#: footer.php:54 page-templates/contact.php:21
+msgid "Contact"
+msgstr "Liên hệ"
+
+#: archive-annam_leaf.php:52
+msgid "Curing"
+msgstr "Kiểu sấy"
+
+#: patterns/three-points.php:25
+msgid "Curing barns under technical supervision, graded at our buying stations against your samples and recorded by lot."
+msgstr "Lò sấy dưới giám sát kỹ thuật, phân cấp tại trạm thu mua đối chiếu mẫu của bạn và ghi nhận theo lô."
+
+#: patterns/delivery-forms.php:20
+msgid "Cut rag"
+msgstr "Sợi cắt"
+
+#: inc/rfq.php:33
+msgid "Cut rag / scrap"
+msgstr "Sợi cắt / lá vụn"
+
+#: inc/rfq.php:32
+msgid "Dark air-cured"
+msgstr "Lá sẫm sấy gió"
+
+#: inc/rfq.php:43
+msgid "Destination port"
+msgstr "Cảng đến"
+
+#: page-templates/contact.php:36
+msgid "Email"
+msgstr ""
+
+#: patterns/crop-calendar.php:27
+msgid "Ex port of loading"
+msgstr "Từ cảng xếp hàng"
+
+#: page-templates/contact.php:33
+msgid "FACTORY ADDRESS"
+msgstr "ĐỊA CHỈ NHÀ MÁY"
+
+#: page-templates/contact.php:32
+msgid "Factory"
+msgstr "Nhà máy"
+
+#: inc/rfq.php:29
+msgid "Flue-cured Virginia"
+msgstr "Virginia sấy lò"
+
+#: functions.php:43
+msgid "Footer menu"
+msgstr "Menu chân trang"
+
+#: archive-annam_stage.php:14
+msgid "From field to factory"
+msgstr "Từ vùng trồng đến nhà máy"
+
+#: front-page.php:24
+msgid "From our fields to your factory"
+msgstr "Từ vùng trồng đến nhà máy của bạn"
+
+#: front-page.php:71
+msgid "From seed to container, under one roof"
+msgstr "Từ hạt giống đến container, trong một hệ thống"
+
+#: 404.php:17
+msgid "Go to the home page"
+msgstr "Về trang chủ"
+
+#: patterns/standards.php:17
+msgid "Good Agricultural Practices across the full contracted area."
+msgstr "Thực hành nông nghiệp tốt trên toàn bộ diện tích ký hợp đồng."
+
+#: archive-annam_leaf.php:20
+msgid "Graded leaf laid out by type"
+msgstr "Lá đã phân cấp, xếp theo chủng loại"
+
+#: archive-annam_leaf.php:53 template-parts/card-leaf.php:40
+msgid "Grades"
+msgstr "Grade"
+
+#: inc/rfq.php:44
+msgid "Grades, specifications or anything else"
+msgstr "Grade, quy cách hoặc yêu cầu khác"
+
+#: front-page.php:132
+msgid "Growing regions"
+msgstr "Vùng trồng"
+
+#: patterns/crop-calendar.php:25
+msgid "Harvest and curing"
+msgstr "Thu hoạch và sấy"
+
+#: inc/template-tags.php:311
+msgid "Home"
+msgstr "Trang chủ"
+
+#: front-page.php:70
+msgid "How we work"
+msgstr "Quy trình"
+
+#: inc/template-tags.php:295
+msgid "I am 18+ and in the trade"
+msgstr "Tôi đủ 18 tuổi và là khách hàng ngành"
+
+#: patterns/crop-calendar.php:23
+msgid "In our own nurseries"
+msgstr "Tại vườn ươm của công ty"
+
+#: front-page.php:23
+msgid "Leaf tobacco · Vietnam"
+msgstr "Nguyên liệu lá thuốc lá · Việt Nam"
+
+#: inc/rfq.php:41
+msgid "Leaf type"
+msgstr "Chủng loại lá"
+
+#: inc/template-tags.php:296
+msgid "Leave"
+msgstr "Rời khỏi trang"
+
+#: inc/rfq.php:60
+msgid "Leave this field empty"
+msgstr "Để trống ô này"
+
+#: header.php:41
+msgid "Menu"
+msgstr ""
+
+#: archive-annam_leaf.php:54 template-parts/card-leaf.php:44
+msgid "Moisture"
+msgstr "Độ ẩm"
+
+#: footer.php:32
+msgid "NO."
+msgstr "SỐ"
+
+#: archive-annam_leaf.php:87
+msgid "Need a grade that is not listed?"
+msgstr "Cần một grade chưa có trong danh sách?"
+
+#: index.php:14
+msgid "News"
+msgstr "Tin tức"
+
+#: archive-annam_leaf.php:80
+msgid "No leaf types have been added yet."
+msgstr "Chưa có chủng loại lá nào."
+
+#: patterns/crop-calendar.php:20
+msgid "Notes"
+msgstr "Ghi chú"
+
+#: index.php:38
+msgid "Nothing published here yet."
+msgstr "Chưa có nội dung nào."
+
+#: footer.php:58 page-templates/contact.php:29
+msgid "OFFICE ADDRESS"
+msgstr "ĐỊA CHỈ VĂN PHÒNG"
+
+#: page-templates/contact.php:28
+msgid "Office"
+msgstr "Văn phòng"
+
+#: front-page.php:54
+msgid "One company across the whole chain"
+msgstr "Một công ty, trọn chuỗi giá trị"
+
+#: inc/rfq.php:31
+msgid "Oriental"
+msgstr ""
+
+#: inc/template-tags.php:314
+msgid "Our Leaf"
+msgstr "Sản phẩm"
+
+#: archive-annam_leaf.php:16 front-page.php:106
+msgid "Our leaf"
+msgstr "Sản phẩm"
+
+#: patterns/three-points.php:18
+msgid "Own nurseries, contracted households, and inputs supplied and controlled by us. Field technicians are on the ground all season."
+msgstr "Vườn ươm riêng, hợp đồng với các hộ nông dân, vật tư do công ty cấp và kiểm soát. Cán bộ nông vụ có mặt tại đồng suốt vụ."
+
+#: archive-annam_leaf.php:55
+msgid "Packing"
+msgstr "Đóng gói"
+
+#: 404.php:14
+msgid "Page not found"
+msgstr "Không tìm thấy trang"
+
+#: inc/template-tags.php:272
+msgid "Pagination"
+msgstr "Phân trang"
+
+#: patterns/crop-calendar.php:19
+msgid "Period"
+msgstr "Thời gian"
+
+#: page-templates/contact.php:50
+msgid "Phone"
+msgstr "Điện thoại"
+
+#: inc/rfq.php:103
+msgid "Please fill in your name and a valid work email, then send again."
+msgstr "Vui lòng nhập họ tên và email công việc hợp lệ, rồi gửi lại."
+
+#: header.php:44
+msgid "Primary"
+msgstr "Menu chính"
+
+#: functions.php:42
+msgid "Primary menu"
+msgstr "Menu chính"
+
+#: inc/template-tags.php:314
+msgid "Process"
+msgstr "Quy trình"
+
+#: patterns/crop-calendar.php:26
+msgid "Processing"
+msgstr "Chế biến"
+
+#: inc/rfq.php:165
+msgid "Quote request — %s"
+msgstr "Yêu cầu báo giá — %s"
+
+#: front-page.php:31
+msgid "REGION"
+msgstr "VÙNG TRỒNG"
+
+#: footer.php:30
+msgid "REGISTERED ADDRESS"
+msgstr "ĐỊA CHỈ ĐĂNG KÝ"
+
+#: functions.php:136
+msgid "Ready-made sections for the About, Quality and Our Leaf pages."
+msgstr "Các khối nội dung dựng sẵn cho trang Giới thiệu, Chất lượng và Sản phẩm."
+
+#: front-page.php:160
+msgid "Region map, or a drone shot of one growing area"
+msgstr "Bản đồ vùng trồng, hoặc ảnh flycam một vùng tiêu biểu"
+
+#: archive-annam_leaf.php:89 front-page.php:33 front-page.php:173
+msgid "Request a quote"
+msgstr "Yêu cầu báo giá"
+
+#: patterns/standards.php:19
+msgid "Residue testing against the guidance residue levels, every crop."
+msgstr "Kiểm nghiệm dư lượng theo ngưỡng hướng dẫn, mỗi vụ."
+
+#: archive-annam_stage.php:51
+msgid "STAGE %s"
+msgstr "BƯỚC %s"
+
+#: archive-annam_leaf.php:18
+msgid "Samples on request. Grades are matched against your own reference samples before shipment."
+msgstr "Gửi mẫu theo yêu cầu. Grade được đối chiếu với mẫu chuẩn của bạn trước khi giao hàng."
+
+#: patterns/delivery-forms.php:21
+msgid "Scrap"
+msgstr "Lá vụn"
+
+#: front-page.php:94
+msgid "See every stage →"
+msgstr "Xem đầy đủ các bước →"
+
+#: front-page.php:35
+msgid "See how we work"
+msgstr "Xem quy trình"
+
+#: inc/rfq.php:94
+msgid "Send request"
+msgstr "Gửi yêu cầu"
+
+#: front-page.php:172
+msgid "Send the type, grade and volume — we reply with samples and an offer within five working days."
+msgstr "Gửi chủng loại, grade và khối lượng — chúng tôi phản hồi kèm mẫu và bảng giá trong vòng 5 ngày làm việc."
+
+#: inc/rfq.php:160
+msgid "Sent from"
+msgstr "Gửi từ"
+
+#: archive-annam_stage.php:15
+msgid "Seven stages, one company accountable"
+msgstr "Bảy bước, một đầu mối chịu trách nhiệm"
+
+#: patterns/crop-calendar.php:25
+msgid "Several picking passes"
+msgstr "Nhiều đợt hái trong vụ"
+
+#: patterns/crop-calendar.php:27
+msgid "Shipment"
+msgstr "Giao hàng"
+
+#: patterns/delivery-forms.php:13
+msgid "Shipped in the form you need"
+msgstr "Giao ở dạng bạn cần"
+
+#: footer.php:37
+msgid "Site"
+msgstr "Điều hướng"
+
+#: header.php:21
+msgid "Skip to content"
+msgstr "Tới nội dung chính"
+
+#: patterns/crop-calendar.php:23
+msgid "Sowing"
+msgstr "Gieo ươm"
+
+#: archive-annam_leaf.php:43
+msgid "Specifications"
+msgstr "Quy cách"
+
+#: front-page.php:119
+msgid "Specifications and crop calendar →"
+msgstr "Quy cách và lịch mùa vụ →"
+
+#: patterns/crop-calendar.php:18
+msgid "Stage"
+msgstr "Giai đoạn"
+
+#: patterns/delivery-forms.php:19
+msgid "Stems"
+msgstr "Cọng lá"
+
+#: archive-annam_leaf.php:88
+msgid "Tell us the specification you buy against and we will tell you what this crop can match."
+msgstr "Cho chúng tôi biết quy cách bạn mua theo, chúng tôi sẽ cho biết vụ này đáp ứng được đến đâu."
+
+#: front-page.php:171
+msgid "Tell us what your blend needs."
+msgstr "Cho chúng tôi biết công thức của bạn cần gì."
+
+#: inc/rfq.php:101
+msgid "Thank you — your request is with our sales desk. We reply within five working days."
+msgstr "Cảm ơn bạn — yêu cầu đã tới bộ phận kinh doanh. Chúng tôi phản hồi trong vòng 5 ngày làm việc."
+
+#: 404.php:15
+msgid "That page is not here"
+msgstr "Trang này không tồn tại"
+
+#: 404.php:16
+msgid "The link may be out of date. The pages below cover what we grow, how we process it and how to reach the sales desk."
+msgstr "Đường dẫn có thể đã cũ. Các trang dưới đây giới thiệu chúng tôi trồng gì, chế biến ra sao và liên hệ thế nào."
+
+#: inc/rfq.php:109
+msgid "The message could not be sent. Please email us directly at %s."
+msgstr "Không gửi được tin nhắn. Vui lòng email trực tiếp cho chúng tôi tại %s."
+
+#: archive-annam_leaf.php:44
+msgid "The same leaf, as a spec sheet"
+msgstr "Cũng chủng loại đó, dưới dạng bảng quy cách"
+
+#: archive-annam_stage.php:16
+msgid "This is what separates us from a leaf trader: every stage below happens inside our own system, with nothing brokered."
+msgstr "Đây là điều tách chúng tôi khỏi một nhà buôn lá: mọi bước dưới đây đều diễn ra trong hệ thống của chúng tôi, không qua trung gian."
+
+#: footer.php:12
+msgid "This site is intended for industrial buyers and trade partners. It is not directed at consumers."
+msgstr "Website dành cho khách hàng công nghiệp và đối tác thương mại. Không nhằm quảng bá tới người tiêu dùng."
+
+#: patterns/delivery-forms.php:17
+msgid "Threshed lamina"
+msgstr "Lamina đã tách cọng"
+
+#: patterns/crop-calendar.php:26
+msgid "Threshing line running"
+msgstr "Dây chuyền tách cọng vận hành"
+
+#: patterns/three-points.php:32
+msgid "Threshing, redrying, baling, lab testing and export documentation handled in house."
+msgstr "Tách cọng, tái sấy, đóng kiện, kiểm nghiệm và làm chứng từ xuất khẩu, tất cả do công ty tự làm."
+
+#: patterns/crop-calendar.php:24
+msgid "Transplanting"
+msgstr "Trồng ra đồng"
+
+#: archive-annam_leaf.php:51
+msgid "Type"
+msgstr "Chủng loại"
+
+#: archive-annam_leaf.php:17
+msgid "Types, specifications and packing"
+msgstr "Chủng loại, quy cách và đóng gói"
+
+#: patterns/crop-calendar.php:24
+msgid "Varies by region and weather"
+msgstr "Tuỳ vùng và thời tiết"
+
+#: inc/rfq.php:42
+msgid "Volume (MT)"
+msgstr "Khối lượng (tấn)"
+
+#: archive-annam_stage.php:68
+msgid "Want to see it for yourself?"
+msgstr "Muốn xem tận nơi?"
+
+#: patterns/three-points.php:24
+msgid "We cure and grade it"
+msgstr "Chúng tôi sấy và phân cấp"
+
+#: patterns/three-points.php:17
+msgid "We grow it"
+msgstr "Chúng tôi trồng"
+
+#: archive-annam_stage.php:69
+msgid "We host buyer visits to the growing regions and the factory during the season."
+msgstr "Chúng tôi đón khách hàng thăm vùng trồng và nhà máy trong mùa vụ."
+
+#: patterns/three-points.php:31
+msgid "We process and ship it"
+msgstr "Chúng tôi chế biến và giao hàng"
+
+#: inc/rfq.php:96
+msgid "We supply leaf to industrial buyers only. Your details are used solely to answer this enquiry."
+msgstr "Chúng tôi chỉ cung cấp nguyên liệu lá cho khách hàng công nghiệp. Thông tin của bạn chỉ dùng để phản hồi yêu cầu này."
+
+#: inc/template-tags.php:293
+msgid "We supply leaf tobacco to industrial buyers. Please confirm that you are 18 or older and visiting as a trade professional."
+msgstr "Chúng tôi cung cấp nguyên liệu lá thuốc lá cho khách hàng công nghiệp. Vui lòng xác nhận bạn đủ 18 tuổi và truy cập với tư cách đối tác thương mại."
+
+#: front-page.php:107
+msgid "What we grow and sell"
+msgstr "Chúng tôi trồng và bán gì"
+
+#: patterns/standards.php:13
+msgid "What we work to"
+msgstr "Chúng tôi làm việc theo"
+
+#: patterns/crop-calendar.php:13
+msgid "When the crop moves"
+msgstr "Lịch mùa vụ"
+
+#: front-page.php:133
+msgid "Where the leaf comes from"
+msgstr "Lá đến từ đâu"
+
+#: front-page.php:53
+msgid "Who we are"
+msgstr "Chúng tôi là ai"
+
+#: patterns/delivery-forms.php:18
+msgid "Whole leaf"
+msgstr "Lá nguyên"
+
+#: front-page.php:39
+msgid "Wide field panorama at first light"
+msgstr "Toàn cảnh cánh đồng lúc sáng sớm"
+
+#: inc/rfq.php:40
+msgid "Work email"
+msgstr "Email công việc"
+
+#: inc/rfq.php:38
+msgid "Your name"
+msgstr "Họ tên"
+
+#: patterns/delivery-forms.php:20
+msgid "cut to your specification."
+msgstr "cắt theo quy cách của bạn."
+
+#: patterns/delivery-forms.php:18
+msgid "packed by grade for buyers who process in house."
+msgstr "đóng kiện theo grade cho khách tự chế biến."
+
+#: patterns/delivery-forms.php:21
+msgid "recovered during processing."
+msgstr "thu hồi trong quá trình chế biến."
+
+#: patterns/delivery-forms.php:19
+msgid "separated on the threshing line."
+msgstr "tách ra từ dây chuyền tách cọng."
+
+#: patterns/delivery-forms.php:17
+msgid "threshed, redried and baled to export standard."
+msgstr "đã tách cọng, tái sấy và đóng kiện theo tiêu chuẩn xuất khẩu."
+
+#: single.php:34
+msgid "← Back to the overview"
+msgstr "← Quay lại danh sách"

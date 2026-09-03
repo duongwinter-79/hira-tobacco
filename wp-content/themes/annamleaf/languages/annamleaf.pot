@@ -1,0 +1,544 @@
+# Translation template for Annam Leaf.
+# Copyright (C) 2026
+# This file is distributed under the same license as the Annam Leaf package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Annam Leaf\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-03 06:52+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: annamleaf\n"
+
+#: front-page.php:29
+msgid "%1$s grows, cures, grades and processes its own leaf in %2$s, Vietnam — one company from the seedbed to the sealed container."
+msgstr ""
+
+#: inc/template-tags.php:292
+msgid "A site for the tobacco trade"
+msgstr ""
+
+#: patterns/standards.php:18
+msgid "Agricultural Labour Practices: no child labour, safe hours and conditions."
+msgstr ""
+
+#: functions.php:135
+msgid "Annam Leaf sections"
+msgstr ""
+
+#: archive-annam_stage.php:70
+msgid "Arrange a visit"
+msgstr ""
+
+#: archive-annam_stage.php:18
+msgid "Barn exteriors, or golden leaf hanging inside"
+msgstr ""
+
+#: inc/rfq.php:30
+msgid "Burley"
+msgstr ""
+
+#: footer.php:31
+msgid "Business reg."
+msgstr ""
+
+#: footer.php:29 footer.php:68
+msgid "COMPANY LEGAL NAME"
+msgstr ""
+
+#: inc/template-tags.php:69
+msgid "COMPANY NAME"
+msgstr ""
+
+#: patterns/standards.php:20
+msgid "Certificate number to be confirmed."
+msgstr ""
+
+#: inc/rfq.php:39
+msgid "Company"
+msgstr ""
+
+#: footer.php:54 page-templates/contact.php:21
+msgid "Contact"
+msgstr ""
+
+#: archive-annam_leaf.php:52
+msgid "Curing"
+msgstr ""
+
+#: patterns/three-points.php:25
+msgid "Curing barns under technical supervision, graded at our buying stations against your samples and recorded by lot."
+msgstr ""
+
+#: patterns/delivery-forms.php:20
+msgid "Cut rag"
+msgstr ""
+
+#: inc/rfq.php:33
+msgid "Cut rag / scrap"
+msgstr ""
+
+#: inc/rfq.php:32
+msgid "Dark air-cured"
+msgstr ""
+
+#: inc/rfq.php:43
+msgid "Destination port"
+msgstr ""
+
+#: page-templates/contact.php:36
+msgid "Email"
+msgstr ""
+
+#: patterns/crop-calendar.php:27
+msgid "Ex port of loading"
+msgstr ""
+
+#: page-templates/contact.php:33
+msgid "FACTORY ADDRESS"
+msgstr ""
+
+#: page-templates/contact.php:32
+msgid "Factory"
+msgstr ""
+
+#: inc/rfq.php:29
+msgid "Flue-cured Virginia"
+msgstr ""
+
+#: functions.php:43
+msgid "Footer menu"
+msgstr ""
+
+#: archive-annam_stage.php:14
+msgid "From field to factory"
+msgstr ""
+
+#: front-page.php:24
+msgid "From our fields to your factory"
+msgstr ""
+
+#: front-page.php:71
+msgid "From seed to container, under one roof"
+msgstr ""
+
+#: 404.php:17
+msgid "Go to the home page"
+msgstr ""
+
+#: patterns/standards.php:17
+msgid "Good Agricultural Practices across the full contracted area."
+msgstr ""
+
+#: archive-annam_leaf.php:20
+msgid "Graded leaf laid out by type"
+msgstr ""
+
+#: archive-annam_leaf.php:53 template-parts/card-leaf.php:40
+msgid "Grades"
+msgstr ""
+
+#: inc/rfq.php:44
+msgid "Grades, specifications or anything else"
+msgstr ""
+
+#: front-page.php:132
+msgid "Growing regions"
+msgstr ""
+
+#: patterns/crop-calendar.php:25
+msgid "Harvest and curing"
+msgstr ""
+
+#: inc/template-tags.php:311
+msgid "Home"
+msgstr ""
+
+#: front-page.php:70
+msgid "How we work"
+msgstr ""
+
+#: inc/template-tags.php:295
+msgid "I am 18+ and in the trade"
+msgstr ""
+
+#: patterns/crop-calendar.php:23
+msgid "In our own nurseries"
+msgstr ""
+
+#: front-page.php:23
+msgid "Leaf tobacco · Vietnam"
+msgstr ""
+
+#: inc/rfq.php:41
+msgid "Leaf type"
+msgstr ""
+
+#: inc/template-tags.php:296
+msgid "Leave"
+msgstr ""
+
+#: inc/rfq.php:60
+msgid "Leave this field empty"
+msgstr ""
+
+#: header.php:41
+msgid "Menu"
+msgstr ""
+
+#: archive-annam_leaf.php:54 template-parts/card-leaf.php:44
+msgid "Moisture"
+msgstr ""
+
+#: footer.php:32
+msgid "NO."
+msgstr ""
+
+#: archive-annam_leaf.php:87
+msgid "Need a grade that is not listed?"
+msgstr ""
+
+#: index.php:14
+msgid "News"
+msgstr ""
+
+#: archive-annam_leaf.php:80
+msgid "No leaf types have been added yet."
+msgstr ""
+
+#: patterns/crop-calendar.php:20
+msgid "Notes"
+msgstr ""
+
+#: index.php:38
+msgid "Nothing published here yet."
+msgstr ""
+
+#: footer.php:58 page-templates/contact.php:29
+msgid "OFFICE ADDRESS"
+msgstr ""
+
+#: page-templates/contact.php:28
+msgid "Office"
+msgstr ""
+
+#: front-page.php:54
+msgid "One company across the whole chain"
+msgstr ""
+
+#: inc/rfq.php:31
+msgid "Oriental"
+msgstr ""
+
+#: inc/template-tags.php:314
+msgid "Our Leaf"
+msgstr ""
+
+#: archive-annam_leaf.php:16 front-page.php:106
+msgid "Our leaf"
+msgstr ""
+
+#: patterns/three-points.php:18
+msgid "Own nurseries, contracted households, and inputs supplied and controlled by us. Field technicians are on the ground all season."
+msgstr ""
+
+#: archive-annam_leaf.php:55
+msgid "Packing"
+msgstr ""
+
+#: 404.php:14
+msgid "Page not found"
+msgstr ""
+
+#: inc/template-tags.php:272
+msgid "Pagination"
+msgstr ""
+
+#: patterns/crop-calendar.php:19
+msgid "Period"
+msgstr ""
+
+#: page-templates/contact.php:50
+msgid "Phone"
+msgstr ""
+
+#: inc/rfq.php:103
+msgid "Please fill in your name and a valid work email, then send again."
+msgstr ""
+
+#: header.php:44
+msgid "Primary"
+msgstr ""
+
+#: functions.php:42
+msgid "Primary menu"
+msgstr ""
+
+#: inc/template-tags.php:314
+msgid "Process"
+msgstr ""
+
+#: patterns/crop-calendar.php:26
+msgid "Processing"
+msgstr ""
+
+#: inc/rfq.php:165
+msgid "Quote request — %s"
+msgstr ""
+
+#: front-page.php:31
+msgid "REGION"
+msgstr ""
+
+#: footer.php:30
+msgid "REGISTERED ADDRESS"
+msgstr ""
+
+#: functions.php:136
+msgid "Ready-made sections for the About, Quality and Our Leaf pages."
+msgstr ""
+
+#: front-page.php:160
+msgid "Region map, or a drone shot of one growing area"
+msgstr ""
+
+#: archive-annam_leaf.php:89 front-page.php:33 front-page.php:173
+msgid "Request a quote"
+msgstr ""
+
+#: patterns/standards.php:19
+msgid "Residue testing against the guidance residue levels, every crop."
+msgstr ""
+
+#: archive-annam_stage.php:51
+msgid "STAGE %s"
+msgstr ""
+
+#: archive-annam_leaf.php:18
+msgid "Samples on request. Grades are matched against your own reference samples before shipment."
+msgstr ""
+
+#: patterns/delivery-forms.php:21
+msgid "Scrap"
+msgstr ""
+
+#: front-page.php:94
+msgid "See every stage →"
+msgstr ""
+
+#: front-page.php:35
+msgid "See how we work"
+msgstr ""
+
+#: inc/rfq.php:94
+msgid "Send request"
+msgstr ""
+
+#: front-page.php:172
+msgid "Send the type, grade and volume — we reply with samples and an offer within five working days."
+msgstr ""
+
+#: inc/rfq.php:160
+msgid "Sent from"
+msgstr ""
+
+#: archive-annam_stage.php:15
+msgid "Seven stages, one company accountable"
+msgstr ""
+
+#: patterns/crop-calendar.php:25
+msgid "Several picking passes"
+msgstr ""
+
+#: patterns/crop-calendar.php:27
+msgid "Shipment"
+msgstr ""
+
+#: patterns/delivery-forms.php:13
+msgid "Shipped in the form you need"
+msgstr ""
+
+#: footer.php:37
+msgid "Site"
+msgstr ""
+
+#: header.php:21
+msgid "Skip to content"
+msgstr ""
+
+#: patterns/crop-calendar.php:23
+msgid "Sowing"
+msgstr ""
+
+#: archive-annam_leaf.php:43
+msgid "Specifications"
+msgstr ""
+
+#: front-page.php:119
+msgid "Specifications and crop calendar →"
+msgstr ""
+
+#: patterns/crop-calendar.php:18
+msgid "Stage"
+msgstr ""
+
+#: patterns/delivery-forms.php:19
+msgid "Stems"
+msgstr ""
+
+#: archive-annam_leaf.php:88
+msgid "Tell us the specification you buy against and we will tell you what this crop can match."
+msgstr ""
+
+#: front-page.php:171
+msgid "Tell us what your blend needs."
+msgstr ""
+
+#: inc/rfq.php:101
+msgid "Thank you — your request is with our sales desk. We reply within five working days."
+msgstr ""
+
+#: 404.php:15
+msgid "That page is not here"
+msgstr ""
+
+#: 404.php:16
+msgid "The link may be out of date. The pages below cover what we grow, how we process it and how to reach the sales desk."
+msgstr ""
+
+#: inc/rfq.php:109
+msgid "The message could not be sent. Please email us directly at %s."
+msgstr ""
+
+#: archive-annam_leaf.php:44
+msgid "The same leaf, as a spec sheet"
+msgstr ""
+
+#: archive-annam_stage.php:16
+msgid "This is what separates us from a leaf trader: every stage below happens inside our own system, with nothing brokered."
+msgstr ""
+
+#: footer.php:12
+msgid "This site is intended for industrial buyers and trade partners. It is not directed at consumers."
+msgstr ""
+
+#: patterns/delivery-forms.php:17
+msgid "Threshed lamina"
+msgstr ""
+
+#: patterns/crop-calendar.php:26
+msgid "Threshing line running"
+msgstr ""
+
+#: patterns/three-points.php:32
+msgid "Threshing, redrying, baling, lab testing and export documentation handled in house."
+msgstr ""
+
+#: patterns/crop-calendar.php:24
+msgid "Transplanting"
+msgstr ""
+
+#: archive-annam_leaf.php:51
+msgid "Type"
+msgstr ""
+
+#: archive-annam_leaf.php:17
+msgid "Types, specifications and packing"
+msgstr ""
+
+#: patterns/crop-calendar.php:24
+msgid "Varies by region and weather"
+msgstr ""
+
+#: inc/rfq.php:42
+msgid "Volume (MT)"
+msgstr ""
+
+#: archive-annam_stage.php:68
+msgid "Want to see it for yourself?"
+msgstr ""
+
+#: patterns/three-points.php:24
+msgid "We cure and grade it"
+msgstr ""
+
+#: patterns/three-points.php:17
+msgid "We grow it"
+msgstr ""
+
+#: archive-annam_stage.php:69
+msgid "We host buyer visits to the growing regions and the factory during the season."
+msgstr ""
+
+#: patterns/three-points.php:31
+msgid "We process and ship it"
+msgstr ""
+
+#: inc/rfq.php:96
+msgid "We supply leaf to industrial buyers only. Your details are used solely to answer this enquiry."
+msgstr ""
+
+#: inc/template-tags.php:293
+msgid "We supply leaf tobacco to industrial buyers. Please confirm that you are 18 or older and visiting as a trade professional."
+msgstr ""
+
+#: front-page.php:107
+msgid "What we grow and sell"
+msgstr ""
+
+#: patterns/standards.php:13
+msgid "What we work to"
+msgstr ""
+
+#: patterns/crop-calendar.php:13
+msgid "When the crop moves"
+msgstr ""
+
+#: front-page.php:133
+msgid "Where the leaf comes from"
+msgstr ""
+
+#: front-page.php:53
+msgid "Who we are"
+msgstr ""
+
+#: patterns/delivery-forms.php:18
+msgid "Whole leaf"
+msgstr ""
+
+#: front-page.php:39
+msgid "Wide field panorama at first light"
+msgstr ""
+
+#: inc/rfq.php:40
+msgid "Work email"
+msgstr ""
+
+#: inc/rfq.php:38
+msgid "Your name"
+msgstr ""
+
+#: patterns/delivery-forms.php:20
+msgid "cut to your specification."
+msgstr ""
+
+#: patterns/delivery-forms.php:18
+msgid "packed by grade for buyers who process in house."
+msgstr ""
+
+#: patterns/delivery-forms.php:21
+msgid "recovered during processing."
+msgstr ""
+
+#: patterns/delivery-forms.php:19
+msgid "separated on the threshing line."
+msgstr ""
+
+#: patterns/delivery-forms.php:17
+msgid "threshed, redried and baled to export standard."
+msgstr ""
+
+#: single.php:34
+msgid "← Back to the overview"
+msgstr ""

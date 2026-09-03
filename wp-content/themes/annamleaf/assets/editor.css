@@ -1,0 +1,35 @@
+/* The block editor, wearing the site's typography so drafts read like the page. */
+.editor-styles-wrapper{
+  background:#F1F2EA;
+  color:#1B2018;
+  font-family:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+}
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4{
+  font-family:Lora,Georgia,serif;
+  font-weight:600;
+  line-height:1.2;
+  color:#1B2018;
+}
+.editor-styles-wrapper h2{font-size:31px;}
+.editor-styles-wrapper h3{font-size:19px;}
+.editor-styles-wrapper a{color:#2F6136;}
+.editor-styles-wrapper blockquote{
+  border-left:3px solid #B8841C;
+  padding-left:18px;
+  font-family:Lora,Georgia,serif;
+  font-style:italic;
+}
+.editor-styles-wrapper table{font-size:14px;}
+.editor-styles-wrapper th{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#7C8574;
+  text-align:left;
+}

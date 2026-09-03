@@ -1,29 +1,67 @@
 # Annamleaf.com
 
-Website giới thiệu cho một công ty lá thuốc lá nguyên liệu tại Việt Nam — tích hợp dọc
-từ vườn ươm đến container xuất khẩu. Đối tượng đọc là **khách hàng công nghiệp (B2B)**,
+Website giới thiệu cho một công ty lá thuốc lá nguyên liệu tại Việt Nam — tích hợp dọc từ
+vườn ươm đến container xuất khẩu. Đối tượng đọc là **khách hàng công nghiệp (B2B)**,
 không phải người tiêu dùng.
 
-## Trạng thái hiện tại: bản demo
+## Repo có gì
 
-`index.html` là bản demo click-được, tự chứa trong một file:
+```
+wp-content/themes/annamleaf/     Theme WordPress — chỉ phần trình bày
+wp-content/plugins/annamleaf-core/  Plugin — toàn bộ nội dung có cấu trúc
+demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thiết kế gốc
+docs/                            Kiến trúc WordPress, shot list ảnh, danh sách placeholder
+tools/render-check.php           Render thử template không cần cài WordPress
+```
 
-- 6 trang (Home, About, Process, Our Leaf, Quality, Contact) chạy bằng hash routing
-- Song ngữ **EN mặc định / VI**, chuyển bằng nút EN·VI trên header (lưu lựa chọn vào `localStorage`)
-- Nội dung thật chưa có ⇒ mọi chỗ chờ dữ liệu khách hàng đều là placeholder dạng `[NHƯ THẾ NÀY]`,
-  được tô nền vàng để nhìn ra ngay (xem `docs/placeholders.md`)
-- Ảnh chụp chưa có ⇒ dùng minh hoạ vector duotone, mỗi khung có chú thích `PHOTO xx`
-  nói rõ ảnh nào cần chụp (xem `docs/shot-list.md`)
-- Form RFQ chỉ là giao diện, chưa nối backend
-- Age gate 18+ đã dựng nhưng **để tắt** trong demo cho dễ xem — bấm "Preview age gate"
-  trên thanh DEMO để xem thử; sẽ bật chặn thật khi go-live
+Site chạy trên **WordPress** để khách hàng tự sửa nội dung sau này. Ranh giới theme/plugin
+là điểm chính của kiến trúc: nội dung nằm trong plugin nên đổi giao diện về sau không mất dữ liệu.
+Chi tiết và hướng dẫn cài đặt: **[docs/wordpress.md](docs/wordpress.md)**.
 
-Mở bằng cách mở thẳng `index.html` trong trình duyệt, không cần build.
+## Khách hàng sửa được gì
+
+Toàn bộ nội dung là các ô nhập có nhãn trong wp-admin, không phải sửa code:
+
+- **Company profile** — tên công ty, địa chỉ, email, điện thoại, 4 con số năng lực, dòng chú
+  thích chân trang, bật/tắt age gate 18+
+- **Process** — 7 bước quy trình: tiêu đề, mô tả, thứ tự, ảnh
+- **Our Leaf** — chủng loại lá: grade, độ ẩm, kiểu sấy, đóng gói
+- **Regions** — vùng trồng
+- **Pages** — nội dung các trang, có sẵn khối dựng sẵn (block pattern) cho từng mục
+
+Bố cục do theme giữ cố định, nên khách sửa chữ và ảnh mà không làm vỡ thiết kế.
+
+## Trạng thái
+
+- **Nội dung**: chưa có dữ liệu thật ⇒ mọi chỗ chờ khách cung cấp hiển thị dạng
+  `[NHƯ THẾ NÀY]`, tô vàng. Tắt bằng ô "Mark empty fields" trước khi go-live.
+  Danh sách: [docs/placeholders.md](docs/placeholders.md)
+- **Ảnh**: chưa có ⇒ mỗi khung ảnh vẽ minh hoạ vector kèm chú thích ảnh cần chụp. Upload
+  featured image vào là ảnh thật thay chỗ ngay. Shot list: [docs/shot-list.md](docs/shot-list.md)
+- **Logo**: đang là wordmark tạm (chữ + mark lá vector). Có logo thật thì đặt ở
+  Appearance → Customize → Site Identity.
+- **Song ngữ**: EN mặc định. Chuỗi giao diện đã dịch sẵn sang tiếng Việt
+  (`themes/annamleaf/languages/vi_VN.mo`); nội dung trang dịch bằng Polylang.
+- **Form báo giá**: đã nối `wp_mail()`, có nonce + honeypot. Nên cài WP Mail SMTP và
+  một plugin captcha trước khi chạy thật.
 
 ## Xem trước
 
 - Kế hoạch triển khai: https://claude.ai/code/artifact/c2075d19-5c05-482a-90dc-6edbb9b082dc
-- Bản demo: https://claude.ai/code/artifact/6d345449-d606-4d8d-b75e-2d726a1ede40
+- Bản demo tĩnh: https://claude.ai/code/artifact/6d345449-d606-4d8d-b75e-2d726a1ede40
+
+`demo/index.html` giữ lại làm bản thiết kế gốc (mở thẳng bằng trình duyệt, không cần build).
+Theme WordPress dùng đúng bảng màu, typography và khung ảnh của nó.
+
+## Kiểm tra khi sửa code
+
+```sh
+php -l <file>                # cú pháp
+php tools/render-check.php   # render template ra tools/output/*.html
+```
+
+`tools/render-check.php` giả lập các hàm WordPress để bắt lỗi gọi sai hàm và xem trước
+markup mà không cần dựng site. Không phải bản thay thế cho việc test trên WordPress thật.
 
 ## Nhận diện
 
@@ -38,22 +76,11 @@ Mở bằng cách mở thẳng `index.html` trong trình duyệt, không cần b
 | Nội dung | Be Vietnam Pro (hỗ trợ dấu tiếng Việt) |
 | Nhãn, số liệu | IBM Plex Mono |
 
-Site cố ý chỉ có **một theme sáng** — đây là site doanh nghiệp, không làm dark mode.
-
-## Bước tiếp theo (khi có nội dung thật)
-
-1. Thay placeholder theo `docs/placeholders.md`, thay minh hoạ bằng ảnh theo `docs/shot-list.md`
-   (bỏ ảnh vào `assets/photos/`, xuất AVIF + WebP kèm `srcset`).
-2. Tách demo thành site nhiều trang thật bằng **Astro + Tailwind**: mỗi `section[data-view]`
-   thành một route riêng, nội dung EN/VI tách ra file Markdown, i18n dùng cơ chế sẵn có của Astro.
-   Việc này cần cho SEO — hash routing không tạo được URL riêng cho từng trang.
-3. Nối form RFQ (Cloudflare Worker + Resend, chống spam bằng Turnstile).
-4. Bật age gate, thêm privacy policy + cookie banner.
-5. Deploy lên Cloudflare Pages, trỏ DNS của `annamleaf.com`.
+Site cố ý **chỉ một theme sáng** — đây là site doanh nghiệp, không làm dark mode.
 
 ## Lưu ý pháp lý
 
 Luật Phòng, chống tác hại của thuốc lá 2012 cấm quảng cáo thuốc lá dưới mọi hình thức.
 Site được viết như **hồ sơ năng lực nguyên liệu B2B**: không mô tả sản phẩm tiêu dùng,
-không hình ảnh hút thuốc, không giá bán lẻ, có dòng "for trade and business use only" ở chân trang.
-Khách hàng cần cho luật sư rà soát nội dung trước khi go-live.
+không hình ảnh hút thuốc, không giá bán lẻ, có dòng "for trade and business use only" ở chân
+trang và age gate 18+ dựng sẵn. Khách hàng cần cho luật sư rà soát nội dung trước khi go-live.
