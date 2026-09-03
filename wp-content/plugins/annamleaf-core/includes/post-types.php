@@ -26,8 +26,8 @@ function annamleaf_register_post_types(): void {
 				'item_updated'       => __( 'Stage updated.', 'annamleaf-core' ),
 			),
 			'public'        => true,
-			'has_archive'   => 'process',
-			'rewrite'       => array( 'slug' => 'process' ),
+			'has_archive'   => false,
+			'rewrite'       => array( 'slug' => 'process-stage' ),
 			'menu_icon'     => 'dashicons-image-filter',
 			'menu_position' => 21,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes', 'revisions' ),
@@ -47,8 +47,8 @@ function annamleaf_register_post_types(): void {
 				'not_found'      => __( 'No leaf types yet.', 'annamleaf-core' ),
 			),
 			'public'        => true,
-			'has_archive'   => 'our-leaf',
-			'rewrite'       => array( 'slug' => 'our-leaf' ),
+			'has_archive'   => false,
+			'rewrite'       => array( 'slug' => 'leaf-type' ),
 			'menu_icon'     => 'dashicons-palmtree',
 			'menu_position' => 22,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes', 'revisions' ),
@@ -77,23 +77,6 @@ function annamleaf_register_post_types(): void {
 	);
 }
 add_action( 'init', 'annamleaf_register_post_types' );
-
-/**
- * Order the archives the way the client arranged them, not by date.
- *
- * @param WP_Query $query The query being run.
- */
-function annamleaf_order_archives( WP_Query $query ): void {
-	if ( is_admin() || ! $query->is_main_query() ) {
-		return;
-	}
-
-	if ( $query->is_post_type_archive( array( 'annam_stage', 'annam_leaf' ) ) ) {
-		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
-		$query->set( 'posts_per_page', 30 );
-	}
-}
-add_action( 'pre_get_posts', 'annamleaf_order_archives' );
 
 /**
  * Use the "Order" column to sort the list tables too, so the admin list matches the site.

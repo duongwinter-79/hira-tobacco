@@ -24,7 +24,7 @@ while ( have_posts() ) :
 				<div><?php annamleaf_section_head( $annamleaf_eyebrow, $annamleaf_heading ); ?></div>
 			<?php endif; ?>
 
-			<div class="entry-content"><?php the_content(); ?></div>
+			<div class="entry-content<?php echo $annamleaf_split ? '' : ' is-wide'; ?>"><?php the_content(); ?></div>
 		</div>
 	</section>
 	<?php

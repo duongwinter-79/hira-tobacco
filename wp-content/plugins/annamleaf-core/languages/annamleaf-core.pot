@@ -5,21 +5,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf Core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 07:07+0000\n"
+"POT-Creation-Date: 2026-09-03 12:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: annamleaf-core\n"
 
-#: includes/seed.php:32
+#: includes/seed.php:165
+msgid "200 kg cases"
+msgstr ""
+
+#: includes/seed.php:428
+msgid "A binding clause in every household contract, checked on the routine field visits."
+msgstr ""
+
+#: includes/seed.php:128
 msgid "A field technician standing with a farmer between the rows"
 msgstr ""
 
-#: includes/seed.php:204 includes/seed.php:239
+#: includes/seed.php:324 includes/seed.php:482
 msgid "About"
 msgstr ""
 
-#: includes/seed.php:207
+#: includes/seed.php:354
 msgid "About us"
 msgstr ""
 
@@ -35,11 +43,15 @@ msgstr ""
 msgid "Add process stage"
 msgstr ""
 
-#: includes/seed.php:78 includes/seed.php:90
+#: includes/seed.php:418
+msgid "Agricultural Labour Practices: no child labour, safe hours and conditions."
+msgstr ""
+
+#: includes/seed.php:179 includes/seed.php:195
 msgid "Air-cured"
 msgstr ""
 
-#: includes/seed.php:79
+#: includes/seed.php:180
 msgid "Air-cured, low sugar, high filling power and casing absorption."
 msgstr ""
 
@@ -51,15 +63,19 @@ msgstr ""
 msgid "Asks visitors to confirm they are 18 or older and in the trade before the site is shown."
 msgstr ""
 
-#: includes/seed.php:42
+#: includes/seed.php:369
+msgid "Barn exteriors, or golden leaf hanging inside"
+msgstr ""
+
+#: includes/seed.php:138
 msgid "Barn exteriors; golden leaf hanging inside — the signature shot"
 msgstr ""
 
-#: includes/seed.php:73
+#: includes/seed.php:172
 msgid "Bright leaf, high sugar, cured in temperature-controlled barns."
 msgstr ""
 
-#: includes/seed.php:76
+#: includes/seed.php:177
 msgid "Burley"
 msgstr ""
 
@@ -75,7 +91,7 @@ msgstr ""
 msgid "Button link"
 msgstr ""
 
-#: includes/seed.php:45
+#: includes/seed.php:141
 msgid "Buying & grading"
 msgstr ""
 
@@ -87,6 +103,10 @@ msgstr ""
 msgid "Caption on the placeholder illustration, until a featured image is set."
 msgstr ""
 
+#: includes/seed.php:423
+msgid "Commitments we can measure"
+msgstr ""
+
 #: includes/settings.php:20
 msgid "Company"
 msgstr ""
@@ -95,7 +115,7 @@ msgstr ""
 msgid "Company profile"
 msgstr ""
 
-#: includes/seed.php:224 includes/seed.php:227 includes/seed.php:243 includes/settings.php:35
+#: includes/seed.php:448 includes/seed.php:454 includes/seed.php:486 includes/settings.php:35
 msgid "Contact"
 msgstr ""
 
@@ -103,16 +123,36 @@ msgstr ""
 msgid "Contracted growing area"
 msgstr ""
 
-#: includes/seed.php:31
-msgid "Contracted hectares across our growing regions. Inputs come from us, technicians visit on a set schedule, and a field diary is kept plot by plot."
+#: includes/seed.php:127
+msgid "Contracted hectares across our growing regions. Inputs come from us, field technicians visit on a set schedule, and a field diary is kept plot by plot."
 msgstr ""
 
-#: includes/meta.php:48 includes/seed.php:40
+#: includes/meta.php:48 includes/seed.php:136
 msgid "Curing"
 msgstr ""
 
-#: includes/seed.php:88
+#: includes/seed.php:340
+msgid "Curing barns under technical supervision, then grading at our own buying stations against your reference samples, recorded lot by lot."
+msgstr ""
+
+#: includes/seed.php:431
+msgid "Curing fuel"
+msgstr ""
+
+#: includes/seed.php:383
+msgid "Cut rag"
+msgstr ""
+
+#: includes/seed.php:193
 msgid "Dark air-cured"
+msgstr ""
+
+#: includes/settings.php:222
+msgid "Default content"
+msgstr ""
+
+#: includes/settings.php:176
+msgid "Default content rebuilt: pages, process stages, leaf types, regions and the menu are back to the delivered version."
 msgstr ""
 
 #: includes/post-types.php:66
@@ -127,6 +167,10 @@ msgstr ""
 msgid "Edit process stage"
 msgstr ""
 
+#: includes/seed.php:396
+msgid "Ex port of loading"
+msgstr ""
+
 #: includes/api.php:114
 msgid "Export markets"
 msgstr ""
@@ -135,7 +179,7 @@ msgstr ""
 msgid "Eyebrow"
 msgstr ""
 
-#: includes/seed.php:209
+#: includes/seed.php:356
 msgid "Facility exterior, or the company team"
 msgstr ""
 
@@ -143,15 +187,19 @@ msgstr ""
 msgid "Factory address"
 msgstr ""
 
-#: includes/seed.php:52
+#: includes/seed.php:148
 msgid "Factory conveyor; the threshing line; a labelled finished bale"
+msgstr ""
+
+#: includes/seed.php:348
+msgid "Farmers are the first link, not the last supplier"
 msgstr ""
 
 #: includes/api.php:112
 msgid "Farming households"
 msgstr ""
 
-#: includes/seed.php:30
+#: includes/seed.php:126
 msgid "Fields & farmer training"
 msgstr ""
 
@@ -171,11 +219,11 @@ msgstr ""
 msgid "Figure 4"
 msgstr ""
 
-#: includes/seed.php:72
+#: includes/seed.php:171
 msgid "Flue-cured"
 msgstr ""
 
-#: includes/seed.php:70
+#: includes/seed.php:169
 msgid "Flue-cured Virginia"
 msgstr ""
 
@@ -183,12 +231,24 @@ msgstr ""
 msgid "Flue-cured, air-cured, sun-cured."
 msgstr ""
 
-#: includes/seed.php:41
-msgid "Flue-curing for Virginia, air-curing for Burley. Temperature and humidity follow a set curve — the stage that decides colour, aroma and sugar."
+#: includes/seed.php:137
+msgid "Flue-curing for Virginia, air-curing for Burley. Temperature and humidity follow a set curve — this is the stage that decides colour, aroma and sugar."
 msgstr ""
 
 #: includes/settings.php:64
 msgid "Footer notice"
+msgstr ""
+
+#: includes/seed.php:367
+msgid "From field to factory"
+msgstr ""
+
+#: includes/seed.php:417
+msgid "Good Agricultural Practices across the full contracted area."
+msgstr ""
+
+#: includes/seed.php:403
+msgid "Graded leaf laid out by type"
 msgstr ""
 
 #: includes/meta.php:53
@@ -199,7 +259,7 @@ msgstr ""
 msgid "Growing region"
 msgstr ""
 
-#: includes/seed.php:137
+#: includes/seed.php:248
 msgid "Growing region %d"
 msgstr ""
 
@@ -207,15 +267,19 @@ msgstr ""
 msgid "Growing regions"
 msgstr ""
 
-#: includes/seed.php:37
+#: includes/seed.php:133
 msgid "Hands picking a leaf; a full basket of green leaf"
 msgstr ""
 
-#: includes/seed.php:35
+#: includes/seed.php:131
 msgid "Harvest"
 msgstr ""
 
-#: includes/seed.php:141
+#: includes/seed.php:394
+msgid "Harvest and curing"
+msgstr ""
+
+#: includes/seed.php:252
 msgid "Harvest months to confirm"
 msgstr ""
 
@@ -227,7 +291,7 @@ msgstr ""
 msgid "Heading beside the page text."
 msgstr ""
 
-#: includes/seed.php:91
+#: includes/seed.php:196
 msgid "Heavier, darker leaf for full-bodied blends."
 msgstr ""
 
@@ -239,8 +303,12 @@ msgstr ""
 msgid "Hero text"
 msgstr ""
 
-#: includes/seed.php:190 includes/seed.php:238
+#: includes/seed.php:311 includes/seed.php:481
 msgid "Home"
+msgstr ""
+
+#: includes/seed.php:392
+msgid "In our own nurseries"
 msgstr ""
 
 #: includes/settings.php:51
@@ -259,6 +327,10 @@ msgstr ""
 msgid "Label 4"
 msgstr ""
 
+#: includes/seed.php:351
+msgid "Labour commitments — no child labour, safe working conditions — are checked on the routine field visits, not just written into the contract."
+msgstr ""
+
 #: includes/meta.php:75
 msgid "Leaf grown here"
 msgstr ""
@@ -271,7 +343,7 @@ msgstr ""
 msgid "Leaf type"
 msgstr ""
 
-#: includes/seed.php:140
+#: includes/seed.php:251
 msgid "Leaf type to confirm"
 msgstr ""
 
@@ -287,7 +359,7 @@ msgstr ""
 msgid "Legal name"
 msgstr ""
 
-#: includes/seed.php:56
+#: includes/seed.php:152
 msgid "Lot samples are tested against CORESTA guidance residue levels, held in condition-controlled storage, then stuffed and shipped on your chosen Incoterms."
 msgstr ""
 
@@ -299,8 +371,16 @@ msgstr ""
 msgid "Moisture"
 msgstr ""
 
-#: includes/seed.php:191
+#: includes/seed.php:314
 msgid "Most leaf suppliers buy whatever the market offers. We start earlier: our own nurseries, our own seed selection, and field technicians who work alongside every contracted household through the season."
+msgstr ""
+
+#: includes/seed.php:432
+msgid "Moving barns onto biomass fuel, and measuring what has been converted each season."
+msgstr ""
+
+#: includes/seed.php:427
+msgid "No child labour"
 msgstr ""
 
 #: includes/post-types.php:47
@@ -315,36 +395,48 @@ msgstr ""
 msgid "No stages yet."
 msgstr ""
 
-#: includes/post-types.php:154
+#: includes/post-types.php:137
 msgid "Not uploaded"
+msgstr ""
+
+#: includes/seed.php:390
+msgid "Notes"
 msgstr ""
 
 #: includes/settings.php:25
 msgid "Office address"
 msgstr ""
 
-#: includes/seed.php:194
+#: includes/seed.php:319
 msgid "One company across the whole chain"
 msgstr ""
 
-#: includes/seed.php:208
+#: includes/seed.php:355
 msgid "One company from the seedbed to the sealed container."
 msgstr ""
 
-#: includes/post-types.php:105
+#: includes/post-types.php:88
 msgid "Order"
 msgstr ""
 
-#: includes/seed.php:82
+#: includes/seed.php:185
 msgid "Oriental"
 msgstr ""
 
-#: includes/post-types.php:46 includes/seed.php:241
+#: includes/post-types.php:46 includes/seed.php:374 includes/seed.php:484
 msgid "Our Leaf"
 msgstr ""
 
-#: includes/seed.php:51
-msgid "Our line separates lamina from stem, redries to specification moisture, then presses bales labelled by lot."
+#: includes/seed.php:400
+msgid "Our leaf"
+msgstr ""
+
+#: includes/seed.php:147
+msgid "Our line separates lamina from stem, redries to specification moisture, then presses and labels bales by lot ready for the container."
+msgstr ""
+
+#: includes/seed.php:336
+msgid "Own nurseries, contracted households, and inputs supplied and controlled by us. Field technicians are on the ground for the whole season, not just at buying time."
 msgstr ""
 
 #: includes/meta.php:61
@@ -355,11 +447,15 @@ msgstr ""
 msgid "Page hero"
 msgstr ""
 
+#: includes/seed.php:390
+msgid "Period"
+msgstr ""
+
 #: includes/settings.php:38
 msgid "Phone"
 msgstr ""
 
-#: includes/post-types.php:121
+#: includes/post-types.php:104
 msgid "Photo"
 msgstr ""
 
@@ -367,15 +463,19 @@ msgstr ""
 msgid "Photo brief"
 msgstr ""
 
-#: includes/seed.php:36
-msgid "Picked by stalk position and ripeness, in several passes through the season. Leaf reaches the barn the same day to hold its grade."
+#: includes/settings.php:228
+msgid "Photographs, the company profile above and anything you added yourself are left alone."
 msgstr ""
 
-#: includes/seed.php:283
+#: includes/seed.php:132
+msgid "Picked by stalk position and ripeness, in several passes through the season. Leaf reaches the barn the same day it is cut, which is what holds its grade."
+msgstr ""
+
+#: includes/seed.php:547
 msgid "Primary"
 msgstr ""
 
-#: includes/post-types.php:23 includes/seed.php:240
+#: includes/post-types.php:23 includes/seed.php:361 includes/seed.php:483
 msgid "Process"
 msgstr ""
 
@@ -391,16 +491,32 @@ msgstr ""
 msgid "Processed leaf per year"
 msgstr ""
 
-#: includes/seed.php:242
+#: includes/seed.php:395
+msgid "Processing"
+msgstr ""
+
+#: includes/seed.php:485
 msgid "Quality"
 msgstr ""
 
-#: includes/seed.php:214
+#: includes/seed.php:408
 msgid "Quality & Sustainability"
 msgstr ""
 
-#: includes/seed.php:217
+#: includes/seed.php:441
 msgid "Quality & sustainability"
+msgstr ""
+
+#: includes/settings.php:235
+msgid "Rebuild default content"
+msgstr ""
+
+#: includes/settings.php:234
+msgid "Rebuild the default pages? Their current text will be replaced."
+msgstr ""
+
+#: includes/seed.php:435
+msgid "Reforestation"
 msgstr ""
 
 #: includes/meta.php:67
@@ -411,12 +527,28 @@ msgstr ""
 msgid "Regions"
 msgstr ""
 
-#: includes/seed.php:228
+#: includes/seed.php:388
+msgid "Replace the months below with this season’s dates."
+msgstr ""
+
+#: includes/seed.php:455
 msgid "Request samples and an offer"
+msgstr ""
+
+#: includes/settings.php:224
+msgid "Restores the delivered site: the six pages with their full text, the seven process stages, the leaf types, the regions and the menu. Use it if a page was emptied by accident, or after the site files are updated."
 msgstr ""
 
 #: includes/settings.php:37
 msgid "Sales email"
+msgstr ""
+
+#: includes/seed.php:402
+msgid "Samples on request. Grades are matched against your own reference samples before shipment."
+msgstr ""
+
+#: includes/seed.php:384
+msgid "Scrap"
 msgstr ""
 
 #: includes/meta.php:121
@@ -427,16 +559,32 @@ msgstr ""
 msgid "Section label"
 msgstr ""
 
-#: includes/seed.php:25
+#: includes/seed.php:121
 msgid "Seed & nursery"
 msgstr ""
 
-#: includes/seed.php:27
+#: includes/seed.php:123
 msgid "Seedling trays in the greenhouse; hands holding a plant"
 msgstr ""
 
 #: includes/settings.php:41
 msgid "Send enquiries to"
+msgstr ""
+
+#: includes/seed.php:368
+msgid "Seven stages, one company accountable"
+msgstr ""
+
+#: includes/seed.php:394
+msgid "Several picking passes"
+msgstr ""
+
+#: includes/seed.php:396
+msgid "Shipment"
+msgstr ""
+
+#: includes/seed.php:377
+msgid "Shipped in the form you need"
 msgstr ""
 
 #: includes/settings.php:69
@@ -463,8 +611,16 @@ msgstr ""
 msgid "Small label beside the page text, e.g. \"Who we are\"."
 msgstr ""
 
-#: includes/seed.php:85
+#: includes/seed.php:188
 msgid "Small sun-cured leaf, aromatic, used to lift a blend."
+msgstr ""
+
+#: includes/seed.php:392
+msgid "Sowing"
+msgstr ""
+
+#: includes/seed.php:390
+msgid "Stage"
 msgstr ""
 
 #: includes/meta.php:23
@@ -483,44 +639,80 @@ msgstr ""
 msgid "Stage updated."
 msgstr ""
 
-#: includes/seed.php:84
+#: includes/seed.php:382
+msgid "Stems"
+msgstr ""
+
+#: includes/seed.php:187
 msgid "Sun-cured"
 msgstr ""
 
-#: includes/seed.php:225
+#: includes/seed.php:451
 msgid "Tell us the type, grade and volume you need. Our sales desk replies within five working days, with samples if you ask for them."
 msgstr ""
 
-#: includes/seed.php:55
+#: includes/seed.php:151
 msgid "Testing, storage & export"
 msgstr ""
 
-#: includes/seed.php:47
+#: includes/seed.php:315
+msgid "That means every bale we ship traces back to the field it grew in, the barn it was cured in and the week it was graded — with no broker in between."
+msgstr ""
+
+#: includes/seed.php:329
+msgid "The company was founded in [year] and works with farming households across [growing region]. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate."
+msgstr ""
+
+#: includes/seed.php:143
 msgid "The grading table; a buyer matching a hand of leaf to a sample"
 msgstr ""
 
-#: includes/seed.php:219
+#: includes/seed.php:443
 msgid "The lab, or stacked lot-labelled bales"
 msgstr ""
 
-#: includes/seed.php:57
+#: includes/seed.php:153
 msgid "The lab; stacked bales in the warehouse; a container loading on site"
 msgstr ""
 
-#: includes/settings.php:174
+#: includes/settings.php:180
 msgid "These details appear across the site — in the header, the footer, the contact page and the capacity strip on the home page. Change them once here."
 msgstr ""
 
-#: includes/seed.php:252
+#: includes/seed.php:364
+msgid "This is what separates us from a leaf trader: every stage below happens inside our own system, with nothing brokered. Each one is a place where quality is either held or lost."
+msgstr ""
+
+#: includes/settings.php:227
+msgid "This overwrites the text of those six pages."
+msgstr ""
+
+#: includes/seed.php:497
 msgid "This site is intended for industrial buyers and trade partners. It is not directed at consumers."
 msgstr ""
 
-#: includes/seed.php:50
+#: includes/seed.php:331
+msgid "Three things we do ourselves"
+msgstr ""
+
+#: includes/seed.php:380
+msgid "Threshed lamina"
+msgstr ""
+
+#: includes/seed.php:395
+msgid "Threshing line running"
+msgstr ""
+
+#: includes/seed.php:146
 msgid "Threshing, redrying & baling"
 msgstr ""
 
-#: includes/seed.php:215
-msgid "Traceability is not a certificate on a wall — it follows from growing, curing and processing the leaf ourselves. Add the standards and sustainability sections from the block inserter."
+#: includes/seed.php:344
+msgid "Threshing, redrying, baling, lab testing and export documentation, all handled in house rather than sub-contracted."
+msgstr ""
+
+#: includes/seed.php:412
+msgid "Traceability is not a certificate on a wall — it follows from growing, curing and processing the leaf ourselves. Every lot carries a code back to the household, the plot and the buying week, and reference samples are retained for each crop."
 msgstr ""
 
 #: includes/settings.php:61
@@ -531,28 +723,68 @@ msgstr ""
 msgid "Trading name"
 msgstr ""
 
-#: includes/seed.php:26
-msgid "Varieties are chosen for the destination market, sown in our own nurseries and raised before transplanting. Control here decides how even the whole crop turns out."
+#: includes/seed.php:393
+msgid "Transplanting"
+msgstr ""
+
+#: includes/seed.php:436
+msgid "Trees planted every year to offset the wood used in curing."
+msgstr ""
+
+#: includes/seed.php:401
+msgid "Types, specifications and packing"
+msgstr ""
+
+#: includes/seed.php:393
+msgid "Varies by region and weather"
+msgstr ""
+
+#: includes/seed.php:122
+msgid "Varieties are chosen for the destination market, sown in our own nurseries and raised there before transplanting. Control at this stage decides how even the whole crop turns out."
 msgstr ""
 
 #: includes/meta.php:43
 msgid "Vietnamese name"
 msgstr ""
 
-#: includes/seed.php:205
-msgid "We are a vertically integrated leaf tobacco supplier: we grow, cure, process and export ourselves. Add the company story here, then drop in the \"Three points\" section from the block inserter."
+#: includes/seed.php:442
+msgid "We can control it because we are present at every stage"
 msgstr ""
 
-#: includes/seed.php:218
-msgid "We can control it because we are present at every stage."
+#: includes/seed.php:350
+msgid "We contract before the season, supply seed and inputs, train on agronomy and curing, then buy the whole qualifying crop. Households that stay with us across seasons are what keeps quality steady from one crop to the next."
+msgstr ""
+
+#: includes/seed.php:339
+msgid "We cure and grade it"
+msgstr ""
+
+#: includes/seed.php:335
+msgid "We grow it"
+msgstr ""
+
+#: includes/seed.php:328
+msgid "We grow, cure, grade, process and export leaf tobacco from our own fields in Vietnam. Most suppliers buy what the market offers; we start at the seedbed, which is why every bale we ship can be traced back to the field it grew in, the barn it was cured in and the week it was graded."
+msgstr ""
+
+#: includes/seed.php:343
+msgid "We process and ship it"
 msgstr ""
 
 #: includes/meta.php:34
 msgid "What to photograph for this stage. Shown as a caption on the placeholder illustration and hidden as soon as you set a featured image."
 msgstr ""
 
+#: includes/seed.php:414
+msgid "What we work to"
+msgstr ""
+
 #: includes/settings.php:39
 msgid "WhatsApp / Zalo"
+msgstr ""
+
+#: includes/seed.php:387
+msgid "When the crop moves"
 msgstr ""
 
 #: includes/settings.php:43
@@ -563,6 +795,42 @@ msgstr ""
 msgid "While the site is being built, every field still missing content is highlighted on the page. Switch this off before launch."
 msgstr ""
 
-#: includes/seed.php:193
+#: includes/seed.php:318
 msgid "Who we are"
+msgstr ""
+
+#: includes/seed.php:381
+msgid "Whole leaf"
+msgstr ""
+
+#: includes/seed.php:610
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/seed.php:420
+msgid "certificate number to be confirmed."
+msgstr ""
+
+#: includes/seed.php:383
+msgid "cut to your specification."
+msgstr ""
+
+#: includes/seed.php:381
+msgid "packed by grade for buyers who process in house."
+msgstr ""
+
+#: includes/seed.php:384
+msgid "recovered during processing."
+msgstr ""
+
+#: includes/seed.php:419
+msgid "residue testing against the guidance residue levels, every crop."
+msgstr ""
+
+#: includes/seed.php:382
+msgid "separated on the threshing line."
+msgstr ""
+
+#: includes/seed.php:380
+msgid "threshed, redried and baled to export standard."
 msgstr ""

@@ -15,11 +15,12 @@ chỉ mất phần nội dung động — không trắng trang.
 
 | Muốn sửa | Vào đâu trong wp-admin |
 | --- | --- |
+| Chữ trên từng trang (Giới thiệu, Quy trình, Sản phẩm, Chất lượng, Liên hệ) | **Pages** — mỗi trang đã có sẵn nội dung đầy đủ, chỉ sửa chữ |
 | Tên công ty, địa chỉ, email, điện thoại, 4 con số năng lực, dòng chú thích chân trang, bật/tắt age gate | **Company profile** |
 | 7 bước quy trình: tiêu đề, mô tả, thứ tự, ảnh | **Process** |
 | Chủng loại lá: tên, tên tiếng Việt, kiểu sấy, grade, độ ẩm, đóng gói | **Our Leaf** |
 | Vùng trồng: tên, diện tích, chủng loại, thời gian thu hoạch | **Regions** |
-| Nội dung trang Giới thiệu / Chất lượng / Liên hệ, hero từng trang | **Pages** |
+| Hero (tiêu đề lớn, câu mở đầu) của từng trang | **Pages** → mở trang → hộp **Page hero** |
 | Menu | **Appearance → Menus** |
 | Logo | **Appearance → Customize → Site Identity** |
 
@@ -32,6 +33,30 @@ Bật trong lúc dựng, **tắt trước khi go-live**.
 
 Danh sách Process và Our Leaf trong admin có cột **Photo**: chỗ nào chưa có ảnh thì hiện
 "Not uploaded" kèm mô tả ảnh cần chụp — dùng cột này để theo dõi tiến độ chụp ảnh.
+
+## Cấu trúc URL
+
+| Trang | URL | Template |
+| --- | --- | --- |
+| Trang chủ | `/` | `front-page.php` |
+| Giới thiệu | `/about/` | `page.php` |
+| Quy trình | `/process/` | `page-templates/process.php` — nội dung trang + 7 bước |
+| Sản phẩm | `/our-leaf/` | `page-templates/leaf.php` — thẻ + bảng quy cách + nội dung trang |
+| Chất lượng | `/quality-sustainability/` | `page.php` |
+| Liên hệ | `/contact/` | `page-templates/contact.php` — nội dung trang + form RFQ |
+
+Năm trang này là **Page thật**, không phải archive — nên mọi chữ trên đó đều sửa được từ
+**Pages**. Bản thân từng bước quy trình và từng chủng loại lá vẫn là record riêng, sửa ở
+**Process** và **Our Leaf**.
+
+## Nội dung mặc định
+
+Kích hoạt plugin lần đầu là site đã đầy đủ nội dung — 6 trang **đã viết sẵn chữ**, 7 bước
+quy trình, 4 chủng loại lá, 3 vùng trồng, menu và trang chủ. Không phải tự chèn khối nào.
+
+Nếu lỡ xoá mất nội dung một trang, hoặc sau khi cập nhật file theme/plugin muốn lấy lại bản
+mới nhất: **Company profile → Rebuild default content**. Nút này ghi đè chữ của 6 trang mặc
+định, **không** đụng tới ảnh, hồ sơ công ty và những gì bạn tự thêm.
 
 ## Cài đặt
 

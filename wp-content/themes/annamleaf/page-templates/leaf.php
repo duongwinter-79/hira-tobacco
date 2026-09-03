@@ -1,6 +1,10 @@
 <?php
 /**
- * The leaf portfolio: the cards, then the same records as a specification table.
+ * Template Name: Leaf portfolio
+ * Template Post Type: page
+ *
+ * The leaf page: hero, the leaf types as cards and as a specification table, then
+ * whatever else the client writes on the page — delivery forms, crop calendar.
  *
  * @package AnnamLeaf
  */
@@ -11,16 +15,10 @@ get_header();
 
 $annamleaf_items = function_exists( 'annamleaf_get_items' ) ? annamleaf_get_items( 'annam_leaf', 30 ) : array();
 
-annamleaf_hero(
-	array(
-		'eyebrow'   => __( 'Our leaf', 'annamleaf' ),
-		'title'     => __( 'Types, specifications and packing', 'annamleaf' ),
-		'text'      => __( 'Samples on request. Grades are matched against your own reference samples before shipment.', 'annamleaf' ),
-		'motif'     => 'harvest',
-		'shot_note' => __( 'Graded leaf laid out by type', 'annamleaf' ),
-		'compact'   => true,
-	)
-);
+while ( have_posts() ) :
+	the_post();
+	annamleaf_page_hero( get_the_ID(), 'harvest' );
+endwhile;
 ?>
 
 <?php if ( ! empty( $annamleaf_items ) ) : ?>
@@ -74,10 +72,12 @@ annamleaf_hero(
 			</div>
 		</div>
 	</section>
-<?php else : ?>
+<?php endif; ?>
+
+<?php if ( '' !== trim( wp_strip_all_tags( get_post_field( 'post_content', get_the_ID() ) ) ) ) : ?>
 	<section class="sec">
 		<div class="wrap">
-			<p class="lede"><?php esc_html_e( 'No leaf types have been added yet.', 'annamleaf' ); ?></p>
+			<div class="entry-content"><?php echo apply_filters( 'the_content', get_post_field( 'post_content', get_the_ID() ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- the_content filter. ?></div>
 		</div>
 	</section>
 <?php endif; ?>

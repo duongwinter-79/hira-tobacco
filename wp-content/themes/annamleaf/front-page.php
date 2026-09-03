@@ -33,7 +33,7 @@ annamleaf_hero(
 		'cta_label'       => annamleaf_get_meta( $annamleaf_front_id, 'hero_cta_label', __( 'Request a quote', 'annamleaf' ) ),
 		'cta_url'         => annamleaf_get_meta( $annamleaf_front_id, 'hero_cta_url', annamleaf_contact_url() ),
 		'secondary_label' => __( 'See how we work', 'annamleaf' ),
-		'secondary_url'   => (string) get_post_type_archive_link( 'annam_stage' ),
+		'secondary_url'   => annamleaf_process_url(),
 		'post_id'         => $annamleaf_front_id,
 		'motif'           => 'field',
 		'shot_note'       => annamleaf_get_meta( $annamleaf_front_id, 'hero_shot_note', __( 'Wide field panorama at first light', 'annamleaf' ) ),
@@ -90,7 +90,7 @@ annamleaf_stats_strip();
 				<?php endforeach; ?>
 			</div>
 			<p style="margin-top:28px;">
-				<a href="<?php echo esc_url( (string) get_post_type_archive_link( 'annam_stage' ) ); ?>">
+				<a href="<?php echo esc_url( annamleaf_process_url() ); ?>">
 					<?php esc_html_e( 'See every stage →', 'annamleaf' ); ?>
 				</a>
 			</p>
@@ -115,7 +115,7 @@ annamleaf_stats_strip();
 				?>
 			</div>
 			<p style="margin-top:28px;">
-				<a href="<?php echo esc_url( (string) get_post_type_archive_link( 'annam_leaf' ) ); ?>">
+				<a href="<?php echo esc_url( annamleaf_leaf_url() ); ?>">
 					<?php esc_html_e( 'Specifications and crop calendar →', 'annamleaf' ); ?>
 				</a>
 			</p>

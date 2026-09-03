@@ -37,6 +37,17 @@ $GLOBALS['annamleaf_template'] = '';
 // ---------------------------------------------------------------- fake records
 
 /**
+ * Templates type-check what they are handed, so the fixtures must be WP_Post objects.
+ */
+class WP_Post {
+	public $ID           = 0;
+	public $post_type    = '';
+	public $post_title   = '';
+	public $post_content = '';
+	public $post_excerpt = '';
+}
+
+/**
  * Build one fake post.
  *
  * @param int    $id      ID.
@@ -44,10 +55,10 @@ $GLOBALS['annamleaf_template'] = '';
  * @param string $title   Title.
  * @param string $content Body.
  * @param array  $meta    Meta, keyed without the prefix.
- * @return stdClass
+ * @return WP_Post
  */
-function annamleaf_fake( int $id, string $type, string $title, string $content = '', array $meta = array() ): stdClass {
-	$post               = new stdClass();
+function annamleaf_fake( int $id, string $type, string $title, string $content = '', array $meta = array() ): WP_Post {
+	$post               = new WP_Post();
 	$post->ID           = $id;
 	$post->post_type    = $type;
 	$post->post_title   = $title;
@@ -150,12 +161,8 @@ function wp_enqueue_style( ...$a ) {}
 function wp_enqueue_script( ...$a ) {}
 function wp_localize_script( ...$a ) {}
 function is_front_page() { return 'front-page.php' === $GLOBALS['annamleaf_template']; }
-function is_singular( $type = '' ) { return in_array( $GLOBALS['annamleaf_template'], array( 'page.php', 'single.php', 'page-templates/contact.php', 'front-page.php' ), true ); }
-function is_post_type_archive( $type = '' ) {
-	$map = array( 'archive-annam_stage.php' => 'annam_stage', 'archive-annam_leaf.php' => 'annam_leaf' );
-	$current = $map[ $GLOBALS['annamleaf_template'] ] ?? '';
-	return '' !== $current && ( '' === $type || in_array( $current, (array) $type, true ) );
-}
+function is_singular( $type = '' ) { return 'index.php' !== $GLOBALS['annamleaf_template'] && '404.php' !== $GLOBALS['annamleaf_template']; }
+function is_post_type_archive( $type = '' ) { return false; }
 function has_excerpt( $id = 0 ) { return false; }
 function get_the_post_thumbnail_url( ...$a ) { return ''; }
 function wp_get_attachment_image_url( ...$a ) { return ''; }
@@ -199,11 +206,17 @@ function has_post_thumbnail( $id = 0 ) { return false; }
 function get_the_post_thumbnail( ...$a ) { return ''; }
 function get_post_meta( $id, $key, $single = false ) { return $GLOBALS['annamleaf_meta'][ $id ][ $key ] ?? ''; }
 function get_post_field( $field, $id ) {
-	if ( 'post_content' === $field && 1 === (int) $id ) {
+	if ( 'post_content' !== $field ) {
+		return '';
+	}
+
+	if ( 1 === (int) $id ) {
 		return '<p>Most leaf suppliers buy whatever the market offers. We start earlier: our own nurseries, our own seed selection, and field technicians who work alongside every contracted household through the season.</p>';
 	}
 
-	return '';
+	$current = $GLOBALS['annamleaf_current'] ?? null;
+
+	return $current && (int) $current->ID === (int) $id ? $current->post_content : '';
 }
 function get_posts( $args = array() ) {
 	$type = $args['post_type'] ?? 'post';
@@ -221,12 +234,13 @@ function get_post_type_object( $type ) {
 	return $object;
 }
 function get_the_title( $post = null ) {
-	if ( $post instanceof stdClass ) { return $post->post_title; }
+	if ( $post instanceof WP_Post ) { return $post->post_title; }
 	return $GLOBALS['annamleaf_current']->post_title ?? 'Page title';
 }
 function get_the_ID() { return $GLOBALS['annamleaf_current']->ID ?? 1; }
 function the_title() { echo esc_html( get_the_title() ); }
 function the_content() { echo $GLOBALS['annamleaf_current']->post_content ?? ''; }
+function get_the_content() { return $GLOBALS['annamleaf_current']->post_content ?? ''; }
 function the_permalink() { echo esc_url( get_permalink() ); }
 function get_the_date() { return '3 September 2026'; }
 function get_the_excerpt() { return 'Excerpt'; }
@@ -293,11 +307,26 @@ function annamleaf_render( string $template, array $posts, string $name ): void 
 	printf( "%-32s %6d bytes\n", $template, strlen( $html ) );
 }
 
-$page = annamleaf_fake( 1, 'page', 'About', '<p>Page body copy.</p>' );
+$about_html = <<<HTML
+<p>We grow, cure, grade, process and export leaf tobacco from our own fields in Vietnam. Most suppliers buy what the market offers; we start at the seedbed, which is why every bale we ship can be traced back to the field it grew in, the barn it was cured in and the week it was graded.</p>
+<p>The company was founded in [year] and works with farming households across [growing region]. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate.</p>
+<h2 class="wp-block-heading">Three things we do ourselves</h2>
+<div class="wp-block-columns">
+<div class="wp-block-column"><h3 class="wp-block-heading">We grow it</h3><p>Own nurseries, contracted households, and inputs supplied and controlled by us. Field technicians are on the ground for the whole season, not just at buying time.</p></div>
+<div class="wp-block-column"><h3 class="wp-block-heading">We cure and grade it</h3><p>Curing barns under technical supervision, then grading at our own buying stations against your reference samples, recorded lot by lot.</p></div>
+<div class="wp-block-column"><h3 class="wp-block-heading">We process and ship it</h3><p>Threshing, redrying, baling, lab testing and export documentation, all handled in house rather than sub-contracted.</p></div>
+</div>
+<h2 class="wp-block-heading">Farmers are the first link, not the last supplier</h2>
+<p>We contract before the season, supply seed and inputs, train on agronomy and curing, then buy the whole qualifying crop.</p>
+HTML;
+
+$page = annamleaf_fake( 1, 'page', 'About', $about_html, array( 'hero_eyebrow' => 'About us', 'hero_text' => 'One company from the seedbed to the sealed container.' ) );
+$process_page = annamleaf_fake( 2, 'page', 'Process', '<p>Intro paragraph above the stages.</p>', array( 'hero_title' => 'Seven stages, one company accountable', 'hero_eyebrow' => 'From field to factory' ) );
+$leaf_page = annamleaf_fake( 3, 'page', 'Our Leaf', '<h2>Shipped in the form you need</h2><ul><li>Threshed lamina</li><li>Whole leaf</li></ul>', array( 'hero_title' => 'Types, specifications and packing', 'hero_eyebrow' => 'Our leaf' ) );
 
 annamleaf_render( 'front-page.php', array( $page ), 'home.html' );
-annamleaf_render( 'archive-annam_stage.php', $GLOBALS['annamleaf_fixtures']['annam_stage'], 'process.html' );
-annamleaf_render( 'archive-annam_leaf.php', $GLOBALS['annamleaf_fixtures']['annam_leaf'], 'our-leaf.html' );
+annamleaf_render( 'page-templates/process.php', array( $process_page ), 'process.html' );
+annamleaf_render( 'page-templates/leaf.php', array( $leaf_page ), 'our-leaf.html' );
 annamleaf_render( 'page.php', array( $page ), 'page.html' );
 annamleaf_render( 'page-templates/contact.php', array( $page ), 'contact.html' );
 annamleaf_render( 'single.php', array( $GLOBALS['annamleaf_fixtures']['annam_stage'][0] ), 'single.html' );

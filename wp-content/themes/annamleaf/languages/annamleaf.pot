@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 07:07+0000\n"
+"POT-Creation-Date: 2026-09-03 12:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,12 +27,8 @@ msgstr ""
 msgid "Annam Leaf sections"
 msgstr ""
 
-#: archive-annam_stage.php:70
+#: page-templates/process.php:75
 msgid "Arrange a visit"
-msgstr ""
-
-#: archive-annam_stage.php:18
-msgid "Barn exteriors, or golden leaf hanging inside"
 msgstr ""
 
 #: inc/rfq.php:30
@@ -63,7 +59,7 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: archive-annam_leaf.php:52
+#: page-templates/leaf.php:50
 msgid "Curing"
 msgstr ""
 
@@ -115,10 +111,6 @@ msgstr ""
 msgid "Footer menu"
 msgstr ""
 
-#: archive-annam_stage.php:14
-msgid "From field to factory"
-msgstr ""
-
 #: front-page.php:24
 msgid "From our fields to your factory"
 msgstr ""
@@ -135,11 +127,7 @@ msgstr ""
 msgid "Good Agricultural Practices across the full contracted area."
 msgstr ""
 
-#: archive-annam_leaf.php:20
-msgid "Graded leaf laid out by type"
-msgstr ""
-
-#: archive-annam_leaf.php:53 template-parts/card-leaf.php:40
+#: page-templates/leaf.php:51 template-parts/card-leaf.php:40
 msgid "Grades"
 msgstr ""
 
@@ -195,7 +183,7 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-#: archive-annam_leaf.php:54 template-parts/card-leaf.php:44
+#: page-templates/leaf.php:52 template-parts/card-leaf.php:44
 msgid "Moisture"
 msgstr ""
 
@@ -203,16 +191,12 @@ msgstr ""
 msgid "NO."
 msgstr ""
 
-#: archive-annam_leaf.php:87
+#: page-templates/leaf.php:87
 msgid "Need a grade that is not listed?"
 msgstr ""
 
 #: index.php:14
 msgid "News"
-msgstr ""
-
-#: archive-annam_leaf.php:80
-msgid "No leaf types have been added yet."
 msgstr ""
 
 #: patterns/crop-calendar.php:20
@@ -239,11 +223,7 @@ msgstr ""
 msgid "Oriental"
 msgstr ""
 
-#: inc/template-tags.php:314
-msgid "Our Leaf"
-msgstr ""
-
-#: archive-annam_leaf.php:16 front-page.php:106
+#: front-page.php:106
 msgid "Our leaf"
 msgstr ""
 
@@ -251,7 +231,7 @@ msgstr ""
 msgid "Own nurseries, contracted households, and inputs supplied and controlled by us. Field technicians are on the ground all season."
 msgstr ""
 
-#: archive-annam_leaf.php:55
+#: page-templates/leaf.php:53
 msgid "Packing"
 msgstr ""
 
@@ -283,10 +263,6 @@ msgstr ""
 msgid "Primary menu"
 msgstr ""
 
-#: inc/template-tags.php:314
-msgid "Process"
-msgstr ""
-
 #: patterns/crop-calendar.php:26
 msgid "Processing"
 msgstr ""
@@ -311,7 +287,7 @@ msgstr ""
 msgid "Region map, or a drone shot of one growing area"
 msgstr ""
 
-#: archive-annam_leaf.php:89 front-page.php:33 front-page.php:173
+#: front-page.php:33 front-page.php:173 page-templates/leaf.php:89
 msgid "Request a quote"
 msgstr ""
 
@@ -319,12 +295,8 @@ msgstr ""
 msgid "Residue testing against the guidance residue levels, every crop."
 msgstr ""
 
-#: archive-annam_stage.php:51
+#: page-templates/process.php:56
 msgid "STAGE %s"
-msgstr ""
-
-#: archive-annam_leaf.php:18
-msgid "Samples on request. Grades are matched against your own reference samples before shipment."
 msgstr ""
 
 #: patterns/delivery-forms.php:21
@@ -351,10 +323,6 @@ msgstr ""
 msgid "Sent from"
 msgstr ""
 
-#: archive-annam_stage.php:15
-msgid "Seven stages, one company accountable"
-msgstr ""
-
 #: patterns/crop-calendar.php:25
 msgid "Several picking passes"
 msgstr ""
@@ -379,7 +347,7 @@ msgstr ""
 msgid "Sowing"
 msgstr ""
 
-#: archive-annam_leaf.php:43
+#: page-templates/leaf.php:41
 msgid "Specifications"
 msgstr ""
 
@@ -395,7 +363,7 @@ msgstr ""
 msgid "Stems"
 msgstr ""
 
-#: archive-annam_leaf.php:88
+#: page-templates/leaf.php:88
 msgid "Tell us the specification you buy against and we will tell you what this crop can match."
 msgstr ""
 
@@ -419,12 +387,8 @@ msgstr ""
 msgid "The message could not be sent. Please email us directly at %s."
 msgstr ""
 
-#: archive-annam_leaf.php:44
+#: page-templates/leaf.php:42
 msgid "The same leaf, as a spec sheet"
-msgstr ""
-
-#: archive-annam_stage.php:16
-msgid "This is what separates us from a leaf trader: every stage below happens inside our own system, with nothing brokered."
 msgstr ""
 
 #: footer.php:12
@@ -447,12 +411,8 @@ msgstr ""
 msgid "Transplanting"
 msgstr ""
 
-#: archive-annam_leaf.php:51
+#: page-templates/leaf.php:49
 msgid "Type"
-msgstr ""
-
-#: archive-annam_leaf.php:17
-msgid "Types, specifications and packing"
 msgstr ""
 
 #: patterns/crop-calendar.php:24
@@ -463,7 +423,7 @@ msgstr ""
 msgid "Volume (MT)"
 msgstr ""
 
-#: archive-annam_stage.php:68
+#: page-templates/process.php:73
 msgid "Want to see it for yourself?"
 msgstr ""
 
@@ -475,7 +435,7 @@ msgstr ""
 msgid "We grow it"
 msgstr ""
 
-#: archive-annam_stage.php:69
+#: page-templates/process.php:74
 msgid "We host buyer visits to the growing regions and the factory during the season."
 msgstr ""
 
@@ -547,6 +507,6 @@ msgstr ""
 msgid "threshed, redried and baled to export standard."
 msgstr ""
 
-#: single.php:34
+#: single.php:40
 msgid "← Back to the overview"
 msgstr ""

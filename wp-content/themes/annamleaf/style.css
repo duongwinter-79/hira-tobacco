@@ -363,3 +363,26 @@ td.num{font-variant-numeric:tabular-nums;}
 
 /* the process page wraps each plate so the alternating order rule has a target */
 .stepblk-fig .plate{height:100%;}
+
+/* ============================================================
+   Block editor content on a full width page
+   ============================================================ */
+
+/* Prose stays readable; columns, tables and figures use the full column. */
+.entry-content.is-wide{max-width:none;}
+.entry-content.is-wide>p,
+.entry-content.is-wide>h2,
+.entry-content.is-wide>h3,
+.entry-content.is-wide>ul,
+.entry-content.is-wide>ol,
+.entry-content.is-wide>blockquote{max-width:68ch;}
+
+.entry-content .wp-block-columns{display:flex;gap:34px;flex-wrap:wrap;margin:6px 0;}
+.entry-content .wp-block-column{flex:1 1 240px;min-width:0;display:flex;flex-direction:column;gap:10px;}
+.entry-content .wp-block-column>*{margin:0;}
+
+.entry-content .wp-block-table{overflow-x:auto;border:1px solid var(--rule);background:var(--card);}
+.entry-content .wp-block-table table{min-width:520px;}
+.entry-content .wp-block-table td:first-child{font-weight:500;color:var(--ink);}
+
+.entry-content>.wp-block-heading:first-child{margin-top:0;}

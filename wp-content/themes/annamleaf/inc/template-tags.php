@@ -154,7 +154,7 @@ function annamleaf_hero( array $args = array() ): void {
  *
  * @param int $post_id Page ID.
  */
-function annamleaf_page_hero( int $post_id ): void {
+function annamleaf_page_hero( int $post_id, string $motif = 'plant' ): void {
 	$title = annamleaf_get_meta( $post_id, 'hero_title', get_the_title( $post_id ) );
 
 	annamleaf_hero(
@@ -165,7 +165,7 @@ function annamleaf_page_hero( int $post_id ): void {
 			'cta_label' => annamleaf_get_meta( $post_id, 'hero_cta_label' ),
 			'cta_url'   => annamleaf_get_meta( $post_id, 'hero_cta_url' ),
 			'post_id'   => $post_id,
-			'motif'     => 'plant',
+			'motif'     => $motif,
 			'shot_note' => annamleaf_get_meta( $post_id, 'hero_shot_note' ),
 			'compact'   => true,
 		)
@@ -303,23 +303,15 @@ function annamleaf_age_gate(): void {
 /**
  * The menu shown until an editor builds one under Appearance → Menus.
  *
- * Lists the home page, the two content archives and any top level pages, so a fresh
- * install is navigable on the first load.
+ * Lists the home page and any top level pages, so a fresh install is navigable on the
+ * first load.
  */
 function annamleaf_default_menu(): void {
 	$items = array(
 		array( 'url' => home_url( '/' ), 'label' => __( 'Home', 'annamleaf' ) ),
 	);
 
-	foreach ( array( 'annam_stage' => __( 'Process', 'annamleaf' ), 'annam_leaf' => __( 'Our Leaf', 'annamleaf' ) ) as $post_type => $label ) {
-		$archive = get_post_type_archive_link( $post_type );
-
-		if ( $archive ) {
-			$items[] = array( 'url' => $archive, 'label' => $label );
-		}
-	}
-
-	foreach ( get_pages( array( 'parent' => 0, 'number' => 6, 'sort_column' => 'menu_order,post_title' ) ) as $page ) {
+	foreach ( get_pages( array( 'parent' => 0, 'number' => 8, 'sort_column' => 'menu_order,post_title' ) ) as $page ) {
 		if ( (int) get_option( 'page_on_front' ) === $page->ID ) {
 			continue;
 		}
@@ -341,21 +333,23 @@ function annamleaf_default_menu(): void {
 }
 
 /**
- * The URL of the contact page.
+ * The URL of the page using a given page template.
  *
- * Prefers a page using the Contact page template, so renaming or moving the page does
- * not break every call to action on the site.
+ * Looking the page up by its template means renaming or moving the page does not break
+ * every call to action on the site.
  *
+ * @param string $template      Template file name without the extension.
+ * @param string $fallback_slug Page slug to try when no page uses the template.
  * @return string
  */
-function annamleaf_contact_url(): string {
+function annamleaf_page_url( string $template, string $fallback_slug ): string {
 	$pages = get_posts(
 		array(
 			'post_type'   => 'page',
 			'post_status' => 'publish',
 			'numberposts' => 1,
 			'meta_key'    => '_wp_page_template',
-			'meta_value'  => 'page-templates/contact.php',
+			'meta_value'  => 'page-templates/' . $template . '.php',
 			'fields'      => 'ids',
 		)
 	);
@@ -364,9 +358,36 @@ function annamleaf_contact_url(): string {
 		return (string) get_permalink( (int) $pages[0] );
 	}
 
-	$fallback = get_page_by_path( 'contact' );
+	$fallback = get_page_by_path( $fallback_slug );
 
 	return $fallback ? (string) get_permalink( $fallback ) : home_url( '/' );
+}
+
+/**
+ * The URL of the contact page.
+ *
+ * @return string
+ */
+function annamleaf_contact_url(): string {
+	return annamleaf_page_url( 'contact', 'contact' );
+}
+
+/**
+ * The URL of the process page.
+ *
+ * @return string
+ */
+function annamleaf_process_url(): string {
+	return annamleaf_page_url( 'process', 'process' );
+}
+
+/**
+ * The URL of the leaf portfolio page.
+ *
+ * @return string
+ */
+function annamleaf_leaf_url(): string {
+	return annamleaf_page_url( 'leaf', 'our-leaf' );
 }
 
 /**

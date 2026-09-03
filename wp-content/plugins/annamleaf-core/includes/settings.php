@@ -170,6 +170,12 @@ function annamleaf_render_settings_page(): void {
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Company profile', 'annamleaf-core' ); ?></h1>
+
+		<?php if ( isset( $_GET['annamleaf_rebuilt'] ) ) : ?>
+			<div class="notice notice-success is-dismissible">
+				<p><?php esc_html_e( 'Default content rebuilt: pages, process stages, leaf types, regions and the menu are back to the delivered version.', 'annamleaf-core' ); ?></p>
+			</div>
+		<?php endif; ?>
 		<p class="description" style="max-width:60em;">
 			<?php esc_html_e( 'These details appear across the site — in the header, the footer, the contact page and the capacity strip on the home page. Change them once here.', 'annamleaf-core' ); ?>
 		</p>
@@ -209,6 +215,25 @@ function annamleaf_render_settings_page(): void {
 			<?php endforeach; ?>
 
 			<?php submit_button(); ?>
+		</form>
+
+		<hr>
+
+		<h2><?php esc_html_e( 'Default content', 'annamleaf-core' ); ?></h2>
+		<p class="description" style="max-width:60em;">
+			<?php esc_html_e( 'Restores the delivered site: the six pages with their full text, the seven process stages, the leaf types, the regions and the menu. Use it if a page was emptied by accident, or after the site files are updated.', 'annamleaf-core' ); ?>
+		</p>
+		<p class="description" style="max-width:60em;">
+			<strong><?php esc_html_e( 'This overwrites the text of those six pages.', 'annamleaf-core' ); ?></strong>
+			<?php esc_html_e( 'Photographs, the company profile above and anything you added yourself are left alone.', 'annamleaf-core' ); ?>
+		</p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="annamleaf_rebuild">
+			<?php wp_nonce_field( 'annamleaf_rebuild' ); ?>
+			<button type="submit" class="button button-secondary"
+				onclick="return confirm('<?php echo esc_js( __( 'Rebuild the default pages? Their current text will be replaced.', 'annamleaf-core' ) ); ?>');">
+				<?php esc_html_e( 'Rebuild default content', 'annamleaf-core' ); ?>
+			</button>
 		</form>
 	</div>
 	<?php

@@ -27,10 +27,16 @@ while ( have_posts() ) :
 		<div class="wrap">
 			<div class="entry-content"><?php the_content(); ?></div>
 
-			<?php $annamleaf_archive = get_post_type_archive_link( get_post_type() ); ?>
-			<?php if ( $annamleaf_archive ) : ?>
+			<?php
+			$annamleaf_overview = match ( get_post_type() ) {
+				'annam_stage' => annamleaf_process_url(),
+				'annam_leaf'  => annamleaf_leaf_url(),
+				default       => '',
+			};
+			?>
+			<?php if ( '' !== $annamleaf_overview ) : ?>
 				<p style="margin-top:30px;">
-					<a href="<?php echo esc_url( $annamleaf_archive ); ?>">
+					<a href="<?php echo esc_url( $annamleaf_overview ); ?>">
 						<?php esc_html_e( '← Back to the overview', 'annamleaf' ); ?>
 					</a>
 				</p>

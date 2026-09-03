@@ -132,8 +132,9 @@ trước khi chạy — xem mục xử lý lỗi bên dưới nếu nó báo kh�
 | # | Làm gì | Kỳ vọng thấy gì |
 | --- | --- | --- |
 | 1 | Mở trang chủ | Hero xanh đậm, dải 4 số liệu, 4 thẻ quy trình, 4 thẻ sản phẩm, vùng trồng, dải CTA |
-| 2 | Bấm **Process** trên menu | 7 bước, ảnh minh hoạ so le trái–phải |
-| 3 | Bấm **Our Leaf** | 4 thẻ chủng loại + bảng quy cách bên dưới |
+| 2 | Bấm **Process** trên menu | Đoạn mở đầu + 7 bước, ảnh so le trái–phải |
+| 3 | Bấm **Our Leaf** | 4 thẻ chủng loại, bảng quy cách, mục "Shipped in the form you need" và lịch mùa vụ |
+| 3b | Bấm **About** và **Quality** | Trang đã có sẵn chữ đầy đủ, gồm khối 3 cột — không phải trang trống |
 | 4 | Admin → **Company profile** → điền "Trading name" → Save | Tên công ty đổi ngay trên header và footer |
 | 5 | Admin → **Process** → mở 1 bước → **Featured image** → upload ảnh bất kỳ | Ảnh thật thay chỗ minh hoạ vector, đúng trong khung đó |
 | 6 | Admin → **Process** (danh sách) | Cột **Photo**: bước nào chưa có ảnh ghi "Not uploaded" kèm mô tả ảnh cần chụp |
@@ -141,6 +142,14 @@ trước khi chạy — xem mục xử lý lỗi bên dưới nếu nó báo kh�
 | 8 | **Company profile** → tick "Show the 18+ age gate" → Save → mở site ở cửa sổ ẩn danh | Hiện màn xác nhận 18+ trước khi vào site |
 
 ---
+
+## Đã cài rồi, giờ cập nhật code mới
+
+Nội dung mẫu chỉ được tạo **một lần** lúc kích hoạt plugin. Sau khi lấy code mới (git pull,
+hoặc upload lại zip), vào **Company profile → Rebuild default content** để dựng lại 6 trang
+theo bản mới. Nút này ghi đè chữ của các trang mẫu, không đụng ảnh và hồ sơ công ty.
+
+Rồi vào **Settings → Permalinks** bấm **Save Changes** một lần.
 
 ## Vài chuyện bình thường, không phải lỗi
 
