@@ -44,6 +44,8 @@ Bố cục do theme giữ cố định, nên khách sửa chữ và ảnh mà kh
   (`themes/annamleaf/languages/vi_VN.mo`); nội dung trang dịch bằng Polylang.
 - **Form báo giá**: đã nối `wp_mail()`, có nonce + honeypot. Nên cài WP Mail SMTP và
   một plugin captcha trước khi chạy thật.
+- **SEO**: meta description, Open Graph và schema.org Organization đã có sẵn trong theme;
+  tự tắt khi cài Yoast/Rank Math để tránh xuất trùng.
 
 ## Xem trước
 
@@ -56,12 +58,14 @@ Theme WordPress dùng đúng bảng màu, typography và khung ảnh của nó.
 ## Kiểm tra khi sửa code
 
 ```sh
-php -l <file>                # cú pháp
-php tools/render-check.php   # render template ra tools/output/*.html
+sh tools/lint.sh             # php -l toàn bộ + validate theme.json + render 8 template
+npx @wordpress/env start     # dựng WordPress local (cần Docker)
 ```
 
-`tools/render-check.php` giả lập các hàm WordPress để bắt lỗi gọi sai hàm và xem trước
-markup mà không cần dựng site. Không phải bản thay thế cho việc test trên WordPress thật.
+`tools/render-check.php` giả lập các hàm WordPress để render thật 8 template ra
+`tools/output/*.html`, mọi notice/warning đều làm script fail. Nó bắt lỗi gọi sai hàm và
+cho xem trước markup mà không cần dựng site — nhưng không thay thế việc test trên
+WordPress thật.
 
 ## Nhận diện
 

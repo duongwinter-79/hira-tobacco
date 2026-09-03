@@ -30,6 +30,9 @@ không phải sửa code.
 Ô **"Mark empty fields"** trong Company profile bật/tắt việc tô vàng các chỗ còn thiếu nội dung.
 Bật trong lúc dựng, **tắt trước khi go-live**.
 
+Danh sách Process và Our Leaf trong admin có cột **Photo**: chỗ nào chưa có ảnh thì hiện
+"Not uploaded" kèm mô tả ảnh cần chụp — dùng cột này để theo dõi tiến độ chụp ảnh.
+
 ## Cài đặt
 
 1. Cài WordPress 6.4+ / PHP 8.0+.
@@ -39,7 +42,29 @@ Bật trong lúc dựng, **tắt trước khi go-live**.
 4. Kích hoạt theme **Annam Leaf**.
 5. Vào **Settings → Permalinks** bấm Save một lần (để URL `/process/` và `/our-leaf/` hoạt động).
 
-Chạy local nhanh: `wp-env start` hoặc LocalWP, mount thẳng hai thư mục trên.
+## Chạy local
+
+Repo có sẵn `.wp-env.json`, cần Docker:
+
+```sh
+npx @wordpress/env start
+npx @wordpress/env run cli wp theme activate annamleaf
+npx @wordpress/env run cli wp rewrite flush --hard
+```
+
+Site chạy ở http://localhost:8888, admin `admin` / `password`. Plugin Annam Leaf Core và
+Polylang được cài sẵn; lần kích hoạt đầu của plugin sẽ seed nội dung.
+
+Kiểm tra code mà không cần dựng site:
+
+```sh
+sh tools/lint.sh
+```
+
+Script này chạy `php -l` toàn bộ file, validate `theme.json`, rồi render 8 template ra
+`tools/output/*.html` bằng bộ giả lập hàm WordPress trong `tools/render-check.php` —
+mọi notice/warning đều làm script fail. Đây **không** thay thế cho việc test trên WordPress
+thật, nhưng bắt được lỗi gọi sai hàm, sai tham số và template chết trước khi lên site.
 
 ## Plugin cần cài thêm
 
@@ -54,6 +79,15 @@ Chạy local nhanh: `wp-env start` hoặc LocalWP, mount thẳng hai thư mục 
 Chuỗi giao diện tiếng Việt đã dịch sẵn trong `themes/annamleaf/languages/vi_VN.mo`
 (129/133 chuỗi; 4 chuỗi còn lại giữ nguyên vì tiếng Việt viết y hệt). Sửa `vi_VN.po` rồi
 compile lại bằng `wp i18n make-mo languages/`.
+
+## SEO
+
+Theme tự xuất meta description, thẻ Open Graph/Twitter và schema.org `Organization`
+(tên, địa chỉ, email, điện thoại lấy từ Company profile). Đủ để go-live mà chưa cần plugin.
+Khi cài Yoast / Rank Math / SEOPress, phần này **tự tắt** để không xuất trùng thẻ.
+
+Các placeholder `[NHƯ THẾ NÀY]` bị lọc khỏi meta description và schema — chúng chỉ hiển
+thị trên trang, không bao giờ lọt vào kết quả tìm kiếm.
 
 ## Ghi chú kỹ thuật
 

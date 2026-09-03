@@ -16,6 +16,7 @@ define( 'ANNAMLEAF_VERSION', '1.0.0' );
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/plates.php';
 require_once get_template_directory() . '/inc/rfq.php';
+require_once get_template_directory() . '/inc/seo.php';
 
 /**
  * Theme supports, menus and image sizes.

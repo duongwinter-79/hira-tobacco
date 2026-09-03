@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf Core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 06:52+0000\n"
+"POT-Creation-Date: 2026-09-03 07:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -315,6 +315,10 @@ msgstr ""
 msgid "No stages yet."
 msgstr ""
 
+#: includes/post-types.php:154
+msgid "Not uploaded"
+msgstr ""
+
 #: includes/settings.php:25
 msgid "Office address"
 msgstr ""
@@ -353,6 +357,10 @@ msgstr ""
 
 #: includes/settings.php:38
 msgid "Phone"
+msgstr ""
+
+#: includes/post-types.php:121
+msgid "Photo"
 msgstr ""
 
 #: includes/meta.php:32 includes/meta.php:111

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf\n"
-"PO-Revision-Date: 2026-09-03 06:54+0000\n"
+"PO-Revision-Date: 2026-09-03 07:07+0000\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr "Trang dành cho khách hàng ngành thuốc lá"
 msgid "Agricultural Labour Practices: no child labour, safe hours and conditions."
 msgstr "Chuẩn mực lao động nông nghiệp: không lao động trẻ em, giờ làm và điều kiện an toàn."
 
-#: functions.php:135
+#: functions.php:136
 msgid "Annam Leaf sections"
 msgstr "Khối nội dung Annam Leaf"
 
@@ -108,7 +108,11 @@ msgstr "Nhà máy"
 msgid "Flue-cured Virginia"
 msgstr "Virginia sấy lò"
 
-#: functions.php:43
+#: inc/seo.php:50
+msgid "Flue-cured Virginia, Burley, Oriental and dark air-cured leaf: types, grades, moisture and packing."
+msgstr "Virginia sấy lò, Burley, Oriental và lá sẫm sấy gió: chủng loại, grade, độ ẩm và đóng gói."
+
+#: functions.php:44
 msgid "Footer menu"
 msgstr "Menu chân trang"
 
@@ -155,6 +159,10 @@ msgstr "Thu hoạch và sấy"
 #: inc/template-tags.php:311
 msgid "Home"
 msgstr "Trang chủ"
+
+#: inc/seo.php:48
+msgid "How our leaf is grown, cured, graded and processed — every stage inside our own system."
+msgstr "Lá của chúng tôi được trồng, sấy, phân cấp và chế biến ra sao — mọi bước đều nằm trong hệ thống của chúng tôi."
 
 #: front-page.php:70
 msgid "How we work"
@@ -272,7 +280,7 @@ msgstr "Vui lòng nhập họ tên và email công việc hợp lệ, rồi gử
 msgid "Primary"
 msgstr "Menu chính"
 
-#: functions.php:42
+#: functions.php:43
 msgid "Primary menu"
 msgstr "Menu chính"
 
@@ -296,7 +304,7 @@ msgstr "VÙNG TRỒNG"
 msgid "REGISTERED ADDRESS"
 msgstr "ĐỊA CHỈ ĐĂNG KÝ"
 
-#: functions.php:136
+#: functions.php:137
 msgid "Ready-made sections for the About, Quality and Our Leaf pages."
 msgstr "Các khối nội dung dựng sẵn cho trang Giới thiệu, Chất lượng và Sản phẩm."
 

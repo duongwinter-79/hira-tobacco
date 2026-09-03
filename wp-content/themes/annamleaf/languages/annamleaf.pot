@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 06:52+0000\n"
+"POT-Creation-Date: 2026-09-03 07:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Agricultural Labour Practices: no child labour, safe hours and conditions."
 msgstr ""
 
-#: functions.php:135
+#: functions.php:136
 msgid "Annam Leaf sections"
 msgstr ""
 
@@ -107,7 +107,11 @@ msgstr ""
 msgid "Flue-cured Virginia"
 msgstr ""
 
-#: functions.php:43
+#: inc/seo.php:50
+msgid "Flue-cured Virginia, Burley, Oriental and dark air-cured leaf: types, grades, moisture and packing."
+msgstr ""
+
+#: functions.php:44
 msgid "Footer menu"
 msgstr ""
 
@@ -153,6 +157,10 @@ msgstr ""
 
 #: inc/template-tags.php:311
 msgid "Home"
+msgstr ""
+
+#: inc/seo.php:48
+msgid "How our leaf is grown, cured, graded and processed — every stage inside our own system."
 msgstr ""
 
 #: front-page.php:70
@@ -271,7 +279,7 @@ msgstr ""
 msgid "Primary"
 msgstr ""
 
-#: functions.php:42
+#: functions.php:43
 msgid "Primary menu"
 msgstr ""
 
@@ -295,7 +303,7 @@ msgstr ""
 msgid "REGISTERED ADDRESS"
 msgstr ""
 
-#: functions.php:136
+#: functions.php:137
 msgid "Ready-made sections for the About, Quality and Our Leaf pages."
 msgstr ""
 

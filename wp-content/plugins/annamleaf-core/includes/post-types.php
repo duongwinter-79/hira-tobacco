@@ -111,7 +111,21 @@ add_filter( 'manage_annam_leaf_posts_columns', 'annamleaf_admin_columns' );
 add_filter( 'manage_annam_region_posts_columns', 'annamleaf_admin_columns' );
 
 /**
- * Print the order value in the admin list table.
+ * Add the photo column, so the list shows at a glance which records still need one.
+ *
+ * @param array $columns Existing columns.
+ * @return array
+ */
+function annamleaf_photo_column( array $columns ): array {
+	return array_slice( $columns, 0, 2, true )
+		+ array( 'annamleaf_photo' => __( 'Photo', 'annamleaf-core' ) )
+		+ array_slice( $columns, 2, null, true );
+}
+add_filter( 'manage_annam_stage_posts_columns', 'annamleaf_photo_column' );
+add_filter( 'manage_annam_leaf_posts_columns', 'annamleaf_photo_column' );
+
+/**
+ * Print the order and photo values in the admin list table.
  *
  * @param string $column  Column key.
  * @param int    $post_id Post being listed.
@@ -119,7 +133,27 @@ add_filter( 'manage_annam_region_posts_columns', 'annamleaf_admin_columns' );
 function annamleaf_admin_column_value( string $column, int $post_id ): void {
 	if ( 'annamleaf_order' === $column ) {
 		echo (int) get_post_field( 'menu_order', $post_id );
+
+		return;
 	}
+
+	if ( 'annamleaf_photo' !== $column ) {
+		return;
+	}
+
+	if ( has_post_thumbnail( $post_id ) ) {
+		echo get_the_post_thumbnail( $post_id, array( 60, 40 ), array( 'style' => 'display:block;object-fit:cover;' ) );
+
+		return;
+	}
+
+	$brief = annamleaf_meta( $post_id, 'shot_note' );
+
+	printf(
+		'<span style="color:#8a6210;">%s</span>%s',
+		esc_html__( 'Not uploaded', 'annamleaf-core' ),
+		'' === $brief ? '' : '<br><span class="description">' . esc_html( $brief ) . '</span>'
+	);
 }
 add_action( 'manage_annam_stage_posts_custom_column', 'annamleaf_admin_column_value', 10, 2 );
 add_action( 'manage_annam_leaf_posts_custom_column', 'annamleaf_admin_column_value', 10, 2 );

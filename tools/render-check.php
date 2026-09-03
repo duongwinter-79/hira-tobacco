@@ -16,10 +16,23 @@
 
 define( 'ABSPATH', __DIR__ . '/../' );
 
+error_reporting( E_ALL );
+
+$GLOBALS['annamleaf_problems'] = array();
+
+set_error_handler(
+	static function ( int $number, string $message, string $file, int $line ): bool {
+		$GLOBALS['annamleaf_problems'][] = sprintf( '%s in %s:%d', $message, basename( $file ), $line );
+
+		return true;
+	}
+);
+
 $GLOBALS['annamleaf_posts']   = array();
 $GLOBALS['annamleaf_cursor']  = -1;
 $GLOBALS['annamleaf_current'] = null;
 $GLOBALS['annamleaf_meta']    = array();
+$GLOBALS['annamleaf_template'] = '';
 
 // ---------------------------------------------------------------- fake records
 
@@ -136,7 +149,23 @@ function remove_post_type_support( ...$a ) {}
 function wp_enqueue_style( ...$a ) {}
 function wp_enqueue_script( ...$a ) {}
 function wp_localize_script( ...$a ) {}
+function is_front_page() { return 'front-page.php' === $GLOBALS['annamleaf_template']; }
+function is_singular( $type = '' ) { return in_array( $GLOBALS['annamleaf_template'], array( 'page.php', 'single.php', 'page-templates/contact.php', 'front-page.php' ), true ); }
+function is_post_type_archive( $type = '' ) {
+	$map = array( 'archive-annam_stage.php' => 'annam_stage', 'archive-annam_leaf.php' => 'annam_leaf' );
+	$current = $map[ $GLOBALS['annamleaf_template'] ] ?? '';
+	return '' !== $current && ( '' === $type || in_array( $current, (array) $type, true ) );
+}
+function has_excerpt( $id = 0 ) { return false; }
+function get_the_post_thumbnail_url( ...$a ) { return ''; }
+function wp_get_attachment_image_url( ...$a ) { return ''; }
+function wp_get_document_title() { return 'Annam Leaf'; }
+function add_query_arg( ...$a ) { return ''; }
+function wp_json_encode( $data, $flags = 0 ) { return json_encode( $data, $flags ); }
+
 function wp_head() {
+	annamleaf_meta_tags();
+	annamleaf_schema();
 	// The harness has no enqueue pipeline; link the real stylesheet so the output is reviewable.
 	echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">' . "\n";
 	echo '<link rel="stylesheet" href="../../wp-content/themes/annamleaf/style.css">' . "\n";
@@ -146,7 +175,14 @@ function wp_body_open() {}
 function language_attributes() { echo 'lang="en"'; }
 function body_class() { echo 'class="home shows-placeholders"'; }
 function bloginfo( $what ) { echo get_bloginfo( $what ); }
-function get_bloginfo( $what ) { return 'charset' === $what ? 'UTF-8' : 'Leaf tobacco · Vietnam'; }
+function get_bloginfo( $what ) {
+	return match ( $what ) {
+		'charset'     => 'UTF-8',
+		'name'        => 'Annam Leaf',
+		'language'    => 'en-US',
+		default       => 'Leaf tobacco · Vietnam',
+	};
+}
 function home_url( $path = '/' ) { return 'https://annamleaf.test' . $path; }
 function admin_url( $path = '' ) { return home_url( '/wp-admin/' . $path ); }
 function get_option( $key, $default = false ) {
@@ -244,6 +280,7 @@ if ( ! is_dir( $out ) ) {
  * @param string $name     Output file name.
  */
 function annamleaf_render( string $template, array $posts, string $name ): void {
+	$GLOBALS['annamleaf_template'] = $template;
 	$GLOBALS['annamleaf_posts']   = $posts;
 	$GLOBALS['annamleaf_cursor']  = -1;
 	$GLOBALS['annamleaf_current'] = $posts[0] ?? null;
@@ -263,6 +300,18 @@ annamleaf_render( 'archive-annam_stage.php', $GLOBALS['annamleaf_fixtures']['ann
 annamleaf_render( 'archive-annam_leaf.php', $GLOBALS['annamleaf_fixtures']['annam_leaf'], 'our-leaf.html' );
 annamleaf_render( 'page.php', array( $page ), 'page.html' );
 annamleaf_render( 'page-templates/contact.php', array( $page ), 'contact.html' );
+annamleaf_render( 'single.php', array( $GLOBALS['annamleaf_fixtures']['annam_stage'][0] ), 'single.html' );
+annamleaf_render( 'index.php', $GLOBALS['annamleaf_fixtures']['annam_stage'], 'index.html' );
 annamleaf_render( '404.php', array(), '404.html' );
 
-echo "\nRendered into tools/output/ — open them in a browser to review.\n";
+if ( ! empty( $GLOBALS['annamleaf_problems'] ) ) {
+	echo "\nPHP problems raised while rendering:\n";
+
+	foreach ( array_unique( $GLOBALS['annamleaf_problems'] ) as $problem ) {
+		echo '  - ' . $problem . "\n";
+	}
+
+	exit( 1 );
+}
+
+echo "\nRendered into tools/output/ — no PHP notices, warnings or errors.\n";
