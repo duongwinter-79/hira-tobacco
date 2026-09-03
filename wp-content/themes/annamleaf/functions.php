@@ -169,3 +169,23 @@ function annamleaf_excerpt_more(): string {
 	return '…';
 }
 add_filter( 'excerpt_more', 'annamleaf_excerpt_more' );
+
+/**
+ * The theme renders placeholders without the plugin, but the site has no content that way.
+ * Say so where an editor will see it, rather than leaving them hunting for a missing menu.
+ */
+function annamleaf_plugin_notice(): void {
+	if ( function_exists( 'annamleaf_option' ) || ! current_user_can( 'activate_plugins' ) ) {
+		return;
+	}
+	?>
+	<div class="notice notice-warning">
+		<p>
+			<strong><?php esc_html_e( 'Annam Leaf: the content plugin is not active.', 'annamleaf' ); ?></strong>
+			<?php esc_html_e( 'The theme needs the Annam Leaf Core plugin for its pages, process stages, leaf types and the Company profile screen. Activate it under Plugins.', 'annamleaf' ); ?>
+			<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'Go to Plugins', 'annamleaf' ); ?></a>
+		</p>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'annamleaf_plugin_notice' );

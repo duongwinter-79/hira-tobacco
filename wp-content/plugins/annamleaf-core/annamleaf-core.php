@@ -44,6 +44,26 @@ function annamleaf_core_deactivate(): void {
 register_deactivation_hook( __FILE__, 'annamleaf_core_deactivate' );
 
 /**
+ * Put a link to the Company profile screen on the plugin's row, where someone looking
+ * for the settings looks first.
+ *
+ * @param array $links Existing action links.
+ * @return array
+ */
+function annamleaf_core_action_links( array $links ): array {
+	$link = sprintf(
+		'<a href="%s">%s</a>',
+		esc_url( admin_url( 'admin.php?page=annamleaf-settings' ) ),
+		esc_html__( 'Company profile', 'annamleaf-core' )
+	);
+
+	array_unshift( $links, $link );
+
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'annamleaf_core_action_links' );
+
+/**
  * Load translations for the admin labels.
  */
 function annamleaf_core_load_textdomain(): void {

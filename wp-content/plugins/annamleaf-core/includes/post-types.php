@@ -29,7 +29,7 @@ function annamleaf_register_post_types(): void {
 			'has_archive'   => false,
 			'rewrite'       => array( 'slug' => 'process-stage' ),
 			'menu_icon'     => 'dashicons-image-filter',
-			'menu_position' => 21,
+			'menu_position' => 22,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes', 'revisions' ),
 			'show_in_rest'  => true,
 		)
@@ -50,7 +50,7 @@ function annamleaf_register_post_types(): void {
 			'has_archive'   => false,
 			'rewrite'       => array( 'slug' => 'leaf-type' ),
 			'menu_icon'     => 'dashicons-palmtree',
-			'menu_position' => 22,
+			'menu_position' => 23,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes', 'revisions' ),
 			'show_in_rest'  => true,
 		)
@@ -70,7 +70,7 @@ function annamleaf_register_post_types(): void {
 			'public'        => false,
 			'show_ui'       => true,
 			'menu_icon'     => 'dashicons-location-alt',
-			'menu_position' => 23,
+			'menu_position' => 24,
 			'supports'      => array( 'title', 'page-attributes' ),
 			'show_in_rest'  => true,
 		)

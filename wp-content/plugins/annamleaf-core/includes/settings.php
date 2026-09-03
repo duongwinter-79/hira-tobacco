@@ -152,7 +152,7 @@ function annamleaf_settings_menu(): void {
 		'annamleaf-settings',
 		'annamleaf_render_settings_page',
 		'dashicons-building',
-		24
+		21
 	);
 }
 add_action( 'admin_menu', 'annamleaf_settings_menu' );

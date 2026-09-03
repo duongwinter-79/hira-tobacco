@@ -169,6 +169,25 @@ Rồi vào **Settings → Permalinks** bấm **Save Changes** một lần.
 
 ## Xử lý lỗi thường gặp
 
+### Không thấy menu "Company profile" trong wp-admin
+
+Menu đó do **plugin** tạo ra, nên nó chỉ hiện khi plugin đang bật.
+
+1. Mở thẳng **http://localhost:8888/wp-admin/admin.php?page=annamleaf-settings**
+   - Vào được → plugin đang chạy, chỉ là bạn chưa nhìn thấy menu. Nó nằm ở **thanh bên
+     trái**, ngay dưới **Pages**, cùng cụm với **Process**, **Our Leaf**, **Regions**.
+   - Báo lỗi quyền hoặc trang trắng → plugin chưa bật, làm bước 2.
+2. Vào **Plugins**, tìm **Annam Leaf Core**, bấm **Activate**.
+   Bật xong sẽ thấy link **Company profile** ngay trên dòng của plugin đó.
+3. Nếu trong danh sách Plugins **không có** Annam Leaf Core: thư mục plugin chưa nằm đúng
+   chỗ. Với Docker Compose thì nó được mount sẵn — kiểm tra bạn đang chạy `docker compose`
+   từ đúng thư mục repo. Với LocalWP thì copy lại `wp-content/plugins/annamleaf-core` vào
+   `app/public/wp-content/plugins/`.
+
+Khi theme đang bật mà plugin thì không, wp-admin sẽ hiện luôn một dòng cảnh báo vàng
+nhắc bạn bật plugin.
+
+
 ### `Could not find the current WordPress version in the cache and the network is not available`
 
 `wp-env` gọi `api.wordpress.org` để hỏi bản WordPress mới nhất, và request đó không đi
