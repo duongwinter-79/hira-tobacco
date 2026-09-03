@@ -14,6 +14,9 @@ docs/                            Kiến trúc WordPress, shot list ảnh, danh s
 tools/render-check.php           Render thử template không cần cài WordPress
 ```
 
+Chưa dùng WordPress bao giờ? Xem **[docs/chay-thu-local.md](docs/chay-thu-local.md)** —
+hướng dẫn từng bước chạy thử trên máy.
+
 Site chạy trên **WordPress** để khách hàng tự sửa nội dung sau này. Ranh giới theme/plugin
 là điểm chính của kiến trúc: nội dung nằm trong plugin nên đổi giao diện về sau không mất dữ liệu.
 Chi tiết và hướng dẫn cài đặt: **[docs/wordpress.md](docs/wordpress.md)**.
