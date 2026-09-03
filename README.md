@@ -11,14 +11,15 @@ docker-compose.yml               Dựng WordPress local bằng Docker (không c�
 wp-content/themes/annamleaf/     Theme WordPress — chỉ phần trình bày
 wp-content/plugins/annamleaf-core/  Plugin — toàn bộ nội dung có cấu trúc
 demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thiết kế gốc
-docs/                            Kiến trúc WordPress, shot list ảnh, danh sách placeholder
+docs/                            Kiến trúc, hướng dẫn chạy thử, bản khai thông tin khách hàng
 tools/render-check.php           Render thử template không cần cài WordPress
 tools/package.sh                 Đóng gói theme + plugin thành zip để upload
 ```
 
 Chưa dùng WordPress bao giờ? Xem **[docs/chay-thu-local.md](docs/chay-thu-local.md)** —
 hướng dẫn từng bước chạy thử trên máy. Muốn cho khách xem hoặc go-live:
-**[docs/dua-len-mang.md](docs/dua-len-mang.md)**.
+**[docs/dua-len-mang.md](docs/dua-len-mang.md)**. Cần lấy nội dung thật từ khách hàng:
+**[docs/khach-can-cung-cap.md](docs/khach-can-cung-cap.md)**.
 
 Site chạy trên **WordPress** để khách hàng tự sửa nội dung sau này. Ranh giới theme/plugin
 là điểm chính của kiến trúc: nội dung nằm trong plugin nên đổi giao diện về sau không mất dữ liệu.
