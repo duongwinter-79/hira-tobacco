@@ -1,9 +1,12 @@
 # Chạy thử website trên máy bạn
 
-Hướng dẫn cho người **chưa dùng WordPress bao giờ**. Chọn một trong hai cách.
+Hướng dẫn cho người **chưa dùng WordPress bao giờ**. Có ba cách, chọn một:
 
-Cách A cần Docker + Terminal, nhưng dùng đúng cấu hình đã có sẵn trong repo.
-Cách B không cần Terminal, cài một app rồi copy hai thư mục — dễ hơn nếu bạn không quen dòng lệnh.
+| Cách | Cần gì | Chọn khi |
+| --- | --- | --- |
+| **A. Docker Compose** | Docker Desktop | Khuyến nghị. Không cần Node, không gọi wordpress.org |
+| **B. LocalWP** | Không cần Terminal | Bạn không quen dòng lệnh |
+| **C. wp-env** | Docker + Node | Chỉ khi mạng vào được `api.wordpress.org` |
 
 ---
 
@@ -21,60 +24,70 @@ Mở mấy file HTML đó bằng trình duyệt là thấy giao diện — chưa
 
 ---
 
-## Cách A — Docker (khuyến nghị)
+## Cách A — Docker Compose (khuyến nghị)
 
-### A1. Cài hai thứ
+WordPress nằm sẵn trong image Docker, nên cách này **không cần Node và không gọi
+wordpress.org** — tránh được hẳn lỗi `Could not find the current WordPress version`.
 
-1. **Docker Desktop** — https://www.docker.com/products/docker-desktop/
-   Cài xong **mở app lên** và đợi tới khi biểu tượng con cá voi báo "Running".
-   (Nếu không mở Docker, lệnh bên dưới sẽ báo lỗi "Cannot connect to the Docker daemon".)
-2. **Node.js** bản LTS — https://nodejs.org/
-   Kiểm tra: mở Terminal gõ `node -v`, ra số phiên bản là được.
+### A1. Cài Docker Desktop
 
-### A2. Khởi động WordPress
+https://www.docker.com/products/docker-desktop/ — cài xong **mở app lên**, đợi biểu tượng
+con cá voi báo "Running".
 
-Mở Terminal, đi vào thư mục repo (thư mục có file `.wp-env.json`):
+### A2. Bật server
+
+Mở Terminal, vào thư mục repo (thư mục có file `docker-compose.yml`):
 
 ```sh
 cd đường/dẫn/tới/hira-tobacco
-npx @wordpress/env start
+docker compose up -d
 ```
 
-Lần đầu sẽ tải WordPress + MySQL nên **mất 3–5 phút**. Nếu nó hỏi cài gói `@wordpress/env`,
-gõ `y` rồi Enter.
+Lần đầu tải khoảng 500 MB image nên **mất vài phút**. Xong thì hiện `Started`.
 
-Chạy xong màn hình hiện:
+### A3. Cài WordPress (một lần)
 
-```
-WordPress development site started at http://localhost:8888
-```
+Mở **http://localhost:8888** — WordPress hiện màn hình cài đặt:
 
-### A3. Bật giao diện
+1. Chọn ngôn ngữ **English (United States)** → Continue
+2. Site Title: `Annam Leaf`
+3. Username: `admin` — Password: đặt gì cũng được, **ghi lại**
+4. Your Email: điền email bất kỳ, ví dụ `admin@example.com`
+5. Bấm **Install WordPress** → **Log In**
 
-```sh
-npx @wordpress/env run cli wp theme activate annamleaf
-npx @wordpress/env run cli wp rewrite flush --hard
-```
+### A4. Bật plugin rồi bật giao diện
 
-Plugin **Annam Leaf Core** đã được bật tự động, và ngay lúc bật nó tự tạo sẵn 7 bước quy
-trình, 4 chủng loại lá, 3 vùng trồng, 5 trang, đặt trang chủ và dựng menu.
+Trong wp-admin (menu bên trái):
 
-### A4. Mở website
+1. **Plugins** → tìm **Annam Leaf Core** → bấm **Activate**.
+   Đây là lúc nội dung mẫu được tạo: 7 bước quy trình, 4 chủng loại lá, 3 vùng trồng,
+   5 trang, trang chủ và menu. **Phải làm bước này trước.**
+2. **Appearance → Themes** → di chuột lên **Annam Leaf** → bấm **Activate**.
+3. **Settings → Permalinks** → bấm **Save Changes** (không cần đổi gì).
+   Bước này để `/process/` và `/our-leaf/` chạy được.
 
-- Trang web: **http://localhost:8888**
-- Trang quản trị: **http://localhost:8888/wp-admin**
-  Tài khoản `admin` — mật khẩu `password`
+Xong. Mở **http://localhost:8888** để xem site.
 
 ### A5. Tắt / bật lại / xoá sạch
 
 ```sh
-npx @wordpress/env stop      # tắt (giữ nguyên dữ liệu)
-npx @wordpress/env start     # bật lại
-npx @wordpress/env destroy   # xoá sạch, làm lại từ đầu
+docker compose down       # tắt, giữ nguyên dữ liệu
+docker compose up -d      # bật lại
+docker compose down -v    # xoá sạch, cài lại từ đầu
 ```
 
-Sửa file trong `wp-content/themes/annamleaf` rồi F5 trình duyệt là thấy ngay, không cần
-khởi động lại.
+Sửa file trong `wp-content/themes/annamleaf` rồi F5 trình duyệt là thấy ngay.
+
+### A6. (Tuỳ chọn) Làm bước A3–A4 bằng dòng lệnh
+
+Nếu ngại bấm qua giao diện:
+
+```sh
+docker compose run --rm cli wp core install --url=http://localhost:8888 --title="Annam Leaf" --admin_user=admin --admin_password=password --admin_email=admin@example.com
+docker compose run --rm cli wp plugin activate annamleaf-core
+docker compose run --rm cli wp theme activate annamleaf
+docker compose run --rm cli wp rewrite flush --hard
+```
 
 ---
 
@@ -94,6 +107,23 @@ khởi động lại.
 8. Vào **Settings → Permalinks** → bấm **Save Changes** (không cần đổi gì).
    Bước này để đường dẫn `/process/` và `/our-leaf/` hoạt động.
 9. Bấm **Open site** trong Local để xem.
+
+---
+
+## Cách C — wp-env (chỉ khi mạng vào được api.wordpress.org)
+
+Repo có sẵn `.wp-env.json`. Cần Docker Desktop **và** Node.js:
+
+```sh
+npx @wordpress/env start
+npx @wordpress/env run cli wp theme activate annamleaf
+npx @wordpress/env run cli wp rewrite flush --hard
+```
+
+Site ở http://localhost:8888, admin `admin` / `password`.
+
+Cách này gọn nhất **khi mạng thông**, nhưng `wp-env` bắt buộc phải hỏi `api.wordpress.org`
+trước khi chạy — xem mục xử lý lỗi bên dưới nếu nó báo không kết nối được.
 
 ---
 
@@ -133,22 +163,23 @@ khởi động lại.
 ### `Could not find the current WordPress version in the cache and the network is not available`
 
 `wp-env` gọi `api.wordpress.org` để hỏi bản WordPress mới nhất, và request đó không đi
-được. Lỗi xảy ra **trước khi Docker được dùng đến**, nên không liên quan tới Docker.
+được. Lỗi xảy ra **trước khi Docker được dùng đến**, nên không phải lỗi Docker.
 
-Repo đã ghim sẵn phiên bản trong `.wp-env.json` (`"core": "WordPress/WordPress#6.7"`) để
-`wp-env` khỏi phải hỏi — nó tải thẳng từ GitHub. Nếu bạn gặp lỗi này, hãy `git pull` để lấy
-bản cấu hình mới rồi chạy lại:
+**Ghim phiên bản trong `.wp-env.json` không chữa được lỗi này.** Nhìn stack trace sẽ thấy
+`getDefaultConfig` → `parseCoreSource`: `wp-env` dựng cấu hình mặc định (`core: null`, tức
+"bản mới nhất") **trước khi** đọc file cấu hình của bạn, nên nó vẫn hỏi mạng dù bạn đã ghi
+rõ phiên bản.
 
-```sh
-npx @wordpress/env destroy
-npx @wordpress/env start
-```
+Hai đường xử lý:
 
-Vẫn lỗi thì chẩn đoán mạng theo thứ tự:
+**Nhanh nhất: bỏ wp-env, dùng Cách A (Docker Compose) ở trên.** WordPress nằm sẵn trong
+image Docker nên không cần hỏi wordpress.org.
+
+**Hoặc sửa mạng**, chẩn đoán theo thứ tự:
 
 1. **Mở trình duyệt** vào https://api.wordpress.org/core/version-check/1.7/
    Ra một đống chữ JSON = mạng ổn ở mức trình duyệt.
-2. **Thử ở Terminal** (Windows, dùng `curl.exe` chứ không phải `curl` vì PowerShell đổi tên lệnh):
+2. **Thử ở Terminal** (Windows dùng `curl.exe`, vì PowerShell đổi tên lệnh `curl`):
    ```sh
    curl.exe -I https://api.wordpress.org/core/version-check/1.7/
    node -e "fetch('https://api.wordpress.org/core/version-check/1.7/').then(r=>console.log('OK',r.status)).catch(e=>console.log('FAIL',e.message))"
@@ -163,12 +194,13 @@ Vẫn lỗi thì chẩn đoán mạng theo thứ tự:
      npm config delete proxy
      npm config delete https-proxy
      ```
-4. **Cả hai đều không vào được** → nhiều khả năng DNS của nhà mạng. Đổi DNS máy sang
-   `1.1.1.1` và `8.8.8.8` rồi thử lại.
+4. **Cả hai đều không vào được** → nhiều khả năng DNS nhà mạng chặn wordpress.org. Đổi DNS
+   máy sang `1.1.1.1` và `8.8.8.8` rồi thử lại.
 
-### Vẫn không tải được WordPress: cài thủ công
+### wp-env: tải WordPress thủ công
 
-Nếu mạng chặn hẳn, tự tải WordPress bằng trình duyệt rồi trỏ `wp-env` vào thư mục đó:
+Chỉ dùng khi bạn nhất định muốn ở lại với wp-env và đã sửa được lỗi mạng ở trên. Tự tải
+WordPress bằng trình duyệt rồi trỏ `wp-env` vào thư mục đó:
 
 1. Tải https://wordpress.org/latest.zip bằng trình duyệt.
 2. Giải nén vào repo, sao cho có thư mục `wordpress/` chứa `wp-admin`, `wp-includes`…
@@ -179,8 +211,8 @@ Nếu mạng chặn hẳn, tự tải WordPress bằng trình duyệt rồi tr�
    ```
 4. `npx @wordpress/env destroy` rồi `npx @wordpress/env start`.
 
-Lưu ý: Docker vẫn cần mạng để tải image lần đầu (`mariadb`, `wordpress`). Nếu Docker cũng
-không tải được image thì dùng **Cách B (LocalWP)**.
+Lưu ý: Docker vẫn cần mạng để tải image lần đầu. Nếu Docker cũng không tải được image thì
+dùng **Cách B (LocalWP)**.
 
 ### `Cannot connect to the Docker daemon`
 
@@ -188,13 +220,11 @@ Docker Desktop chưa chạy. Mở app lên, đợi biểu tượng cá voi báo 
 
 ### `port is already allocated` / cổng 8888 bận
 
-Có thứ khác đang chiếm cổng 8888. Thêm vào `.wp-env.json`:
+Có thứ khác đang chiếm cổng 8888.
 
-```json
-"port": 8889,
-```
-
-rồi `npx @wordpress/env start` và mở http://localhost:8889.
+- Cách A: sửa `docker-compose.yml`, đổi `"8888:80"` thành `"8889:80"`, rồi
+  `docker compose up -d` và mở http://localhost:8889.
+- Cách C: thêm `"port": 8889,` vào `.wp-env.json`.
 
 ## Nếu kẹt
 

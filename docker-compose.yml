@@ -1,0 +1,68 @@
+# Chạy site trên máy: WordPress + MariaDB, lấy từ Docker Hub.
+#
+# Đường này không cần Node và không gọi wordpress.org — WordPress core nằm sẵn trong
+# image. Dùng khi wp-env báo "Could not find the current WordPress version".
+#
+#   docker compose up -d          bật, mở http://localhost:8888
+#   docker compose down           tắt (giữ dữ liệu)
+#   docker compose down -v        xoá sạch, cài lại từ đầu
+#
+# Theme và plugin được mount thẳng từ repo: sửa file, F5 trình duyệt là thấy ngay.
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: wordpress
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8888:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - wp-core:/var/www/html
+      - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
+      - ./wp-content/plugins/annamleaf-core:/var/www/html/wp-content/plugins/annamleaf-core
+
+  # Chạy lệnh WordPress từ dòng lệnh, ví dụ:
+  #   docker compose run --rm cli wp theme activate annamleaf
+  cli:
+    image: wordpress:cli
+    profiles: ["cli"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp-core:/var/www/html
+      - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
+      - ./wp-content/plugins/annamleaf-core:/var/www/html/wp-content/plugins/annamleaf-core
+
+volumes:
+  db-data:
+  wp-core:

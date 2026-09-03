@@ -44,16 +44,18 @@ Danh sách Process và Our Leaf trong admin có cột **Photo**: chỗ nào chư
 
 ## Chạy local
 
-Repo có sẵn `.wp-env.json`, cần Docker:
+Cách gọn nhất, chỉ cần Docker Desktop:
 
 ```sh
-npx @wordpress/env start
-npx @wordpress/env run cli wp theme activate annamleaf
-npx @wordpress/env run cli wp rewrite flush --hard
+docker compose up -d
 ```
 
-Site chạy ở http://localhost:8888, admin `admin` / `password`. Plugin Annam Leaf Core và
-Polylang được cài sẵn; lần kích hoạt đầu của plugin sẽ seed nội dung.
+Rồi mở http://localhost:8888, chạy trình cài WordPress, bật plugin **Annam Leaf Core**
+(lần bật đầu tiên sẽ seed nội dung), bật theme **Annam Leaf**, và vào Settings → Permalinks
+bấm Save. Từng bước một có trong [chay-thu-local.md](chay-thu-local.md).
+
+Repo cũng có `.wp-env.json` cho ai quen `@wordpress/env`, nhưng wp-env cần gọi
+`api.wordpress.org` trước khi chạy nên hỏng ở mạng chặn wordpress.org.
 
 Kiểm tra code mà không cần dựng site:
 

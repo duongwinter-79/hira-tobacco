@@ -7,6 +7,7 @@ không phải người tiêu dùng.
 ## Repo có gì
 
 ```
+docker-compose.yml               Dựng WordPress local bằng Docker (không cần Node)
 wp-content/themes/annamleaf/     Theme WordPress — chỉ phần trình bày
 wp-content/plugins/annamleaf-core/  Plugin — toàn bộ nội dung có cấu trúc
 demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thiết kế gốc
@@ -62,7 +63,7 @@ Theme WordPress dùng đúng bảng màu, typography và khung ảnh của nó.
 
 ```sh
 sh tools/lint.sh             # php -l toàn bộ + validate theme.json + render 8 template
-npx @wordpress/env start     # dựng WordPress local (cần Docker)
+docker compose up -d         # dựng WordPress local ở http://localhost:8888
 ```
 
 `tools/render-check.php` giả lập các hàm WordPress để render thật 8 template ra
