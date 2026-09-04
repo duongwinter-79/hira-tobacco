@@ -159,6 +159,10 @@ Cao Bằng, lò sấy, phân loại lá, cảng container) và gán làm ảnh �
 trống. Mỗi ảnh hiện kèm dòng ghi công **TEMPORARY · tên tác giả · giấy phép** ngay trên ảnh
 — vừa đúng yêu cầu giấy phép, vừa để không ai nhầm đó là ảnh của công ty.
 
+Muốn **xem trước ảnh nào sẽ được tải** thì vào **Company profile → Photo preview**: màn
+hình này hiện 3 ảnh ứng viên cho từng khung, kèm tên tác giả và giấy phép, bấm **Use this
+one** để chọn đúng ảnh bạn thích thay vì để máy tự chọn.
+
 Cần server ra được internet, chạy mất tới một phút. Bấm **Remove temporary photographs**
 để xoá sạch; hoặc cứ upload ảnh thật vào Featured image, ảnh tạm sẽ bị thay.
 

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf Core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-04 04:30+0000\n"
+"POT-Creation-Date: 2026-09-04 08:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -125,6 +125,10 @@ msgstr ""
 
 #: includes/seed.php:128
 msgid "Contracted hectares across our growing regions. Inputs come from us, field technicians visit on a set schedule, and a field diary is kept plot by plot."
+msgstr ""
+
+#: includes/demo-photos.php:514
+msgid "Could not import that picture. Check that the server can reach commons.wikimedia.org."
 msgstr ""
 
 #: includes/meta.php:48 includes/seed.php:137
@@ -307,6 +311,10 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+#: includes/demo-photos.php:444
+msgid "Home page cover"
+msgstr ""
+
 #: includes/settings.php:278
 msgid "Import temporary photographs"
 msgstr ""
@@ -325,6 +333,10 @@ msgstr ""
 
 #: includes/settings.php:268
 msgid "In the library now: %d temporary photographs."
+msgstr ""
+
+#: includes/demo-photos.php:537
+msgid "In use now:"
 msgstr ""
 
 #: includes/settings.php:56
@@ -403,6 +415,10 @@ msgstr ""
 msgid "No leaf types yet."
 msgstr ""
 
+#: includes/demo-photos.php:531
+msgid "No post for this frame yet — rebuild the default content first."
+msgstr ""
+
 #: includes/post-types.php:68
 msgid "No regions yet."
 msgstr ""
@@ -417,6 +433,10 @@ msgstr ""
 
 #: includes/seed.php:393
 msgid "Notes"
+msgstr ""
+
+#: includes/demo-photos.php:543
+msgid "Nothing found, or Commons could not be reached from this server."
 msgstr ""
 
 #: includes/settings.php:30
@@ -479,12 +499,20 @@ msgstr ""
 msgid "Photo brief"
 msgstr ""
 
+#: includes/demo-photos.php:488 includes/demo-photos.php:489 includes/demo-photos.php:506
+msgid "Photo preview"
+msgstr ""
+
 #: includes/settings.php:303
 msgid "Photographs, the company profile above and anything you added yourself are left alone."
 msgstr ""
 
 #: includes/seed.php:133
 msgid "Picked by stalk position and ripeness, in several passes through the season. Leaf reaches the barn the same day it is cut, which is what holds its grade."
+msgstr ""
+
+#: includes/demo-photos.php:513
+msgid "Picture imported and set on that frame."
 msgstr ""
 
 #: includes/seed.php:551
@@ -647,6 +675,14 @@ msgstr ""
 msgid "Stage"
 msgstr ""
 
+#: includes/demo-photos.php:456
+msgid "Stage %02d"
+msgstr ""
+
+#: includes/demo-photos.php:452
+msgid "Stage %1$02d — %2$s"
+msgstr ""
+
 #: includes/meta.php:23
 msgid "Stage details"
 msgstr ""
@@ -709,6 +745,10 @@ msgstr ""
 
 #: includes/settings.php:261
 msgid "These are a stand-in, not the finished site."
+msgstr ""
+
+#: includes/demo-photos.php:520
+msgid "These are the freely licensed pictures Wikimedia Commons offers for each empty frame. Pick one per frame, or use \"Import temporary photographs\" on the Company profile screen to take the first of each automatically. Everything here is a stand-in until the real shoot arrives."
 msgstr ""
 
 #: includes/settings.php:213
@@ -779,6 +819,10 @@ msgstr ""
 msgid "Until the real photography arrives, this fills the empty image frames with freely licensed pictures from Wikimedia Commons — a field in Cao Bằng, curing barns, sorting, a container terminal. Each one is credited on the page and marked as temporary."
 msgstr ""
 
+#: includes/demo-photos.php:559
+msgid "Use this one"
+msgstr ""
+
 #: includes/seed.php:396
 msgid "Varies by region and weather"
 msgstr ""
@@ -847,7 +891,7 @@ msgstr ""
 msgid "Whole leaf"
 msgstr ""
 
-#: includes/demo-photos.php:328 includes/demo-photos.php:354 includes/seed.php:614
+#: includes/demo-photos.php:380 includes/demo-photos.php:406 includes/demo-photos.php:575 includes/seed.php:614
 msgid "You are not allowed to do this."
 msgstr ""
 
