@@ -151,10 +151,34 @@ theo bản mới. Nút này ghi đè chữ của các trang mẫu, không đụn
 
 Rồi vào **Settings → Permalinks** bấm **Save Changes** một lần.
 
-## Ảnh tạm từ Wikimedia Commons
+## Ảnh mặc định đi kèm theme
 
-Chưa có ảnh thật của khách thì vào **Company profile → Temporary photographs → Import
-temporary photographs**. Nó tải ảnh có giấy phép tự do từ Wikimedia Commons (cánh đồng ở
+Cách này lưu ảnh **thẳng vào repo**, nên cài ở đâu cũng có ảnh sẵn, không phải bấm gì trong
+wp-admin. Cần Node 18+ (`node -v`):
+
+```sh
+node tools/fetch-photos.mjs
+git add wp-content/themes/annamleaf/assets/photos
+git commit -m "Add default photos"
+```
+
+Script tải 8 ảnh giấy phép tự do từ Wikimedia Commons vào
+`wp-content/themes/annamleaf/assets/photos/` (ảnh bìa Cao Bằng + 7 bước quy trình) kèm
+`credits.json` ghi tác giả và giấy phép. Thêm `--force` để tải đè ảnh đã có.
+
+Thứ tự ưu tiên khi hiển thị một khung ảnh:
+
+1. **Featured image** của bài đó — ảnh thật của khách, luôn thắng
+2. **Ảnh mặc định** trong `assets/photos/` — ảnh tạm đi kèm theme
+3. **Hình vẽ minh hoạ** — khi không có cả hai
+
+Xoá ảnh tạm = xoá file trong thư mục đó, giao diện tự quay về hình vẽ.
+
+## Ảnh tạm từ Wikimedia Commons (cách thứ hai, vào thư viện ảnh)
+
+Cách này đưa ảnh vào **thư viện ảnh của WordPress** thay vì vào repo — tiện khi muốn chọn
+ảnh khác cho từng mục ngay trong wp-admin. Vào **Company profile → Temporary photographs →
+Import temporary photographs**. Nó tải ảnh có giấy phép tự do từ Wikimedia Commons (cánh đồng ở
 Cao Bằng, lò sấy, phân loại lá, cảng container) và gán làm ảnh đại diện cho các mục còn
 trống. Mỗi ảnh hiện kèm dòng ghi công **TEMPORARY · tên tác giả · giấy phép** ngay trên ảnh
 — vừa đúng yêu cầu giấy phép, vừa để không ai nhầm đó là ảnh của công ty.

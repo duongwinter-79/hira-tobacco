@@ -42,6 +42,7 @@ endwhile;
 						array(
 							'post_id'    => $annamleaf_stage->ID,
 							'motif'      => annamleaf_motif_for_index( $annamleaf_index + 1 ),
+							'photo'      => 'stage-' . ( $annamleaf_index + 1 ),
 							'shot_note'  => annamleaf_get_meta( $annamleaf_stage->ID, 'shot_note' ),
 							'shot_index' => sprintf( 'PHOTO %02d', $annamleaf_index + 2 ),
 						)

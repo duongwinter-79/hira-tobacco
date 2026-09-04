@@ -132,6 +132,7 @@ function sanitize_text_field( $v ) { return trim( strip_tags( (string) $v ) ); }
 function sanitize_textarea_field( $v ) { return sanitize_text_field( $v ); }
 function sanitize_email( $v ) { return (string) $v; }
 function sanitize_title( $v ) { return strtolower( preg_replace( '/[^a-z0-9]+/i', '-', (string) $v ) ); }
+function sanitize_file_name( $v ) { return preg_replace( '/[^A-Za-z0-9._-]/', '', (string) $v ); }
 function is_email( $v ) { return (bool) filter_var( $v, FILTER_VALIDATE_EMAIL ); }
 function wp_strip_all_tags( $t ) { return strip_tags( (string) $t ); }
 function wp_trim_words( $t, $n = 55, $more = '…' ) {

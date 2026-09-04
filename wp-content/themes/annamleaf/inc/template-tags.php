@@ -82,6 +82,7 @@ function annamleaf_company_name(): string {
  *     secondary_url?: string,
  *     post_id?: int,
  *     motif?: string,
+ *     photo?: string,
  *     shot_note?: string,
  *     shot_index?: string,
  *     compact?: bool
@@ -100,6 +101,7 @@ function annamleaf_hero( array $args = array() ): void {
 			'secondary_url'   => '',
 			'post_id'         => 0,
 			'motif'           => 'field',
+			'photo'           => '',
 			'shot_note'       => '',
 			'shot_index'      => '',
 			'compact'         => false,
@@ -116,6 +118,7 @@ function annamleaf_hero( array $args = array() ): void {
 			array(
 				'post_id'    => (int) $args['post_id'],
 				'motif'      => $args['motif'],
+				'photo'      => $args['photo'],
 				'shot_note'  => $args['shot_note'],
 				'shot_index' => $args['shot_index'],
 				'size'       => 'annamleaf-hero',

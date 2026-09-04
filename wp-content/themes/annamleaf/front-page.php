@@ -36,6 +36,7 @@ annamleaf_hero(
 		'secondary_url'   => annamleaf_process_url(),
 		'post_id'         => $annamleaf_front_id,
 		'motif'           => 'field',
+		'photo'           => 'home',
 		'shot_note'       => annamleaf_get_meta( $annamleaf_front_id, 'hero_shot_note', __( 'Wide field panorama at first light', 'annamleaf' ) ),
 		'shot_index'      => 'PHOTO 01',
 	)
@@ -79,6 +80,7 @@ annamleaf_stats_strip();
 							array(
 								'post_id'   => $annamleaf_stage->ID,
 								'motif'     => annamleaf_motif_for_index( $annamleaf_index + 1 ),
+								'photo'     => 'stage-' . ( $annamleaf_index + 1 ),
 								'shot_note' => annamleaf_get_meta( $annamleaf_stage->ID, 'shot_note' ),
 							)
 						);

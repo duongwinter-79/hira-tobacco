@@ -2,10 +2,11 @@
 /**
  * Image frames.
  *
- * Every photograph on the site sits in a "plate". Until the client uploads the real
- * photograph, the plate draws a duotone illustration and captions it with the shot that
- * belongs there — so an unfinished page still reads as designed, and the gap is legible.
- * Set a featured image and the photograph takes over the same frame.
+ * Every photograph on the site sits in a "plate", and the frame fills in this order:
+ * the post's featured image, then a default photograph bundled with the theme in
+ * assets/photos/, then a duotone illustration captioned with the shot that belongs there.
+ * So a fresh install looks finished, an unfinished page still reads as designed, and the
+ * client's own photography wins the moment it is uploaded.
  *
  * @package AnnamLeaf
  */
@@ -43,6 +44,7 @@ function annamleaf_plate( array $args = array() ): void {
 		array(
 			'post_id'    => 0,
 			'motif'      => 'field',
+			'photo'      => '',
 			'shot_note'  => '',
 			'shot_index' => '',
 			'class'      => '',
@@ -75,6 +77,30 @@ function annamleaf_plate( array $args = array() ): void {
 				'<figcaption class="shotchip shotchip--credit"><span class="n">%s</span><span>%s</span></figcaption>',
 				esc_html__( 'TEMPORARY', 'annamleaf' ),
 				esc_html( $credit )
+			);
+		}
+
+		echo '</figure>';
+
+		return;
+	}
+
+	// A default photograph shipped with the theme, until the client uploads their own.
+	$bundled = '' !== $args['photo'] ? annamleaf_bundled_photo( (string) $args['photo'] ) : null;
+
+	if ( $bundled ) {
+		printf( '<figure class="%s">', esc_attr( $classes ) );
+		printf(
+			'<img src="%s" alt="%s" loading="lazy" decoding="async">',
+			esc_url( $bundled['url'] ),
+			esc_attr( $args['shot_note'] )
+		);
+
+		if ( '' !== $bundled['credit'] ) {
+			printf(
+				'<figcaption class="shotchip shotchip--credit"><span class="n">%s</span><span>%s</span></figcaption>',
+				esc_html__( 'TEMPORARY', 'annamleaf' ),
+				esc_html( $bundled['credit'] )
 			);
 		}
 
@@ -151,5 +177,40 @@ function annamleaf_leaf_mark( string $class = 'mark' ): void {
 	printf(
 		'<svg class="%s" viewBox="0 0 40 52" aria-hidden="true" focusable="false"><use href="#m-leaf"></use></svg>',
 		esc_attr( $class )
+	);
+}
+
+/**
+ * A default photograph shipped with the theme, if one exists for this frame.
+ *
+ * Files come from tools/fetch-photos.mjs and live in assets/photos/, with their credits
+ * in credits.json beside them.
+ *
+ * @param string $slot Frame name, e.g. "home" or "stage-4".
+ * @return array{url: string, credit: string}|null
+ */
+function annamleaf_bundled_photo( string $slot ): ?array {
+	static $credits = null;
+
+	$slot = sanitize_file_name( $slot );
+	$file = get_template_directory() . '/assets/photos/' . $slot . '.jpg';
+
+	if ( ! is_readable( $file ) ) {
+		return null;
+	}
+
+	if ( null === $credits ) {
+		$credits      = array();
+		$credits_file = get_template_directory() . '/assets/photos/credits.json';
+
+		if ( is_readable( $credits_file ) ) {
+			$decoded = json_decode( (string) file_get_contents( $credits_file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- local theme asset.
+			$credits = is_array( $decoded ) ? $decoded : array();
+		}
+	}
+
+	return array(
+		'url'    => get_template_directory_uri() . '/assets/photos/' . $slot . '.jpg',
+		'credit' => (string) ( $credits[ $slot ]['credit'] ?? '' ),
 	);
 }
