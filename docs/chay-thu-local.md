@@ -167,9 +167,45 @@ git add wp-content/themes/annamleaf/assets/photos
 git commit -m "Add default photos"
 ```
 
-Script tải 8 ảnh giấy phép tự do từ Wikimedia Commons vào
-`wp-content/themes/annamleaf/assets/photos/` (ảnh bìa Cao Bằng + 7 bước quy trình) kèm
-`credits.json` ghi tác giả và giấy phép. Thêm `--force` để tải đè ảnh đã có.
+Script gom ảnh ứng viên từ nhiều thư viện giấy phép tự do, **chấm điểm**, rồi lấy ảnh cao
+điểm nhất cho từng khung (ảnh bìa Cao Bằng + 7 bước quy trình), lưu vào
+`wp-content/themes/annamleaf/assets/photos/` kèm `credits.json` ghi tác giả và giấy phép.
+
+| Nguồn | Cần khoá API | Ghi chú |
+| --- | --- | --- |
+| Wikimedia Commons | Không | Nhiều tư liệu lịch sử, ít ảnh hiện đại |
+| Openverse | Không | Cổng tìm CC của chính WordPress, gom cả Flickr |
+| Pexels | `PEXELS_API_KEY` | Ảnh stock hiện đại, chất lượng tốt nhất |
+| Unsplash | `UNSPLASH_ACCESS_KEY` | Như trên |
+
+Lấy khoá miễn phí ở pexels.com/api hoặc unsplash.com/developers rồi:
+
+```powershell
+$env:PEXELS_API_KEY="khoá-của-bạn"
+node tools/fetch-photos.mjs --force
+```
+
+Không có khoá thì script vẫn chạy với hai nguồn đầu, chỉ là ít ảnh hiện đại hơn.
+
+**Cách chấm điểm.** Loại thẳng nếu là tranh khắc / tư liệu bảo tàng, chụp trước 1990, ảnh
+dọc, dưới 1200px, hoặc không có từ khoá chủ đề của khung đó. Ảnh còn lại cộng điểm theo số
+từ đúng chủ đề, độ mới, tỉ lệ khung, độ phân giải; trừ điểm theo từ lệch chủ đề (biển hiệu,
+bao thuốc, mặt tiền toà nhà). Dưới ngưỡng thì **để trống** — khung đó quay về hình vẽ minh
+hoạ, vì hình vẽ đúng chỗ vẫn hơn ảnh sai chủ đề.
+
+Tuỳ chọn:
+
+```sh
+node tools/fetch-photos.mjs --dry-run        # xem sẽ chọn ảnh nào, không tải
+node tools/fetch-photos.mjs --show=5         # in 5 ứng viên đầu bảng mỗi khung kèm điểm
+node tools/fetch-photos.mjs --slot=stage-5   # làm lại đúng một khung
+node tools/fetch-photos.mjs --force          # tải đè ảnh đã có
+node tools/test-photo-scoring.mjs            # kiểm tra bộ lọc bằng chính các ảnh sai lần trước
+```
+
+**Vẫn phải mở từng ảnh ra xem trước khi commit.** Lần chạy đầu Commons trả về một bản khắc
+thế kỷ 19 vẽ cảnh nô lệ và một ảnh đồn điền thuộc địa 1915 — bộ lọc giờ chặn đúng những
+trường hợp đó, nhưng bộ lọc không thay được mắt người.
 
 Thứ tự ưu tiên khi hiển thị một khung ảnh:
 
