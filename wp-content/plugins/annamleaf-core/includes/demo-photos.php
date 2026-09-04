@@ -35,32 +35,32 @@ function annamleaf_demo_photo_slots(): array {
 		array(
 			'slot'    => 'stage',
 			'index'   => 1,
-			'queries' => array( 'tobacco seedlings', 'tobacco nursery', 'seedling tray greenhouse' ),
+			'queries' => array( 'tobacco seedbed', 'tobacco seedlings tray', 'vegetable seedlings greenhouse' ),
 		),
 		array(
 			'slot'    => 'stage',
 			'index'   => 2,
-			'queries' => array( 'tobacco field', 'tobacco plantation', 'Nicotiana tabacum field' ),
+			'queries' => array( 'tobacco field crop', 'Nicotiana tabacum field', 'tobacco growing field' ),
 		),
 		array(
 			'slot'    => 'stage',
 			'index'   => 3,
-			'queries' => array( 'tobacco harvest', 'tobacco harvesting', 'tobacco leaves picking' ),
+			'queries' => array( 'tobacco leaves harvesting', 'tobacco leaf picking', 'harvesting tobacco crop' ),
 		),
 		array(
 			'slot'    => 'stage',
 			'index'   => 4,
-			'queries' => array( 'tobacco curing barn', 'tobacco drying barn', 'tobacco leaves drying' ),
+			'queries' => array( 'tobacco curing barn', 'tobacco drying barn', 'tobacco leaves hanging drying' ),
 		),
 		array(
 			'slot'    => 'stage',
 			'index'   => 5,
-			'queries' => array( 'tobacco leaves sorting', 'tobacco grading', 'dried tobacco leaves' ),
+			'queries' => array( 'dried tobacco leaves bundle', 'tobacco leaves sorting', 'tobacco leaf grading' ),
 		),
 		array(
 			'slot'    => 'stage',
 			'index'   => 6,
-			'queries' => array( 'tobacco factory', 'tobacco processing plant', 'tobacco warehouse' ),
+			'queries' => array( 'tobacco bales warehouse', 'tobacco leaves baled', 'tobacco processing machine' ),
 		),
 		array(
 			'slot'    => 'stage',
@@ -74,6 +74,47 @@ function annamleaf_demo_photo_slots(): array {
  * The one host imported pictures may come from.
  */
 const ANNAMLEAF_PHOTO_HOST = 'upload.wikimedia.org';
+
+/**
+ * Whether a Commons file is usable as a modern photograph.
+ *
+ * A supplier's site cannot show museum prints or colonial-era plantation archives. The
+ * first unfiltered run returned an engraving of enslaved people and a 1915 colonial
+ * plantation photograph, which is what these terms and the year test exclude.
+ *
+ * @param string $title  File title.
+ * @param string $credit Author and licence.
+ * @param string $taken  Date the photograph was made, if Commons knows it.
+ * @return bool
+ */
+function annamleaf_photo_acceptable( string $title, string $credit, string $taken ): bool {
+	$reject = array(
+		'engraving', 'lithograph', 'etching', 'woodcut', 'drawing', 'painting', 'sketch',
+		'illustration', 'print', 'poster', 'advertisement', 'postcard', 'map', 'diagram',
+		'logo', 'coat of arms', 'stamp', 'banknote', 'label', 'cigarette card',
+		'kitlv', 'lccn', 'wellcome', 'tropenmuseum', 'museum', 'archive', 'collectie',
+		'slave', 'slavery', 'colonial', 'plantation of the', 'maatschappij',
+	);
+
+	$haystack = strtolower( $title . ' ' . $credit );
+
+	foreach ( $reject as $term ) {
+		if ( str_contains( $haystack, $term ) ) {
+			return false;
+		}
+	}
+
+	// A year in the title means an archive scan.
+	if ( preg_match( '/\b(1[6-9]\d{2}|20[0-2]\d)\b/', $title, $match ) && (int) $match[1] < 1990 ) {
+		return false;
+	}
+
+	if ( preg_match( '/\b(1[6-9]\d{2}|20\d{2})\b/', $taken, $match ) && (int) $match[1] < 1990 ) {
+		return false;
+	}
+
+	return true;
+}
 
 /**
  * Ask Wikimedia Commons for freely licensed photographs.
@@ -171,11 +212,17 @@ function annamleaf_query_commons( string $query, int $limit ): array {
 		$meta    = $info['extmetadata'] ?? array();
 		$artist  = wp_strip_all_tags( (string) ( $meta['Artist']['value'] ?? '' ) );
 		$licence = wp_strip_all_tags( (string) ( $meta['LicenseShortName']['value'] ?? 'Wikimedia Commons' ) );
+		$taken   = wp_strip_all_tags( (string) ( $meta['DateTimeOriginal']['value'] ?? '' ) );
+		$title   = (string) ( $page['title'] ?? $query );
+
+		if ( ! annamleaf_photo_acceptable( $title, $artist, $taken ) ) {
+			continue;
+		}
 
 		$found[] = array(
 			'url'    => (string) $info['thumburl'],
 			'thumb'  => (string) preg_replace( '#/(\d+)px-#', '/480px-', (string) $info['thumburl'] ),
-			'title'  => (string) ( $page['title'] ?? $query ),
+			'title'  => $title,
 			'credit' => trim( ( '' !== $artist ? $artist . ' · ' : '' ) . $licence . ' · Wikimedia Commons' ),
 		);
 

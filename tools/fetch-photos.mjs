@@ -30,16 +30,50 @@ const FORCE = process.argv.includes("--force");
  */
 const SLOTS = [
 	{ slot: "home", queries: ["Cao Bang Vietnam landscape", "Cao Bang province", "Vietnam mountains terraces"] },
-	{ slot: "stage-1", queries: ["tobacco seedlings", "tobacco nursery", "seedling tray greenhouse"] },
-	{ slot: "stage-2", queries: ["tobacco field", "tobacco plantation", "Nicotiana tabacum field"] },
-	{ slot: "stage-3", queries: ["tobacco harvest", "tobacco harvesting", "tobacco leaves picking"] },
-	{ slot: "stage-4", queries: ["tobacco curing barn", "tobacco drying barn", "tobacco leaves drying"] },
-	{ slot: "stage-5", queries: ["tobacco leaves sorting", "tobacco grading", "dried tobacco leaves"] },
-	{ slot: "stage-6", queries: ["tobacco factory", "tobacco processing plant", "tobacco warehouse"] },
+	{ slot: "stage-1", queries: ["tobacco seedbed", "tobacco seedlings tray", "vegetable seedlings greenhouse"] },
+	{ slot: "stage-2", queries: ["tobacco field crop", "Nicotiana tabacum field", "tobacco growing field"] },
+	{ slot: "stage-3", queries: ["tobacco leaves harvesting", "tobacco leaf picking", "harvesting tobacco crop"] },
+	{ slot: "stage-4", queries: ["tobacco curing barn", "tobacco drying barn", "tobacco leaves hanging drying"] },
+	{ slot: "stage-5", queries: ["dried tobacco leaves bundle", "tobacco leaves sorting", "tobacco leaf grading"] },
+	{ slot: "stage-6", queries: ["tobacco bales warehouse", "tobacco leaves baled", "tobacco processing machine"] },
 	{ slot: "stage-7", queries: ["shipping container terminal", "container port loading", "cargo container ship"] },
 ];
 
 const API = "https://commons.wikimedia.org/w/api.php";
+
+/**
+ * A modern supplier's site cannot show museum prints or colonial-era plantation archives,
+ * so anything that looks like artwork, an archive scan or a pre-1990 photograph is out.
+ * The first run without this filter returned an engraving of enslaved people and a 1915
+ * colonial plantation, which is exactly what these terms exclude.
+ */
+const REJECT = [
+	"engraving", "lithograph", "etching", "woodcut", "drawing", "painting", "sketch",
+	"illustration", "print", "poster", "advertisement", "postcard", "map", "diagram",
+	"logo", "coat of arms", "stamp", "banknote", "label", "cigarette card",
+	"kitlv", "lccn", "wellcome", "tropenmuseum", "museum", "archive", "collectie",
+	"slave", "slavery", "colonial", "plantation of the", "maatschappij",
+];
+
+const OLDEST_YEAR = 1990;
+
+/**
+ * Is this file usable as a modern photograph?
+ */
+function acceptable(title, credit, date) {
+	const haystack = `${title} ${credit}`.toLowerCase();
+
+	if (REJECT.some((term) => haystack.includes(term))) return false;
+
+	// "circa 1915", "- 1937 -": a year in the title means an archive scan.
+	const inTitle = title.match(/\b(1[6-9]\d{2}|20[0-2]\d)\b/);
+	if (inTitle && Number(inTitle[1]) < OLDEST_YEAR) return false;
+
+	const shot = String(date || "").match(/\b(1[6-9]\d{2}|20\d{2})\b/);
+	if (shot && Number(shot[1]) < OLDEST_YEAR) return false;
+
+	return true;
+}
 const UA = "AnnamLeafPhotoFetch/1.0 (site build script)";
 
 /**
@@ -73,6 +107,9 @@ async function search(query) {
 		const strip = (v) => String(v || "").replace(/<[^>]*>/g, "").trim();
 		const artist = strip(meta.Artist?.value);
 		const licence = strip(meta.LicenseShortName?.value) || "Wikimedia Commons";
+		const taken = strip(meta.DateTimeOriginal?.value);
+
+		if (!acceptable(page.title || "", artist, taken)) continue;
 
 		found.push({
 			url: info.thumburl,
@@ -84,6 +121,16 @@ async function search(query) {
 	}
 
 	return found;
+}
+
+async function download(url) {
+	const response = await fetch(url, { headers: { "User-Agent": UA } });
+
+	if (!response.ok) {
+		throw new Error(`download failed (${response.status})`);
+	}
+
+	return Buffer.from(await response.arrayBuffer());
 }
 
 async function exists(file) {
@@ -144,13 +191,19 @@ async function main() {
 		}
 
 		try {
-			const response = await fetch(photo.url, { headers: { "User-Agent": UA } });
+			let bytes = await download(photo.url);
 
-			if (!response.ok) {
-				throw new Error(`download failed (${response.status})`);
+			// A hero image over ~700 KB is too heavy; ask Commons for a smaller rendering.
+			for (const width of [1200, 1000]) {
+				if (bytes.length <= 700 * 1024) break;
+
+				const smaller = photo.url.replace(/\/\d+px-/, `/${width}px-`);
+
+				if (smaller === photo.url) break;
+
+				bytes = await download(smaller);
 			}
 
-			const bytes = Buffer.from(await response.arrayBuffer());
 			await writeFile(target, bytes);
 
 			credits[slot] = {
@@ -175,6 +228,7 @@ async function main() {
 	console.log(`\n${saved} downloaded, ${kept} kept, ${failed} failed.`);
 	console.log(`Files: wp-content/themes/annamleaf/assets/photos/`);
 	console.log("Commit them, and they ship with the theme until real photography replaces them.");
+	console.log("Look at every file before committing — a search result is not a picture editor.");
 
 	if (failed && !saved) {
 		process.exitCode = 1;
