@@ -14,7 +14,7 @@ demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thi�
 docs/                            Kiến trúc, hướng dẫn chạy thử, bản khai thông tin khách hàng
 tools/render-check.php           Render thử template không cần cài WordPress
 tools/package.sh                 Đóng gói theme + plugin thành zip để upload
-tools/fetch-photos.mjs           Tìm, chấm điểm và tải ảnh mặc định vào theme
+tools/fetch-photos.mjs           Lọc ứng viên ảnh, dựng trang duyệt, tải ảnh bạn chọn
 tools/test-photo-scoring.mjs     Kiểm tra bộ lọc ảnh (chạy offline)
 ```
 
@@ -45,9 +45,11 @@ Bố cục do theme giữ cố định, nên khách sửa chữ và ảnh mà kh
 - **Nội dung**: chưa có dữ liệu thật ⇒ mọi chỗ chờ khách cung cấp hiển thị dạng
   `[NHƯ THẾ NÀY]`, tô vàng. Tắt bằng ô "Mark empty fields" trước khi go-live.
   Danh sách: [docs/placeholders.md](docs/placeholders.md)
-- **Ảnh**: chạy `node tools/fetch-photos.mjs` để tải 8 ảnh tạm (giấy phép tự do) vào
-  `themes/annamleaf/assets/photos/` và commit cùng repo. Khung nào không có ảnh thì vẽ minh
-  hoạ vector kèm chú thích ảnh cần chụp. Upload featured image vào là ảnh thật thay chỗ ngay.
+- **Ảnh**: `node tools/fetch-photos.mjs` lọc ứng viên từ 4 thư viện giấy phép tự do rồi
+  dựng `tools/photo-review.html` để **bạn tự chọn bằng mắt**; `--apply` tải đúng những ảnh
+  đã chọn vào `themes/annamleaf/assets/photos/` để commit cùng repo. Máy chỉ đọc được chữ mô
+  tả cạnh ảnh nên không tự quyết. Khung nào không chọn thì vẽ minh hoạ vector kèm chú thích
+  ảnh cần chụp. Upload featured image vào là ảnh thật thay chỗ ngay.
   Shot list: [docs/shot-list.md](docs/shot-list.md)
 - **Logo**: đang là wordmark tạm (chữ + mark lá vector). Có logo thật thì đặt ở
   Appearance → Customize → Site Identity.

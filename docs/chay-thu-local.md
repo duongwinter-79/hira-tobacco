@@ -159,17 +159,36 @@ Rồi vào **Settings → Permalinks** bấm **Save Changes** một lần.
 ## Ảnh mặc định đi kèm theme
 
 Cách này lưu ảnh **thẳng vào repo**, nên cài ở đâu cũng có ảnh sẵn, không phải bấm gì trong
-wp-admin. Cần Node 18+ (`node -v`):
+wp-admin. Cần Node 18+ (`node -v`).
 
-```sh
+Quy trình ba bước — **bạn chọn ảnh, không phải máy chọn**:
+
+```powershell
 node tools/fetch-photos.mjs
+start tools\photo-review.html
+node tools/fetch-photos.mjs --apply
+```
+
+(macOS/Linux đổi `start tools\photo-review.html` thành `open tools/photo-review.html`.)
+
+1. **Bước 1** tìm ảnh ở nhiều thư viện giấy phép tự do, lọc và chấm điểm, rồi sinh ra một
+   trang HTML tại `tools/photo-review.html`. **Chưa tải ảnh nào về.**
+2. **Bước 2** mở trang đó trong trình duyệt: mỗi khung ảnh (bìa Cao Bằng + 7 bước quy trình)
+   có tối đa 8 ứng viên hiện ảnh thật, kèm điểm, nguồn, giấy phép và link tới trang gốc.
+   Tích chọn ảnh bạn thấy đúng, bấm **Save picks** — trình duyệt tải xuống
+   `photo-picks.json`. Chuyển file đó vào thư mục `tools/` (hoặc cứ để trong Downloads,
+   script tự tìm).
+   Khung nào không có ảnh nào ưng thì để nguyên — theme sẽ vẽ hình minh hoạ, **hình vẽ đúng
+   chỗ vẫn hơn ảnh sai chủ đề**.
+3. **Bước 3** tải đúng những ảnh bạn đã tích vào
+   `wp-content/themes/annamleaf/assets/photos/`, kèm `credits.json` ghi tác giả và giấy phép.
+
+Sau đó commit:
+
+```powershell
 git add wp-content/themes/annamleaf/assets/photos
 git commit -m "Add default photos"
 ```
-
-Script gom ảnh ứng viên từ nhiều thư viện giấy phép tự do, **chấm điểm**, rồi lấy ảnh cao
-điểm nhất cho từng khung (ảnh bìa Cao Bằng + 7 bước quy trình), lưu vào
-`wp-content/themes/annamleaf/assets/photos/` kèm `credits.json` ghi tác giả và giấy phép.
 
 | Nguồn | Cần khoá API | Ghi chú |
 | --- | --- | --- |
@@ -182,30 +201,34 @@ Lấy khoá miễn phí ở pexels.com/api hoặc unsplash.com/developers rồi:
 
 ```powershell
 $env:PEXELS_API_KEY="khoá-của-bạn"
-node tools/fetch-photos.mjs --force
+node tools/fetch-photos.mjs
 ```
 
-Không có khoá thì script vẫn chạy với hai nguồn đầu, chỉ là ít ảnh hiện đại hơn.
+Không có khoá thì script vẫn chạy với hai nguồn đầu, nhưng danh sách sẽ nghèo hơn nhiều —
+Commons chủ yếu là ảnh lưu trữ cũ. **Nên lấy khoá Pexels**, mất khoảng hai phút.
 
-**Cách chấm điểm.** Loại thẳng nếu là tranh khắc / tư liệu bảo tàng, chụp trước 1990, ảnh
-dọc, dưới 1200px, hoặc không có từ khoá chủ đề của khung đó. Ảnh còn lại cộng điểm theo số
-từ đúng chủ đề, độ mới, tỉ lệ khung, độ phân giải; trừ điểm theo từ lệch chủ đề (biển hiệu,
-bao thuốc, mặt tiền toà nhà). Dưới ngưỡng thì **để trống** — khung đó quay về hình vẽ minh
-hoạ, vì hình vẽ đúng chỗ vẫn hơn ảnh sai chủ đề.
+**Bộ lọc làm gì.** Loại thẳng nếu: là tranh khắc / bưu thiếp / hiện vật bảo tàng, ảnh lưu
+trữ đen trắng, có nhắc tới năm trước 1995, dính từ quân đội / sân bay, ảnh dọc, ảnh
+panorama, hoặc dưới 1400px. Quan trọng nhất: mỗi khung yêu cầu **nhiều nhóm từ khoá cùng
+lúc** — khung vận chuyển phải có *container* **và** một từ về cảng, khung sấy phải có
+*tobacco* **và** một từ về sấy. Một từ đơn lẻ chính là lý do trước đây một tấm ảnh lính Mỹ
+lọt vào khung vận chuyển: nó có chữ *terminal* (nhà ga sân bay).
 
-Tuỳ chọn:
+Nhưng bộ lọc chỉ đọc được **chữ mô tả cạnh bức ảnh**, nó không nhìn thấy ảnh. Vì vậy bước
+duyệt bằng mắt ở trên là bắt buộc, không phải tuỳ chọn.
+
+Tuỳ chọn khác:
 
 ```sh
-node tools/fetch-photos.mjs --dry-run        # xem sẽ chọn ảnh nào, không tải
-node tools/fetch-photos.mjs --show=5         # in 5 ứng viên đầu bảng mỗi khung kèm điểm
+node tools/fetch-photos.mjs --show=5         # in 5 ứng viên đầu bảng mỗi khung ra terminal
 node tools/fetch-photos.mjs --slot=stage-5   # làm lại đúng một khung
-node tools/fetch-photos.mjs --force          # tải đè ảnh đã có
+node tools/fetch-photos.mjs --apply --force  # tải đè ảnh đã có
+node tools/fetch-photos.mjs --picks=D:/tai-ve/photo-picks.json --apply
+node tools/fetch-photos.mjs --auto           # bỏ qua bước duyệt, lấy ảnh cao điểm nhất
 node tools/test-photo-scoring.mjs            # kiểm tra bộ lọc bằng chính các ảnh sai lần trước
 ```
 
-**Vẫn phải mở từng ảnh ra xem trước khi commit.** Lần chạy đầu Commons trả về một bản khắc
-thế kỷ 19 vẽ cảnh nô lệ và một ảnh đồn điền thuộc địa 1915 — bộ lọc giờ chặn đúng những
-trường hợp đó, nhưng bộ lọc không thay được mắt người.
+`--auto` để đó cho trường hợp gấp; đừng dùng nó rồi commit thẳng.
 
 Thứ tự ưu tiên khi hiển thị một khung ảnh:
 

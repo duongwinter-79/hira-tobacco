@@ -1,128 +1,189 @@
 /**
- * Download the default photographs into the theme.
+ * Gather the default photographs for the theme.
  *
  * The theme ships with its own pictures so a fresh install looks finished with no clicking
- * and no database rows. This gathers candidates from several free-licence libraries, scores
- * them, and saves the best one per frame into
- * wp-content/themes/annamleaf/assets/photos/, with credits.json beside them.
+ * and no database rows. They live in wp-content/themes/annamleaf/assets/photos/ with
+ * credits.json beside them.
  *
- * Why scoring rather than "first result": the first version took whatever a search returned
- * first, and Commons answered "tobacco leaves sorting" with a 19th century engraving of
- * enslaved people and "tobacco factory" with a building in Bristol that carries that name.
- * A candidate now has to earn its place — subject words present, recent, landscape, big
- * enough — and anything below the bar is left to the theme's illustration instead.
+ * A search engine has no eyes and neither has this script: it can only read the words
+ * someone typed next to a picture. Two runs proved how far that gets you — Commons answered
+ * "tobacco leaves sorting" with a 19th century engraving of enslaved people, and "shipping
+ * container terminal" with a soldier at an airport terminal. So the script no longer decides.
+ * It shortlists, and you pick with your eyes:
  *
- *     node tools/fetch-photos.mjs                 fill the empty frames
- *     node tools/fetch-photos.mjs --force         replace what is already there
- *     node tools/fetch-photos.mjs --dry-run       show what it would pick, download nothing
- *     node tools/fetch-photos.mjs --slot=stage-5  one frame only
- *     node tools/fetch-photos.mjs --show=5        list the top 5 candidates per frame
+ *     node tools/fetch-photos.mjs              search, build tools/photo-review.html
+ *     start tools/photo-review.html            look at the shortlist, tick one per frame
+ *                                              (macOS/Linux: open tools/photo-review.html)
+ *     node tools/fetch-photos.mjs --apply      download exactly what you ticked
+ *
+ * Other flags:
+ *     --slot=stage-5     one frame only
+ *     --show=5           print the top 5 per frame in the terminal as well
+ *     --picks=PATH       read the picks file from somewhere else
+ *     --auto             skip the review, take the top scorer (not recommended)
+ *     --force            with --auto or --apply, overwrite files already downloaded
  *
  * Sources: Wikimedia Commons and Openverse need no credentials. Pexels and Unsplash join in
- * when PEXELS_API_KEY / UNSPLASH_ACCESS_KEY are set in the environment — they carry far more
- * modern agricultural photography than Commons does.
- *
- * Whatever it picks still needs a human look before committing. A search result is not a
- * picture editor.
+ * when PEXELS_API_KEY / UNSPLASH_ACCESS_KEY are set — they carry far more modern working
+ * agriculture than Commons, which is mostly archive scans.
  */
 
 import { mkdir, writeFile, access, readFile } from "node:fs/promises";
 import { constants } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "wp-content/themes/annamleaf/assets/photos");
+const REVIEW = path.join(ROOT, "tools/photo-review.html");
+const PICKS = path.join(ROOT, "tools/photo-picks.json");
 
 const ARGS = process.argv.slice(2);
+const APPLY = ARGS.includes("--apply");
+const AUTO = ARGS.includes("--auto");
 const FORCE = ARGS.includes("--force");
-const DRY_RUN = ARGS.includes("--dry-run");
 const ONLY = (ARGS.find((a) => a.startsWith("--slot=")) || "").split("=")[1] || "";
 const SHOW = Number((ARGS.find((a) => a.startsWith("--show=")) || "").split("=")[1] || 0);
+const PICKS_ARG = (ARGS.find((a) => a.startsWith("--picks=")) || "").split("=")[1] || "";
 
 const MAX_BYTES = 900 * 1024;
 const MIN_SCORE = 6;
+const SHORTLIST = 8;
 
 /**
  * One entry per image frame.
  *
- * `must` are the words that make a picture about the right thing at all — a candidate
- * without one of them cannot win the frame. `good` words lift a candidate that is not just
- * on subject but on the right part of it, and `avoid` words push down the near misses that
- * keep surfacing: shop signs, museum pieces, packets of cigarettes.
+ * `must` is a list of groups, and a candidate has to satisfy every group to be a candidate
+ * at all — "container" AND a harbour word, "tobacco" AND a curing word. One loose keyword is
+ * what let a military photograph win the shipping frame on the word "terminal".
+ *
+ * The words have to appear in the title or the description. Tags are machine-made noise on
+ * most libraries and only count towards `good`.
  */
 const SLOTS = [
 	{
 		slot: "home",
-		queries: ["Cao Bang Vietnam landscape", "Cao Bang province rice fields", "Vietnam karst mountains fields"],
-		must: ["cao bang", "cao bằng", "vietnam", "viet nam"],
-		good: ["landscape", "field", "mountain", "rice", "valley", "karst", "farm"],
-		avoid: ["city", "street", "temple", "market", "portrait", "waterfall tourists"],
+		shows: "Cover: the growing region — Cao Bằng landscape, karst hills and farmland",
+		queries: ["Cao Bang Vietnam landscape", "Cao Bang province rice fields", "Vietnam karst mountains farmland", "northern Vietnam countryside hills"],
+		must: [
+			["cao bang", "cao bằng", "vietnam", "viet nam"],
+			["landscape", "field", "fields", "mountain", "hill", "rice", "valley", "karst", "farm", "countryside", "terrace", "paddy", "village"],
+		],
+		good: ["cao bang", "karst", "terrace", "paddy", "valley", "green", "mountain", "farmland", "morning"],
+		avoid: ["city", "street", "temple", "market", "portrait", "hotel", "traffic", "monument", "waterfall"],
 	},
 	{
 		slot: "stage-1",
-		queries: ["tobacco seedbed", "tobacco seedlings", "seedling tray nursery farm", "young tobacco plants field"],
-		must: ["tobacco", "seedling", "nicotiana", "nursery", "seedbed"],
-		good: ["seedling", "young", "nursery", "tray", "planting", "greenhouse", "sprout"],
-		avoid: ["cigarette", "pipe", "smoking", "shop", "packet"],
+		shows: "Seedbeds and nursery: trays or beds of young tobacco plants",
+		queries: ["tobacco seedbed", "tobacco seedlings nursery", "young tobacco plants field", "tobacco transplanting"],
+		must: [
+			["tobacco", "nicotiana"],
+			["seedling", "seedlings", "seedbed", "seed bed", "nursery", "young plant", "young plants", "transplant", "transplanting", "tray", "greenhouse", "sprout", "plantlet"],
+		],
+		good: ["seedling", "nursery", "tray", "planting", "greenhouse", "row", "irrigation", "farmer"],
+		avoid: ["cigarette", "pipe", "smoking", "shop", "packet", "herbarium"],
 	},
 	{
 		slot: "stage-2",
-		queries: ["tobacco field", "tobacco plantation crop", "Nicotiana tabacum growing", "tobacco farm rows"],
-		must: ["tobacco", "nicotiana"],
-		good: ["field", "crop", "farm", "growing", "rows", "plantation", "leaves", "green"],
-		avoid: ["cigarette", "smoking", "museum", "sign", "packet", "factory building"],
+		shows: "Field and agronomy: a tobacco crop growing in the open, in colour",
+		queries: ["tobacco field", "tobacco crop growing", "Nicotiana tabacum plantation rows", "tobacco farm leaves green"],
+		must: [
+			["tobacco", "nicotiana"],
+			["field", "fields", "crop", "farm", "farmland", "plantation", "growing", "plants", "leaves", "rows", "agriculture", "cultivation"],
+		],
+		good: ["green", "row", "rows", "crop", "farmer", "growing", "flowering", "irrigation", "sky"],
+		avoid: ["cigarette", "smoking", "museum", "sign", "packet", "factory building", "dried"],
 	},
 	{
 		slot: "stage-3",
-		queries: ["tobacco harvesting", "tobacco leaf picking", "harvesting tobacco leaves farmer"],
-		must: ["tobacco", "nicotiana"],
-		good: ["harvest", "picking", "farmer", "worker", "leaves", "basket", "cutting"],
-		avoid: ["cigarette", "smoking", "museum", "packet"],
+		shows: "Harvest: leaves being primed or picked by hand",
+		queries: ["tobacco harvesting", "tobacco leaf picking farmer", "harvesting tobacco leaves by hand", "tobacco priming harvest"],
+		must: [
+			["tobacco", "nicotiana"],
+			["harvest", "harvesting", "picking", "picked", "cutting", "priming", "reaping", "farmer", "worker", "workers", "labour", "hands"],
+		],
+		good: ["harvest", "picking", "farmer", "basket", "cart", "carrying", "bundle", "field"],
+		avoid: ["cigarette", "smoking", "museum", "packet", "machine gun"],
 	},
 	{
 		slot: "stage-4",
-		queries: ["tobacco curing barn", "tobacco drying barn", "tobacco leaves hanging drying", "tobacco kiln"],
-		must: ["tobacco", "curing", "barn", "drying"],
-		good: ["barn", "curing", "drying", "hanging", "kiln", "leaves", "shed"],
-		avoid: ["cigarette", "smoking", "ruin", "abandoned", "museum"],
+		shows: "Curing: leaves hanging in a working barn or kiln",
+		queries: ["tobacco curing barn interior", "tobacco leaves hanging drying", "flue cured tobacco kiln", "tobacco drying shed leaves"],
+		must: [
+			["tobacco"],
+			["curing", "cured", "cure", "drying", "dried", "barn", "kiln", "shed", "hanging", "hung", "rack", "racks", "flue"],
+		],
+		good: ["hanging", "curing", "kiln", "interior", "leaves", "rack", "flue", "stick", "bamboo"],
+		avoid: ["cigarette", "smoking", "ruin", "abandoned", "derelict", "lawn", "park", "signpost", "exterior"],
 	},
 	{
 		slot: "stage-5",
-		queries: ["dried tobacco leaves", "tobacco leaves sorting", "tobacco leaf grading", "bundle of tobacco leaves"],
-		must: ["tobacco", "nicotiana"],
-		good: ["dried", "leaves", "sorting", "grading", "bundle", "hands", "stack"],
-		avoid: ["cigarette", "cigar", "smoking", "pipe", "museum", "packet", "shop"],
+		shows: "Grading and baling: cured leaf being sorted, graded or tied into hands",
+		queries: ["tobacco leaf grading", "sorting dried tobacco leaves", "tobacco leaves bundle hands", "tobacco grading warehouse"],
+		must: [
+			["tobacco"],
+			["leaf", "leaves", "grading", "graded", "sorting", "sorted", "bundle", "bundles", "bale", "bales", "stack", "hands", "selection", "classing"],
+		],
+		good: ["grading", "sorting", "bundle", "stack", "hands", "worker", "table", "dried", "golden"],
+		avoid: ["cigarette", "cigar", "smoking", "pipe", "museum", "packet", "shop", "rolling"],
 	},
 	{
 		slot: "stage-6",
-		queries: ["tobacco bales warehouse", "baled tobacco leaves", "tobacco processing machine", "tobacco leaf warehouse interior"],
-		must: ["tobacco"],
-		good: ["bale", "warehouse", "processing", "machine", "factory interior", "stack", "conveyor"],
-		avoid: ["cigarette", "smoking", "facade", "building exterior", "street", "theatre", "pub", "museum"],
+		shows: "Processing: threshing line, bales or a working leaf warehouse",
+		queries: ["tobacco bales warehouse", "tobacco processing plant machinery", "tobacco threshing line", "baled tobacco leaf storage"],
+		must: [
+			["tobacco"],
+			["warehouse", "processing", "threshing", "thresher", "bale", "bales", "baling", "conveyor", "machinery", "machine", "plant interior", "production line", "factory floor"],
+		],
+		good: ["bale", "warehouse", "conveyor", "machinery", "stack", "pallet", "interior", "worker"],
+		avoid: ["facade", "exterior", "street", "theatre", "pub", "museum", "chimney", "cigarette", "advert"],
 	},
 	{
 		slot: "stage-7",
-		queries: ["shipping container terminal", "container port loading crane", "cargo containers stacked port"],
-		must: ["container", "port", "terminal", "cargo"],
-		good: ["container", "terminal", "crane", "port", "stacked", "loading", "ship"],
-		avoid: ["model", "toy", "diagram", "map", "house", "architecture"],
+		shows: "Storage and shipping: containers on a working quay",
+		queries: ["shipping container terminal crane", "container port loading ship", "cargo containers stacked quay", "container terminal gantry crane"],
+		must: [
+			["container", "containers", "containerised", "containerized"],
+			["port", "terminal", "dock", "docks", "quay", "harbour", "harbor", "crane", "cranes", "ship", "vessel", "yard", "wharf", "freight"],
+		],
+		good: ["crane", "gantry", "stacked", "quay", "loading", "ship", "terminal", "berth"],
+		avoid: ["model", "toy", "diagram", "map", "house", "architecture", "airport", "soldier", "office"],
 	},
 ];
 
 /**
- * Artwork, archive scans and museum objects are never right for a working supplier's site.
+ * Words that disqualify a picture outright, wherever they appear.
+ *
+ * Artwork and archive scans, because this is a working supplier's site and not a history
+ * lesson. Museums and heritage exhibits, because a barn on a mown lawn with a signboard is
+ * not a curing barn in use. Anything military, because that is how a US Air Force photograph
+ * reached the shipping frame.
  */
 const REJECT = [
-	"engraving", "lithograph", "etching", "woodcut", "drawing", "painting", "sketch",
-	"illustration", "poster", "advertisement", "postcard", "map", "diagram", "chart",
-	"logo", "coat of arms", "stamp", "banknote", "cigarette card", "trade card",
+	// Artwork and print
+	"engraving", "engraved", "lithograph", "etching", "woodcut", "drawing", "painting",
+	"sketch", "illustration", "poster", "advertisement", "advert", "postcard", "map",
+	"diagram", "chart", "logo", "coat of arms", "stamp", "banknote", "cigarette card",
+	"trade card", "label design", "packaging",
+	// Archive scans and the collections they come from
 	"kitlv", "lccn", "wellcome", "tropenmuseum", "rijksmuseum", "collectie", "nationaal archief",
-	"slave", "slavery", "colonial", "maatschappij", "herbarium", "specimen", "engraved",
+	"bundesarchiv", "national archives", "state library", "photograph collection", "glass plate",
+	"black and white", "black-and-white", "monochrome", "sepia", "scanned", "scan of",
+	"archival", "archive photo", "historic photograph", "historical photograph",
+	// History we will not put on a leaf merchant's home page
+	"slave", "slavery", "colonial", "maatschappij", "plantation era", "indentured",
+	// Objects behind glass
+	"museum", "heritage centre", "heritage center", "open air museum", "replica", "monument",
+	"memorial", "statue", "exhibit", "exhibition", "reconstruction", "listed building",
+	"herbarium", "specimen", "botanical plate",
+	// Not our subject at all
+	"soldier", "soldiers", "military", "army", "navy", "air force", "airman", "troops",
+	"uniform", "war", "battalion", "regiment", "airport", "aircraft", "wedding", "protest",
 ];
 
-const OLDEST_YEAR = 1990;
-const UA = "AnnamLeafPhotoFetch/1.0 (WordPress site build; contact via repository)";
+const OLDEST_YEAR = 1995;
+const UA = "AnnamLeafPhotoFetch/2.0 (WordPress site build; contact via repository)";
 
 /* ------------------------------------------------------------------ sources */
 
@@ -145,7 +206,7 @@ async function fromCommons(query) {
 	const url =
 		"https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search" +
 		`&gsrsearch=${encodeURIComponent(query + " filetype:bitmap")}` +
-		"&gsrnamespace=6&gsrlimit=12&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=1600";
+		"&gsrnamespace=6&gsrlimit=16&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=1600";
 
 	const data = await getJson(url);
 	const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
@@ -161,7 +222,7 @@ async function fromCommons(query) {
 
 		return [{
 			source: "commons",
-			title: strip(page.title).replace(/^File:/, ""),
+			title: strip(page.title).replace(/^File:/, "").replace(/\.[a-z]+$/i, ""),
 			description: strip(meta.ImageDescription?.value),
 			tags: strip(meta.Categories?.value).split("|").join(" "),
 			date: strip(meta.DateTimeOriginal?.value) || strip(meta.DateTime?.value),
@@ -169,6 +230,7 @@ async function fromCommons(query) {
 			height: Number(info.height) || 0,
 			url: info.thumburl,
 			smaller: info.thumburl.replace(/\/\d+px-/, "/1100px-"),
+			thumb: info.thumburl.replace(/\/\d+px-/, "/480px-"),
 			credit: `${artist ? artist + " · " : ""}${licence} · Wikimedia Commons`,
 			page: `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title || "")}`,
 		}];
@@ -202,6 +264,7 @@ async function fromOpenverse(query) {
 			height: Number(item.height) || 0,
 			url: item.url,
 			smaller: item.thumbnail || item.url,
+			thumb: item.thumbnail || item.url,
 			credit: `${item.creator ? item.creator + " · " : ""}${licence || "CC"} · ${item.source || "Openverse"}`,
 			page: item.foreign_landing_url || item.url,
 		}];
@@ -216,7 +279,7 @@ async function fromPexels(query) {
 
 	if (!key) return [];
 
-	const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&orientation=landscape&per_page=15`;
+	const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&orientation=landscape&per_page=20`;
 	const data = await getJson(url, { Authorization: key });
 
 	return (data?.photos || []).flatMap((photo) => {
@@ -232,6 +295,7 @@ async function fromPexels(query) {
 			height: Number(photo.height) || 0,
 			url: photo.src.large2x || photo.src.large,
 			smaller: photo.src.large || photo.src.medium,
+			thumb: photo.src.medium || photo.src.small,
 			credit: `${photo.photographer || "Pexels"} · Pexels`,
 			page: photo.url,
 		}];
@@ -246,7 +310,7 @@ async function fromUnsplash(query) {
 
 	if (!key) return [];
 
-	const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&orientation=landscape&per_page=15`;
+	const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&orientation=landscape&per_page=20`;
 	const data = await getJson(url, { Authorization: `Client-ID ${key}` });
 
 	return (data?.results || []).flatMap((photo) => {
@@ -262,6 +326,7 @@ async function fromUnsplash(query) {
 			height: Number(photo.height) || 0,
 			url: `${photo.urls.raw}&w=1600&fit=max&q=80&fm=jpg`,
 			smaller: `${photo.urls.raw}&w=1100&fit=max&q=80&fm=jpg`,
+			thumb: `${photo.urls.raw}&w=480&fit=max&q=70&fm=jpg`,
 			credit: `${photo.user?.name || "Unsplash"} · Unsplash`,
 			page: photo.links?.html || "",
 		}];
@@ -278,44 +343,55 @@ const SOURCES = [
 /* ------------------------------------------------------------------ scoring */
 
 function yearIn(text) {
-	const match = String(text || "").match(/\b(1[6-9]\d{2}|20\d{2})\b/);
+	const match = String(text || "").match(/\b(1[6-9]\d{2}|20[0-2]\d)\b/);
 
 	return match ? Number(match[1]) : 0;
 }
 
 /**
- * How well does this candidate fit the frame? Negative means "do not use".
+ * How well does this candidate fit the frame? Negative means "do not offer it at all".
  */
 function score(candidate, slot, sourceBonus) {
-	const text = `${candidate.title} ${candidate.description} ${candidate.tags}`.toLowerCase();
+	const words = (v) => String(v || "").toLowerCase();
+	const subject = `${words(candidate.title)} ${words(candidate.description)}`;
+	const text = `${subject} ${words(candidate.tags)}`;
 
-	if (REJECT.some((term) => text.includes(term))) return { total: -100, why: "archive or artwork" };
+	const banned = REJECT.find((term) => text.includes(term));
+	if (banned) return { total: -100, why: `rejected on "${banned}"` };
 
 	const titleYear = yearIn(candidate.title);
 	const shotYear = yearIn(candidate.date);
+	const anyYear = yearIn(subject);
 
 	if (titleYear && titleYear < OLDEST_YEAR) return { total: -100, why: `dated ${titleYear}` };
 	if (shotYear && shotYear < OLDEST_YEAR) return { total: -100, why: `taken ${shotYear}` };
+	if (anyYear && anyYear < OLDEST_YEAR) return { total: -100, why: `mentions ${anyYear}` };
+	if (/\b(19|20)\d0s\b/.test(subject)) return { total: -100, why: "a decade, not a date" };
 
-	if (!slot.must.some((word) => text.includes(word))) return { total: -100, why: "not on subject" };
+	// Every group, or it is not a picture of what the frame needs.
+	const missing = slot.must.findIndex((group) => !group.some((word) => subject.includes(word)));
+	if (missing === 0) return { total: -100, why: "not on subject" };
+	if (missing > 0) return { total: -100, why: `no ${slot.must[missing][0]} in it` };
 
 	const ratio = candidate.height ? candidate.width / candidate.height : 0;
 
-	if (candidate.width < 1200) return { total: -100, why: `only ${candidate.width}px wide` };
+	if (candidate.width < 1400) return { total: -100, why: `only ${candidate.width}px wide` };
 	if (ratio < 1.2) return { total: -100, why: "portrait or square" };
+	if (ratio > 2.6) return { total: -100, why: "panorama, will crop badly" };
 
 	let total = 5 + sourceBonus;
 	const why = [];
 
-	const hits = slot.good.filter((word) => text.includes(word)).length;
-	total += Math.min(hits, 4) * 1.5;
-	if (hits) why.push(`${hits} subject words`);
+	const hits = slot.good.filter((word) => subject.includes(word)).length;
+	const tagHits = slot.good.filter((word) => !subject.includes(word) && words(candidate.tags).includes(word)).length;
+	total += Math.min(hits, 4) * 1.5 + Math.min(tagHits, 4) * 0.5;
+	if (hits || tagHits) why.push(`${hits + tagHits} subject words`);
 
 	const misses = slot.avoid.filter((word) => text.includes(word)).length;
 	total -= misses * 3;
 	if (misses) why.push(`${misses} off-subject words`);
 
-	if (shotYear >= 2010) {
+	if (shotYear >= 2015) {
 		total += 3;
 		why.push(`taken ${shotYear}`);
 	} else if (shotYear >= OLDEST_YEAR) {
@@ -325,10 +401,10 @@ function score(candidate, slot, sourceBonus) {
 	}
 
 	if (ratio >= 1.4 && ratio <= 2.1) total += 2;
-	if (candidate.width >= 1600) total += 1;
+	if (candidate.width >= 2000) total += 1;
 
 	// A description of any length means someone said what the picture shows.
-	if (candidate.description.length > 30) total += 1;
+	if (String(candidate.description).length > 30) total += 1;
 
 	return { total: Math.round(total * 10) / 10, why: why.join(", ") || "on subject" };
 }
@@ -387,20 +463,203 @@ async function candidatesFor(slot) {
 	return scored.sort((a, b) => b.score - a.score);
 }
 
-async function main() {
+/* ------------------------------------------------------------------- review */
+
+const esc = (v) =>
+	String(v || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/**
+ * A contact sheet you open in a browser: the shortlist for every frame, side by side, big
+ * enough to judge. Tick one per frame, save the picks file, run --apply.
+ */
+function reviewPage(shortlists) {
+	const cards = (slot, list) => list.map((c, i) => `
+			<label class="card">
+				<input type="radio" name="${esc(slot)}" value="${i}">
+				<img src="${esc(c.thumb || c.smaller || c.url)}" alt="" loading="lazy">
+				<span class="meta">
+					<b>${esc(c.score)}</b> · ${esc(c.source)} · ${esc(c.width)}×${esc(c.height)}<br>
+					${esc(c.title.slice(0, 90)) || "<span class=dim>untitled</span>"}<br>
+					<span class="dim">${esc(c.credit)}</span><br>
+					<a href="${esc(c.page)}" target="_blank" rel="noopener">source page</a>
+				</span>
+			</label>`).join("");
+
+	const sections = shortlists.map(({ slot, shows, list }) => `
+		<section>
+			<h2>${esc(slot)}</h2>
+			<p class="shows">${esc(shows)}</p>
+			${list.length ? `<div class="grid">${cards(slot, list)}
+			<label class="card none"><input type="radio" name="${esc(slot)}" value="-1" checked><span class="meta">Leave this frame empty — the theme draws its illustration instead.</span></label>
+			</div>` : `<p class="empty">Nothing passed the filters. The theme will draw its illustration here.</p>`}
+		</section>`).join("");
+
+	// A title containing </script> would otherwise end the block early.
+	const data = JSON.stringify(shortlists.map(({ slot, list }) => ({ slot, list }))).replace(/</g, "\\u003c");
+
+	return `<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Annam Leaf — choose the default photographs</title>
+<style>
+	:root { color-scheme: light dark; --line: #d7d2c7; --ink: #1d2016; --dim: #6b6a5e; --bg: #faf8f3; --card: #fff; }
+	@media (prefers-color-scheme: dark) { :root { --line:#3a3a33; --ink:#ece9e1; --dim:#a09d92; --bg:#16170f; --card:#20211a; } }
+	body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+	header, section, footer { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+	header { padding-top: 32px; }
+	h1 { font-size: 24px; margin: 0 0 6px; }
+	h2 { font-size: 18px; margin: 32px 0 2px; }
+	.shows, .lede { color: var(--dim); margin: 0 0 14px; }
+	.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+	.card { display: block; background: var(--card); border: 2px solid var(--line); border-radius: 10px; overflow: hidden; cursor: pointer; }
+	.card:has(:checked) { border-color: #6f8f3f; box-shadow: 0 0 0 3px rgba(111,143,63,.25); }
+	.card img { display: block; width: 100%; height: 190px; object-fit: cover; background: var(--line); }
+	.card input { position: absolute; opacity: 0; }
+	.meta { display: block; padding: 10px 12px; font-size: 12.5px; }
+	.dim { color: var(--dim); }
+	.none .meta { padding: 18px 12px; }
+	.empty { color: var(--dim); font-style: italic; }
+	footer { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); padding: 14px 20px; margin-top: 40px; }
+	button { font: inherit; padding: 10px 18px; border-radius: 8px; border: 1px solid var(--line); background: #6f8f3f; color: #fff; cursor: pointer; }
+	code { background: rgba(128,128,128,.15); padding: 1px 5px; border-radius: 4px; }
+</style>
+<header>
+	<h1>Choose the default photographs</h1>
+	<p class="lede">Nothing is downloaded yet. Look at each frame, tick the picture that belongs there, then press <b>Save picks</b> and run <code>node tools/fetch-photos.mjs --apply</code>. Anything you leave untouched stays empty and the theme draws its own illustration — an empty frame beats a wrong photograph.</p>
+</header>
+${sections}
+<footer>
+	<button id="save">Save picks</button>
+	<span id="note" class="dim"> </span>
+</footer>
+<script>
+const DATA = ${data};
+document.getElementById("save").addEventListener("click", () => {
+	const picks = {};
+	for (const { slot, list } of DATA) {
+		const checked = document.querySelector('input[name="' + slot + '"]:checked');
+		const index = checked ? Number(checked.value) : -1;
+		if (index >= 0 && list[index]) picks[slot] = list[index];
+	}
+	const blob = new Blob([JSON.stringify(picks, null, "\\t")], { type: "application/json" });
+	const a = document.createElement("a");
+	a.href = URL.createObjectURL(blob);
+	a.download = "photo-picks.json";
+	a.click();
+	document.getElementById("note").textContent =
+		Object.keys(picks).length + " picked — save the file into the tools folder, then run: node tools/fetch-photos.mjs --apply";
+});
+</script>
+</html>
+`;
+}
+
+async function findPicksFile() {
+	const tries = [
+		PICKS_ARG && path.resolve(PICKS_ARG),
+		PICKS,
+		path.join(os.homedir(), "Downloads", "photo-picks.json"),
+		path.join(os.homedir(), "Desktop", "photo-picks.json"),
+	].filter(Boolean);
+
+	for (const file of tries) {
+		if (await exists(file)) return file;
+	}
+
+	return "";
+}
+
+/**
+ * Download one candidate into the theme. Returns the credit row, or throws.
+ */
+async function save(slot, pick) {
+	let bytes = await download(pick.url);
+
+	if (bytes.length > MAX_BYTES && pick.smaller && pick.smaller !== pick.url) {
+		bytes = await download(pick.smaller);
+	}
+
+	if (bytes.length > MAX_BYTES * 2) {
+		throw new Error(`too heavy (${(bytes.length / 1024).toFixed(0)} KB)`);
+	}
+
+	await writeFile(path.join(OUT, `${slot}.jpg`), bytes);
+
+	return {
+		bytes: bytes.length,
+		credit: {
+			credit: pick.credit,
+			source: pick.page,
+			title: pick.title,
+			query: pick.query || "",
+			score: pick.score ?? null,
+		},
+	};
+}
+
+async function readCredits() {
+	const file = path.join(OUT, "credits.json");
+
+	if (!(await exists(file))) return {};
+
+	try {
+		return JSON.parse(await readFile(file, "utf8"));
+	} catch {
+		return {};
+	}
+}
+
+/* --------------------------------------------------------------- the modes */
+
+async function runApply() {
+	const file = await findPicksFile();
+
+	if (!file) {
+		console.error("No photo-picks.json found. Run the search first, open tools/photo-review.html,");
+		console.error("tick your choices, press Save picks, and put the file in the tools folder.");
+		process.exitCode = 1;
+		return;
+	}
+
+	console.log(`Picks: ${file}\n`);
+
+	const picks = JSON.parse(await readFile(file, "utf8"));
+	const credits = await readCredits();
+	let saved = 0;
+
 	await mkdir(OUT, { recursive: true });
 
-	const creditsFile = path.join(OUT, "credits.json");
-	let credits = {};
+	for (const [slot, pick] of Object.entries(picks)) {
+		if (ONLY && ONLY !== slot) continue;
+		if (!SLOTS.some((s) => s.slot === slot)) {
+			console.log(`${slot.padEnd(9)} unknown frame — skipped`);
+			continue;
+		}
 
-	if (await exists(creditsFile)) {
+		if (!FORCE && (await exists(path.join(OUT, `${slot}.jpg`)))) {
+			console.log(`${slot.padEnd(9)} kept (already there; --force to replace)`);
+			continue;
+		}
+
 		try {
-			credits = JSON.parse(await readFile(creditsFile, "utf8"));
-		} catch {
-			credits = {};
+			const result = await save(slot, pick);
+			credits[slot] = result.credit;
+			saved++;
+			console.log(`${slot.padEnd(9)} saved ${(result.bytes / 1024).toFixed(0)} KB — ${pick.credit}`);
+		} catch (error) {
+			console.error(`${slot.padEnd(9)} ${error.message}`);
 		}
 	}
 
+	if (saved) {
+		await writeFile(path.join(OUT, "credits.json"), JSON.stringify(credits, null, "\t") + "\n");
+	}
+
+	console.log(`\n${saved} downloaded into wp-content/themes/annamleaf/assets/photos/.`);
+}
+
+async function runSearch() {
 	const enabled = SOURCES.filter((s) => s.fn !== fromPexels || process.env.PEXELS_API_KEY)
 		.filter((s) => s.fn !== fromUnsplash || process.env.UNSPLASH_ACCESS_KEY);
 
@@ -410,24 +669,18 @@ async function main() {
 		console.log("Set PEXELS_API_KEY or UNSPLASH_ACCESS_KEY for modern stock photography too.\n");
 	}
 
+	const shortlists = [];
+	const credits = await readCredits();
 	let saved = 0;
-	let kept = 0;
-	let skipped = 0;
+
+	await mkdir(OUT, { recursive: true });
 
 	for (const slot of SLOTS) {
 		if (ONLY && ONLY !== slot.slot) continue;
 
-		const target = path.join(OUT, `${slot.slot}.jpg`);
-
-		if (!FORCE && !DRY_RUN && (await exists(target))) {
-			console.log(`${slot.slot.padEnd(9)} kept (already downloaded)`);
-			kept++;
-			continue;
-		}
-
 		console.log(`${slot.slot.padEnd(9)} searching…`);
 
-		const ranked = await candidatesFor(slot);
+		const ranked = (await candidatesFor(slot)).filter((c) => c.score >= MIN_SCORE);
 
 		if (SHOW) {
 			ranked.slice(0, SHOW).forEach((c, i) => {
@@ -435,57 +688,58 @@ async function main() {
 			});
 		}
 
-		const best = ranked[0];
+		shortlists.push({ slot: slot.slot, shows: slot.shows, list: ranked.slice(0, SHORTLIST) });
 
-		if (!best || best.score < MIN_SCORE) {
-			console.log(`${slot.slot.padEnd(9)} nothing good enough (best ${best ? best.score : "none"}) — leaving the illustration`);
-			skipped++;
+		if (!AUTO) {
+			console.log(`${slot.slot.padEnd(9)} ${ranked.length} candidates shortlisted`);
 			continue;
 		}
 
-		console.log(`${slot.slot.padEnd(9)} ${best.score} from ${best.source}: ${best.title.slice(0, 60)} (${best.why})`);
+		const best = ranked[0];
 
-		if (DRY_RUN) continue;
+		if (!best) {
+			console.log(`${slot.slot.padEnd(9)} nothing good enough — leaving the illustration`);
+			continue;
+		}
+
+		if (!FORCE && (await exists(path.join(OUT, `${slot.slot}.jpg`)))) {
+			console.log(`${slot.slot.padEnd(9)} kept (already there)`);
+			continue;
+		}
 
 		try {
-			let bytes = await download(best.url);
-
-			if (bytes.length > MAX_BYTES && best.smaller && best.smaller !== best.url) {
-				bytes = await download(best.smaller);
-			}
-
-			if (bytes.length > MAX_BYTES * 2) {
-				console.log(`${slot.slot.padEnd(9)} too heavy (${(bytes.length / 1024).toFixed(0)} KB) — skipped`);
-				skipped++;
-				continue;
-			}
-
-			await writeFile(target, bytes);
-
-			credits[slot.slot] = {
-				credit: best.credit,
-				source: best.page,
-				title: best.title,
-				query: best.query,
-				score: best.score,
-			};
-
-			console.log(`${slot.slot.padEnd(9)} saved ${(bytes.length / 1024).toFixed(0)} KB — ${best.credit}`);
+			const result = await save(slot.slot, best);
+			credits[slot.slot] = result.credit;
 			saved++;
+			console.log(`${slot.slot.padEnd(9)} saved ${(result.bytes / 1024).toFixed(0)} KB — ${best.credit}`);
 		} catch (error) {
 			console.error(`${slot.slot.padEnd(9)} ${error.message}`);
-			skipped++;
 		}
 	}
 
-	if (!DRY_RUN && Object.keys(credits).length) {
-		await writeFile(creditsFile, JSON.stringify(credits, null, "\t") + "\n");
+	if (AUTO && saved) {
+		await writeFile(path.join(OUT, "credits.json"), JSON.stringify(credits, null, "\t") + "\n");
 	}
 
-	console.log(`\n${saved} downloaded, ${kept} kept, ${skipped} left empty.`);
-	console.log("Open every file before committing — a search result is not a picture editor.");
+	await writeFile(REVIEW, reviewPage(shortlists));
 
-	if (!saved && !kept) process.exitCode = 1;
+	const total = shortlists.reduce((n, s) => n + s.list.length, 0);
+	const empty = shortlists.filter((s) => !s.list.length).map((s) => s.slot);
+
+	console.log(`\n${total} candidates across ${shortlists.length} frames.`);
+	if (empty.length) console.log(`No candidate at all for: ${empty.join(", ")}.`);
+
+	console.log(`\nShortlist written to tools/photo-review.html`);
+	console.log("  Windows: start tools\\photo-review.html");
+	console.log("  macOS:   open tools/photo-review.html");
+	console.log("Tick one picture per frame, press Save picks, drop photo-picks.json into tools/,");
+	console.log("then: node tools/fetch-photos.mjs --apply");
+}
+
+async function main() {
+	if (APPLY) return runApply();
+
+	return runSearch();
 }
 
 // Importable for the scoring test; only runs when invoked directly.
@@ -496,4 +750,4 @@ if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
 	});
 }
 
-export { SLOTS, score, REJECT };
+export { SLOTS, score, REJECT, reviewPage };

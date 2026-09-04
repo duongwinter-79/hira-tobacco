@@ -30,3 +30,7 @@ tools/output/
 
 # gói zip do tools/package.sh tạo
 dist/
+
+# sinh ra bởi tools/fetch-photos.mjs — bản nháp để duyệt ảnh, không cần versioning
+tools/photo-review.html
+tools/photo-picks.json

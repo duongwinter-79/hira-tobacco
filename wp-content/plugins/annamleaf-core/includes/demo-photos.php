@@ -89,11 +89,22 @@ const ANNAMLEAF_PHOTO_HOST = 'upload.wikimedia.org';
  */
 function annamleaf_photo_acceptable( string $title, string $credit, string $taken ): bool {
 	$reject = array(
-		'engraving', 'lithograph', 'etching', 'woodcut', 'drawing', 'painting', 'sketch',
-		'illustration', 'print', 'poster', 'advertisement', 'postcard', 'map', 'diagram',
-		'logo', 'coat of arms', 'stamp', 'banknote', 'label', 'cigarette card',
+		// Artwork and print.
+		'engraving', 'engraved', 'lithograph', 'etching', 'woodcut', 'drawing', 'painting',
+		'sketch', 'illustration', 'print', 'poster', 'advertisement', 'postcard', 'map',
+		'diagram', 'logo', 'coat of arms', 'stamp', 'banknote', 'label', 'cigarette card',
+		// Archive scans and the collections they come from.
 		'kitlv', 'lccn', 'wellcome', 'tropenmuseum', 'museum', 'archive', 'collectie',
+		'bundesarchiv', 'state library', 'photograph collection', 'glass plate',
+		'black and white', 'black-and-white', 'monochrome', 'sepia', 'scanned',
+		// History that does not belong on a leaf merchant's home page.
 		'slave', 'slavery', 'colonial', 'plantation of the', 'maatschappij',
+		// Objects behind glass rather than sheds in use.
+		'heritage centre', 'heritage center', 'replica', 'monument', 'memorial', 'statue',
+		'exhibit', 'exhibition', 'reconstruction',
+		// Not our subject at all — this is how a military photograph reached the shipping frame.
+		'soldier', 'military', 'army', 'navy', 'air force', 'airman', 'troops', 'regiment',
+		'airport', 'aircraft',
 	);
 
 	$haystack = strtolower( $title . ' ' . $credit );
@@ -105,11 +116,11 @@ function annamleaf_photo_acceptable( string $title, string $credit, string $take
 	}
 
 	// A year in the title means an archive scan.
-	if ( preg_match( '/\b(1[6-9]\d{2}|20[0-2]\d)\b/', $title, $match ) && (int) $match[1] < 1990 ) {
+	if ( preg_match( '/\b(1[6-9]\d{2}|20[0-2]\d)\b/', $title, $match ) && (int) $match[1] < 1995 ) {
 		return false;
 	}
 
-	if ( preg_match( '/\b(1[6-9]\d{2}|20\d{2})\b/', $taken, $match ) && (int) $match[1] < 1990 ) {
+	if ( preg_match( '/\b(1[6-9]\d{2}|20\d{2})\b/', $taken, $match ) && (int) $match[1] < 1995 ) {
 		return false;
 	}
 
