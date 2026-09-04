@@ -14,7 +14,8 @@ demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thi�
 docs/                            Kiến trúc, hướng dẫn chạy thử, bản khai thông tin khách hàng
 tools/render-check.php           Render thử template không cần cài WordPress
 tools/package.sh                 Đóng gói theme + plugin thành zip để upload
-tools/fetch-photos.mjs           Tải ảnh mặc định (Wikimedia Commons) vào theme
+tools/fetch-photos.mjs           Tìm, chấm điểm và tải ảnh mặc định vào theme
+tools/test-photo-scoring.mjs     Kiểm tra bộ lọc ảnh (chạy offline)
 ```
 
 Chưa dùng WordPress bao giờ? Xem **[docs/chay-thu-local.md](docs/chay-thu-local.md)** —
