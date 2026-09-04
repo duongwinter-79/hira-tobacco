@@ -8,6 +8,11 @@ Hướng dẫn cho người **chưa dùng WordPress bao giờ**. Có ba cách, c
 | **B. LocalWP** | Không cần Terminal | Bạn không quen dòng lệnh |
 | **C. wp-env** | Docker + Node | Chỉ khi mạng vào được `api.wordpress.org` |
 
+> **Dùng Windows PowerShell:** chạy **mỗi lệnh một dòng**. Windows PowerShell 5.1 (bản mặc
+> định của Windows) không hiểu `&&` để nối hai lệnh — nó báo
+> `The token '&&' is not a valid statement separator`. Muốn nối thì dùng `;`, hoặc cài
+> PowerShell 7.
+
 ---
 
 ## Trước khi bắt đầu: kiểm tra code mà không cần cài gì
