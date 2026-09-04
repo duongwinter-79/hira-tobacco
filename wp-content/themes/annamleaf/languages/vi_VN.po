@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf\n"
-"PO-Revision-Date: 2026-09-03 12:19+0000\n"
+"PO-Revision-Date: 2026-09-04 04:31+0000\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,6 +27,10 @@ msgstr "Chuẩn mực lao động nông nghiệp: không lao động trẻ em, g
 #: functions.php:136
 msgid "Annam Leaf sections"
 msgstr "Khối nội dung Annam Leaf"
+
+#: functions.php:184
+msgid "Annam Leaf: the content plugin is not active."
+msgstr "Annam Leaf: plugin nội dung chưa được bật."
 
 #: page-templates/process.php:75
 msgid "Arrange a visit"
@@ -119,6 +123,10 @@ msgstr "Từ vùng trồng đến nhà máy của bạn"
 #: front-page.php:71
 msgid "From seed to container, under one roof"
 msgstr "Từ hạt giống đến container, trong một hệ thống"
+
+#: functions.php:186
+msgid "Go to Plugins"
+msgstr "Tới trang Plugins"
 
 #: 404.php:17
 msgid "Go to the home page"
@@ -364,6 +372,10 @@ msgstr "Giai đoạn"
 msgid "Stems"
 msgstr "Cọng lá"
 
+#: inc/plates.php:76
+msgid "TEMPORARY"
+msgstr "ẢNH TẠM"
+
 #: page-templates/leaf.php:88
 msgid "Tell us the specification you buy against and we will tell you what this crop can match."
 msgstr "Cho chúng tôi biết quy cách bạn mua theo, chúng tôi sẽ cho biết vụ này đáp ứng được đến đâu."
@@ -391,6 +403,10 @@ msgstr "Không gửi được tin nhắn. Vui lòng email trực tiếp cho chú
 #: page-templates/leaf.php:42
 msgid "The same leaf, as a spec sheet"
 msgstr "Cũng chủng loại đó, dưới dạng bảng quy cách"
+
+#: functions.php:185
+msgid "The theme needs the Annam Leaf Core plugin for its pages, process stages, leaf types and the Company profile screen. Activate it under Plugins."
+msgstr "Giao diện cần plugin Annam Leaf Core để có các trang, bước quy trình, chủng loại lá và màn hình Company profile. Vào Plugins để bật."
 
 #: footer.php:12
 msgid "This site is intended for industrial buyers and trade partners. It is not directed at consumers."

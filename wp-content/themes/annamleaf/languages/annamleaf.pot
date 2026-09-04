@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Annam Leaf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 12:19+0000\n"
+"POT-Creation-Date: 2026-09-04 04:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,6 +25,10 @@ msgstr ""
 
 #: functions.php:136
 msgid "Annam Leaf sections"
+msgstr ""
+
+#: functions.php:184
+msgid "Annam Leaf: the content plugin is not active."
 msgstr ""
 
 #: page-templates/process.php:75
@@ -117,6 +121,10 @@ msgstr ""
 
 #: front-page.php:71
 msgid "From seed to container, under one roof"
+msgstr ""
+
+#: functions.php:186
+msgid "Go to Plugins"
 msgstr ""
 
 #: 404.php:17
@@ -363,6 +371,10 @@ msgstr ""
 msgid "Stems"
 msgstr ""
 
+#: inc/plates.php:76
+msgid "TEMPORARY"
+msgstr ""
+
 #: page-templates/leaf.php:88
 msgid "Tell us the specification you buy against and we will tell you what this crop can match."
 msgstr ""
@@ -389,6 +401,10 @@ msgstr ""
 
 #: page-templates/leaf.php:42
 msgid "The same leaf, as a spec sheet"
+msgstr ""
+
+#: functions.php:185
+msgid "The theme needs the Annam Leaf Core plugin for its pages, process stages, leaf types and the Company profile screen. Activate it under Plugins."
 msgstr ""
 
 #: footer.php:12

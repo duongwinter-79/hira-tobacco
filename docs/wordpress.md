@@ -52,7 +52,11 @@ Năm trang này là **Page thật**, không phải archive — nên mọi chữ 
 ## Nội dung mặc định
 
 Kích hoạt plugin lần đầu là site đã đầy đủ nội dung — 6 trang **đã viết sẵn chữ**, 7 bước
-quy trình, 4 chủng loại lá, 3 vùng trồng, menu và trang chủ. Không phải tự chèn khối nào.
+quy trình, 4 chủng loại lá, vùng trồng Cao Bằng, menu và trang chủ. Không phải tự chèn khối nào.
+
+**Ảnh tạm:** Company profile → *Import temporary photographs* tải ảnh giấy phép tự do từ
+Wikimedia Commons vào các khung còn trống, có ghi công trên ảnh và xoá được bằng một nút.
+Phải thay bằng ảnh thật trước khi go-live.
 
 Nếu lỡ xoá mất nội dung một trang, hoặc sau khi cập nhật file theme/plugin muốn lấy lại bản
 mới nhất: **Company profile → Rebuild default content**. Nút này ghi đè chữ của 6 trang mặc

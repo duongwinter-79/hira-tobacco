@@ -23,6 +23,7 @@ require_once ANNAMLEAF_CORE_DIR . 'includes/meta.php';
 require_once ANNAMLEAF_CORE_DIR . 'includes/settings.php';
 require_once ANNAMLEAF_CORE_DIR . 'includes/api.php';
 require_once ANNAMLEAF_CORE_DIR . 'includes/seed.php';
+require_once ANNAMLEAF_CORE_DIR . 'includes/demo-photos.php';
 
 /**
  * On activation: register the types, fill the site with the demo structure once, and

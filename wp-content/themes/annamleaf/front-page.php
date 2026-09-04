@@ -28,7 +28,7 @@ annamleaf_hero(
 				/* translators: 1: company name, 2: growing region. */
 				__( '%1$s grows, cures, grades and processes its own leaf in %2$s, Vietnam — one company from the seedbed to the sealed container.', 'annamleaf' ),
 				annamleaf_company_name(),
-				annamleaf_ph( __( 'REGION', 'annamleaf' ) )
+				annamleaf_get_field( 'region', __( 'REGION', 'annamleaf' ) )
 			),
 		'cta_label'       => annamleaf_get_meta( $annamleaf_front_id, 'hero_cta_label', __( 'Request a quote', 'annamleaf' ) ),
 		'cta_url'         => annamleaf_get_meta( $annamleaf_front_id, 'hero_cta_url', annamleaf_contact_url() ),

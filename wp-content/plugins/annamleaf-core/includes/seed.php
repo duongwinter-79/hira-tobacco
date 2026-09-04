@@ -3,7 +3,8 @@
  * First-run content.
  *
  * Activating the plugin builds the whole site: seven process stages, four leaf types,
- * three regions and six finished pages, with the front page set and the menu built. The
+ * the Cao Bằng growing region and six finished pages, with the front page set and the
+ * menu built. The
  * pages arrive written, not as empty shells asking the client to assemble sections — the
  * work left is editing wording and swapping in real figures and photographs.
  *
@@ -241,19 +242,17 @@ function annamleaf_seed_content( bool $force = false ): void {
 		);
 	}
 
-	for ( $i = 1; $i <= 3; $i++ ) {
-		annamleaf_seed_post(
-			'annam_region',
-			/* translators: %d: region number. */
-			sprintf( __( 'Growing region %d', 'annamleaf-core' ), $i ),
-			'',
-			array(
-				'leaf_types' => __( 'Leaf type to confirm', 'annamleaf-core' ),
-				'harvest'    => __( 'Harvest months to confirm', 'annamleaf-core' ),
-			),
-			$i
-		);
-	}
+	// The one region we know. Others get added in Regions as the client confirms them.
+	annamleaf_seed_post(
+		'annam_region',
+		'Cao Bằng',
+		'',
+		array(
+			'leaf_types' => __( 'Leaf type to confirm', 'annamleaf-core' ),
+			'harvest'    => __( 'Harvest months to confirm', 'annamleaf-core' ),
+		),
+		1
+	);
 
 	annamleaf_seed_pages( $force );
 }
@@ -326,7 +325,11 @@ function annamleaf_seed_page_definitions(): array {
 		'content'  =>
 			annamleaf_block_p(
 				__( 'We grow, cure, grade, process and export leaf tobacco from our own fields in Vietnam. Most suppliers buy what the market offers; we start at the seedbed, which is why every bale we ship can be traced back to the field it grew in, the barn it was cured in and the week it was graded.', 'annamleaf-core' ),
-				__( 'The company was founded in [year] and works with farming households across [growing region]. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate.', 'annamleaf-core' )
+				sprintf(
+					/* translators: %s: growing region. */
+					__( 'The company was founded in [year] and works with farming households across %s. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate.', 'annamleaf-core' ),
+					annamleaf_option( 'region', __( '[growing region]', 'annamleaf-core' ) )
+				)
 			)
 			. annamleaf_block_h( __( 'Three things we do ourselves', 'annamleaf-core' ) )
 			. annamleaf_block_columns(
@@ -494,6 +497,7 @@ function annamleaf_seed_pages( bool $force = false ): void {
 		array_merge(
 			array(
 				'show_placeholders' => '1',
+				'region'            => 'Cao Bằng',
 				'trade_notice'      => __( 'This site is intended for industrial buyers and trade partners. It is not directed at consumers.', 'annamleaf-core' ),
 			),
 			$options

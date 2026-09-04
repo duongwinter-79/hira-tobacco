@@ -60,8 +60,8 @@ Mở **http://localhost:8888** — WordPress hiện màn hình cài đặt:
 Trong wp-admin (menu bên trái):
 
 1. **Plugins** → tìm **Annam Leaf Core** → bấm **Activate**.
-   Đây là lúc nội dung mẫu được tạo: 7 bước quy trình, 4 chủng loại lá, 3 vùng trồng,
-   5 trang, trang chủ và menu. **Phải làm bước này trước.**
+   Đây là lúc nội dung mẫu được tạo: 7 bước quy trình, 4 chủng loại lá, vùng trồng Cao Bằng,
+   6 trang, trang chủ và menu. **Phải làm bước này trước.**
 2. **Appearance → Themes** → di chuột lên **Annam Leaf** → bấm **Activate**.
 3. **Settings → Permalinks** → bấm **Save Changes** (không cần đổi gì).
    Bước này để `/process/` và `/our-leaf/` chạy được.
@@ -150,6 +150,20 @@ hoặc upload lại zip), vào **Company profile → Rebuild default content** �
 theo bản mới. Nút này ghi đè chữ của các trang mẫu, không đụng ảnh và hồ sơ công ty.
 
 Rồi vào **Settings → Permalinks** bấm **Save Changes** một lần.
+
+## Ảnh tạm từ Wikimedia Commons
+
+Chưa có ảnh thật của khách thì vào **Company profile → Temporary photographs → Import
+temporary photographs**. Nó tải ảnh có giấy phép tự do từ Wikimedia Commons (cánh đồng ở
+Cao Bằng, lò sấy, phân loại lá, cảng container) và gán làm ảnh đại diện cho các mục còn
+trống. Mỗi ảnh hiện kèm dòng ghi công **TEMPORARY · tên tác giả · giấy phép** ngay trên ảnh
+— vừa đúng yêu cầu giấy phép, vừa để không ai nhầm đó là ảnh của công ty.
+
+Cần server ra được internet, chạy mất tới một phút. Bấm **Remove temporary photographs**
+để xoá sạch; hoặc cứ upload ảnh thật vào Featured image, ảnh tạm sẽ bị thay.
+
+**Ảnh tạm không được để lại khi go-live** — chúng là ảnh chung của ngành, không phải của
+công ty này.
 
 ## Vài chuyện bình thường, không phải lỗi
 

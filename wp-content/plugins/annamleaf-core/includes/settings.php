@@ -22,6 +22,11 @@ function annamleaf_option_fields(): array {
 				'company_name'     => array( 'label' => __( 'Trading name', 'annamleaf-core' ), 'type' => 'text' ),
 				'legal_name'       => array( 'label' => __( 'Legal name', 'annamleaf-core' ), 'type' => 'text' ),
 				'reg_no'           => array( 'label' => __( 'Business registration no.', 'annamleaf-core' ), 'type' => 'text' ),
+				'region'           => array(
+					'label' => __( 'Growing region', 'annamleaf-core' ),
+					'type'  => 'text',
+					'hint'  => __( 'The province the leaf is grown in, e.g. Cao Bằng. Used in the opening line on the home page.', 'annamleaf-core' ),
+				),
 				'office_address'   => array( 'label' => __( 'Office address', 'annamleaf-core' ), 'type' => 'textarea' ),
 				'factory_address'  => array( 'label' => __( 'Factory address', 'annamleaf-core' ), 'type' => 'textarea' ),
 				'show_placeholders' => array(
@@ -171,6 +176,34 @@ function annamleaf_render_settings_page(): void {
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Company profile', 'annamleaf-core' ); ?></h1>
 
+		<?php if ( isset( $_GET['annamleaf_photos'] ) ) : ?>
+			<?php $annamleaf_n = isset( $_GET['annamleaf_count'] ) ? (int) $_GET['annamleaf_count'] : 0; ?>
+			<div class="notice notice-success is-dismissible">
+				<?php if ( 'removed' === $_GET['annamleaf_photos'] ) : ?>
+					<p>
+						<?php
+						printf(
+							/* translators: %d: number of photographs. */
+							esc_html__( 'Removed %d temporary photographs. Those frames show the illustration again until you upload real photography.', 'annamleaf-core' ),
+							$annamleaf_n
+						);
+						?>
+					</p>
+				<?php else : ?>
+					<p>
+						<?php
+						printf(
+							/* translators: 1: imported count, 2: skipped count. */
+							esc_html__( 'Imported %1$d temporary photographs (%2$d slots skipped — already had a photo, or nothing suitable was found). Replace them with the real shoot before launch.', 'annamleaf-core' ),
+							$annamleaf_n,
+							isset( $_GET['annamleaf_skipped'] ) ? (int) $_GET['annamleaf_skipped'] : 0
+						);
+						?>
+					</p>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+
 		<?php if ( isset( $_GET['annamleaf_rebuilt'] ) ) : ?>
 			<div class="notice notice-success is-dismissible">
 				<p><?php esc_html_e( 'Default content rebuilt: pages, process stages, leaf types, regions and the menu are back to the delivered version.', 'annamleaf-core' ); ?></p>
@@ -216,6 +249,48 @@ function annamleaf_render_settings_page(): void {
 
 			<?php submit_button(); ?>
 		</form>
+
+		<hr>
+
+		<h2><?php esc_html_e( 'Temporary photographs', 'annamleaf-core' ); ?></h2>
+		<?php $annamleaf_demo_count = function_exists( 'annamleaf_count_demo_photos' ) ? annamleaf_count_demo_photos() : 0; ?>
+		<p class="description" style="max-width:60em;">
+			<?php esc_html_e( 'Until the real photography arrives, this fills the empty image frames with freely licensed pictures from Wikimedia Commons — a field in Cao Bằng, curing barns, sorting, a container terminal. Each one is credited on the page and marked as temporary.', 'annamleaf-core' ); ?>
+		</p>
+		<p class="description" style="max-width:60em;">
+			<strong><?php esc_html_e( 'These are a stand-in, not the finished site.', 'annamleaf-core' ); ?></strong>
+			<?php esc_html_e( 'They are generic pictures of the trade, not this company. Remove them as the real shoot comes in — uploading a real featured image to a stage replaces its temporary photo anyway.', 'annamleaf-core' ); ?>
+		</p>
+		<p>
+			<?php
+			printf(
+				/* translators: %d: number of temporary photographs currently in the library. */
+				esc_html__( 'In the library now: %d temporary photographs.', 'annamleaf-core' ),
+				(int) $annamleaf_demo_count
+			);
+			?>
+		</p>
+		<div style="display:flex;gap:10px;flex-wrap:wrap;">
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="annamleaf_import_photos">
+				<?php wp_nonce_field( 'annamleaf_demo_photos' ); ?>
+				<button type="submit" class="button button-secondary">
+					<?php esc_html_e( 'Import temporary photographs', 'annamleaf-core' ); ?>
+				</button>
+			</form>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="annamleaf_remove_photos">
+				<?php wp_nonce_field( 'annamleaf_demo_photos' ); ?>
+				<button type="submit" class="button button-secondary"
+					onclick="return confirm('<?php echo esc_js( __( 'Delete every temporary photograph?', 'annamleaf-core' ) ); ?>');"
+					<?php disabled( 0, $annamleaf_demo_count ); ?>>
+					<?php esc_html_e( 'Remove temporary photographs', 'annamleaf-core' ); ?>
+				</button>
+			</form>
+		</div>
+		<p class="description" style="max-width:60em;margin-top:8px;">
+			<?php esc_html_e( 'Importing takes up to a minute and needs the server to reach commons.wikimedia.org.', 'annamleaf-core' ); ?>
+		</p>
 
 		<hr>
 

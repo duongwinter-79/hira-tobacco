@@ -53,9 +53,10 @@ không** · grade · độ ẩm giao hàng · quy cách đóng gói. Loại khô
 Thêm: dạng giao hàng (lamina / lá nguyên / cọng / sợi cắt / lá vụn), cảng xuất khẩu ✓,
 thị trường xuất khẩu đã có.
 
-## 06. Vùng trồng (3 dòng)
+## 06. Vùng trồng
 
-Tên vùng · diện tích (ha) · chủng loại trồng ở đó · tháng thu hoạch.
+Đã biết: **Cao Bằng**. Cần thêm diện tích (ha) · chủng loại trồng ở đó · tháng thu hoạch.
+Nếu còn vùng khác thì bổ sung tên, diện tích, chủng loại, tháng thu hoạch cho từng vùng.
 
 ## 07. Lịch mùa vụ
 
@@ -70,6 +71,9 @@ Chứng nhận đang có (tên + số hiệu + đơn vị cấp, kèm scan) · c
 
 12 cảnh, chi tiết ở [shot-list.md](shot-list.md). Quan trọng nhất là **ảnh 05: lá vàng treo
 trong lò sấy**.
+
+Trong lúc chờ, site đang dùng ảnh tạm giấy phép tự do từ Wikimedia Commons (bật/tắt ở
+Company profile). Ảnh tạm là ảnh chung của ngành, **phải thay hết trước khi go-live**.
 
 Ba điều cần tránh:
 

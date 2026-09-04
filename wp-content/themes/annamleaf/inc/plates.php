@@ -64,6 +64,20 @@ function annamleaf_plate( array $args = array() ): void {
 				'alt'     => esc_attr( get_the_title( $post_id ) ),
 			)
 		);
+
+		// A temporary photograph carries its credit on the picture, as its licence requires.
+		$credit = function_exists( 'annamleaf_photo_credit' )
+			? annamleaf_photo_credit( (int) get_post_thumbnail_id( $post_id ) )
+			: '';
+
+		if ( '' !== $credit ) {
+			printf(
+				'<figcaption class="shotchip shotchip--credit"><span class="n">%s</span><span>%s</span></figcaption>',
+				esc_html__( 'TEMPORARY', 'annamleaf' ),
+				esc_html( $credit )
+			);
+		}
+
 		echo '</figure>';
 
 		return;

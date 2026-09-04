@@ -386,3 +386,7 @@ td.num{font-variant-numeric:tabular-nums;}
 .entry-content .wp-block-table td:first-child{font-weight:500;color:var(--ink);}
 
 .entry-content>.wp-block-heading:first-child{margin-top:0;}
+
+/* credit line on a temporary photograph */
+.shotchip--credit .n{color:var(--cured-deep);}
+.shotchip--credit{max-width:min(100% - 24px, 460px);}
