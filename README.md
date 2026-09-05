@@ -16,6 +16,7 @@ tools/render-check.php           Render thử template không cần cài WordPre
 tools/package.sh                 Đóng gói theme + plugin thành zip để upload
 tools/fetch-photos.mjs           Lọc ứng viên ảnh, dựng trang duyệt, tải ảnh bạn chọn
 tools/test-photo-scoring.mjs     Kiểm tra bộ lọc ảnh (chạy offline)
+tools/reference-shots.mjs        Kéo ảnh site tham chiếu về máy làm brief chụp ảnh
 ```
 
 Chưa dùng WordPress bao giờ? Xem **[docs/chay-thu-local.md](docs/chay-thu-local.md)** —

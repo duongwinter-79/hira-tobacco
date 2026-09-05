@@ -364,3 +364,60 @@ Có thứ khác đang chiếm cổng 8888.
 
 Chụp màn hình lỗi và nói tôi biết bạn đang ở bước nào — kèm dòng lệnh cuối cùng bạn chạy
 và thông báo lỗi đầy đủ.
+
+## Lấy ảnh site tham chiếu về làm brief chụp ảnh
+
+`tools/reference-shots.mjs` mở Chromium, vào các site tham chiếu (dongvietthanh.com,
+arestobacco.com, satatobacco.com, meti.com.tr, universalcorp.com), **tải toàn bộ ảnh về
+`tools/reference/`**, chụp lại toàn trang để xem bố cục, rồi dựng một bảng để gắn từng ảnh
+với khung tương ứng trên site Annam Leaf.
+
+Cài một lần:
+
+```powershell
+npm install --save-dev playwright
+npx playwright install chromium
+```
+
+Chạy:
+
+```powershell
+node tools/reference-shots.mjs
+start tools\reference\index.html
+```
+
+Trong bảng: mỗi ảnh có một ô chọn khung (A1…D7, đúng mã trong
+[shot-list.md](shot-list.md)) và một ô ghi chú *"chụp lại thế nào ở nhà máy mình"*. Gắn xong
+bấm **Tổng hợp brief** — nội dung sinh ra dán được vào `docs/shot-brief.md` hoặc gửi thẳng
+cho người chụp ảnh.
+
+Tuỳ chọn:
+
+```sh
+node tools/reference-shots.mjs --url=https://…      # thêm site (lặp lại được)
+node tools/reference-shots.mjs --only=dongvietthanh # chỉ site khớp chuỗi này
+node tools/reference-shots.mjs --min=700            # bỏ ảnh nhỏ hơn 700px
+node tools/reference-shots.mjs --depth=1            # theo cả link nội bộ một cấp
+```
+
+Script lấy cả `<img>` lẫn ảnh nền CSS (ảnh bìa thường là ảnh nền), chờ lazy-load bằng cách
+cuộn hết trang, và nghỉ giữa các trang — đây là máy chủ của người khác.
+
+### Ảnh trong `tools/reference/` không được đưa lên website
+
+Thư mục này nằm trong `.gitignore` và **không** nằm trong theme, có lý do:
+
+- Ảnh có bản quyền của công ty đã chụp chúng.
+- Quan trọng hơn: đó là **nhà máy, kho và sản phẩm của công ty khác**. Đưa lên
+  annamleaf.com tức là nói với người mua rằng đó là nhà máy của Annam Leaf. Ngành nguyên
+  liệu thuốc lá ở Việt Nam nhỏ, người mua và các nhà chế biến biết nhau — bị nhận ra là mất
+  uy tín, chưa kể rủi ro pháp lý.
+
+Ba đường có ảnh dùng được, theo thứ tự nên làm:
+
+1. **Ảnh thật của khách.** Cầm brief xuống nhà máy một buổi là đủ nhóm A và B. Điện thoại
+   đời mới chụp ban ngày dùng được.
+2. **Ảnh stock có bản quyền thương mại.** Adobe Stock / Getty có ảnh chế biến lá thuốc; mua
+   giấy phép rồi upload vào Media Library như ảnh thường.
+3. **Ảnh giấy phép tự do** qua `tools/fetch-photos.mjs` — miễn phí, nhưng chỉ nên coi là ảnh
+   tạm cho tới khi có ảnh thật.

@@ -34,3 +34,7 @@ dist/
 # sinh ra bởi tools/fetch-photos.mjs — bản nháp để duyệt ảnh, không cần versioning
 tools/photo-review.html
 tools/photo-picks.json
+
+# sinh ra bởi tools/reference-shots.mjs — ảnh của công ty khác, chỉ để tham chiếu,
+# tuyệt đối không commit và không đưa lên website
+tools/reference/
