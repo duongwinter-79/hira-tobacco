@@ -111,8 +111,15 @@ annamleaf_stats_strip();
 			?>
 			<div class="grid4">
 				<?php
-				foreach ( $annamleaf_leaves as $annamleaf_leaf ) {
-					get_template_part( 'template-parts/card', 'leaf', array( 'post' => $annamleaf_leaf ) );
+				foreach ( $annamleaf_leaves as $annamleaf_leaf_index => $annamleaf_leaf ) {
+					get_template_part(
+						'template-parts/card',
+						'leaf',
+						array(
+							'post'  => $annamleaf_leaf,
+							'index' => $annamleaf_leaf_index + 1,
+						)
+					);
 				}
 				?>
 			</div>
@@ -158,9 +165,14 @@ annamleaf_stats_strip();
 			<?php
 			annamleaf_plate(
 				array(
-					'motif'      => 'field',
-					'shot_note'  => __( 'Region map, or a drone shot of one growing area', 'annamleaf' ),
-					'shot_index' => 'PHOTO 08',
+					'post_id'   => $annamleaf_regions[0]->ID,
+					'motif'     => 'field',
+					'photo'     => 'region',
+					'shot_note' => annamleaf_get_meta(
+						$annamleaf_regions[0]->ID,
+						'shot_note',
+						__( 'The growing area seen wide, or a drone shot of one valley', 'annamleaf' )
+					),
 				)
 			);
 			?>

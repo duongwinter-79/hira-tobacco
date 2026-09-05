@@ -8,7 +8,8 @@ Khách hàng **không cần biết dùng WordPress** — họ điền thông tin
 
 Cấu trúc theo mô hình **bán sản phẩm + giới thiệu nhà máy** (tham chiếu dongvietthanh.com:
 mỗi sản phẩm một trang, cộng trang kho và trang nhập nguyên liệu). Ba mục đậm dưới đây là
-ba mục không có thì không lên site được: **05 Sản phẩm**, **06 Nhà máy & kho**, **12 Ảnh**.
+ba mục không có thì không lên site được: **05 Sản phẩm**, **06 Nhà máy & kho**, **12 Ảnh**
+(13 khung, tối thiểu 5).
 
 ## 01. Nhận diện công ty
 
@@ -145,14 +146,22 @@ hỏi rõ trước khi đăng.
 
 ## 12. Ảnh — **mục quan trọng nhất**
 
-Chi tiết ở [shot-list.md](shot-list.md). Chia bốn nhóm, ưu tiên từ trên xuống:
+Website có đúng **13 khung ảnh** nạp được ảnh, cộng 4 dải tiêu đề tuỳ chọn. Không hơn — chi
+tiết từng khung ở [shot-list.md](shot-list.md).
 
-| Nhóm | Nội dung | Tối thiểu để go-live |
+| Mức | Số ảnh | Gồm những gì |
 | --- | --- | --- |
-| A | Ảnh từng sản phẩm trên nền trung tính, kiện có nhãn lô | 4 |
-| B | Nhà máy, dây chuyền đang chạy, kho, đóng container | 3 |
-| C | Phân cấp, phòng lab, scan chứng nhận | 1 |
-| D | Cánh đồng, lò sấy, thu hoạch, đội ngũ | 2 |
+| **Tối thiểu** | 5 | Ảnh bìa + 4 bước đầu (vườn ươm, đồng ruộng, thu hoạch, **lò sấy**) |
+| **Đủ** | 13 | Thêm 3 bước cuối (phân cấp, tách cọng, kho), 4 ảnh sản phẩm, 1 ảnh vùng trồng |
+| Đầy đủ | 17 | Thêm ảnh nền tiêu đề cho About / Our Leaf / Process / Quality |
+
+Ảnh quan trọng nhất là **lò sấy với lá vàng treo bên trong** — hình ảnh đặc trưng nhất của
+nghề. Sau đó là **4 ảnh sản phẩm**: với người mua công nghiệp, ảnh sản phẩm là thứ họ xem
+trước khi xem bất cứ gì khác.
+
+Khách hàng nạp ảnh bằng cách vào wp-admin, mở đúng mục, đặt **Featured image** — không cần
+đặt tên file. Danh sách Process / Our Leaf / Regions có cột **Photo** cho biết mục nào còn
+thiếu ảnh.
 
 Trong lúc chờ, site dùng ảnh tạm giấy phép tự do (chọn thủ công qua
 `tools/fetch-photos.mjs`). Ảnh tạm là ảnh chung của ngành, **phải thay hết trước khi

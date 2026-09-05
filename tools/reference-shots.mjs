@@ -67,39 +67,31 @@ const FALLBACK = {
 };
 
 /**
- * The frames on the Annam Leaf site, as tagging options. Same codes as docs/shot-list.md,
- * so a tagged brief lines up with the shot list.
+ * The frames on the Annam Leaf site, as tagging options.
+ *
+ * These are the real slots the templates read, not a wish list: the code is the name of the
+ * bundled file (assets/photos/<code>.jpg) and of the item whose featured image fills it.
+ * docs/shot-list.md describes each one.
  */
 const FRAMES = [
 	["", "— chưa gắn —"],
-	["A1", "A1 · Lá nguyên theo grade"],
-	["A2", "A2 · Lamina"],
-	["A3", "A3 · Cọng"],
-	["A4", "A4 · Sợi cắt"],
-	["A5", "A5 · Lá vụn"],
-	["A6", "A6 · Nắm lá trên tay"],
-	["A7", "A7 · Kiện có nhãn lô"],
-	["A8", "A8 · Carton đóng gói"],
-	["B1", "B1 · Mặt tiền nhà máy"],
-	["B2", "B2 · Toàn cảnh xưởng"],
-	["B3", "B3 · Dây chuyền tách cọng"],
-	["B4", "B4 · Máy thái sợi"],
-	["B5", "B5 · Máy đóng kiện"],
-	["B6", "B6 · Kho thành phẩm"],
-	["B7", "B7 · Kho nguyên liệu"],
-	["B8", "B8 · Đóng container"],
-	["B9", "B9 · Cân hàng đầu vào"],
-	["C1", "C1 · Bàn phân cấp"],
-	["C2", "C2 · Phòng lab"],
-	["C3", "C3 · Đo độ ẩm"],
-	["C4", "C4 · Scan chứng nhận"],
-	["D1", "D1 · Cánh đồng (ảnh bìa)"],
-	["D2", "D2 · Lò sấy"],
-	["D3", "D3 · Thu hoạch"],
-	["D4", "D4 · Nông vụ và nông dân"],
-	["D5", "D5 · Vườn ươm"],
-	["D6", "D6 · Flycam vùng trồng"],
-	["D7", "D7 · Đội ngũ"],
+	["home", "home · Ảnh bìa trang chủ"],
+	["stage-1", "stage-1 · Vườn ươm"],
+	["stage-2", "stage-2 · Đồng ruộng"],
+	["stage-3", "stage-3 · Thu hoạch"],
+	["stage-4", "stage-4 · Lò sấy"],
+	["stage-5", "stage-5 · Phân cấp"],
+	["stage-6", "stage-6 · Tách cọng & đóng kiện"],
+	["stage-7", "stage-7 · Kho & xuất hàng"],
+	["leaf-1", "leaf-1 · Sản phẩm 1"],
+	["leaf-2", "leaf-2 · Sản phẩm 2"],
+	["leaf-3", "leaf-3 · Sản phẩm 3"],
+	["leaf-4", "leaf-4 · Sản phẩm 4"],
+	["region", "region · Vùng trồng"],
+	["hero-about", "Hero trang About"],
+	["hero-leaf", "Hero trang Our Leaf"],
+	["hero-process", "Hero trang Process"],
+	["hero-quality", "Hero trang Quality"],
 	["layout", "Bố cục trang, không phải một khung ảnh"],
 ];
 

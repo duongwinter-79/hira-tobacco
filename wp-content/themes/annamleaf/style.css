@@ -211,7 +211,8 @@ button{font:inherit;color:inherit;}
 
 /* ---------- leaf portfolio ---------- */
 .leafcard{background:var(--card);border:1px solid var(--rule);padding:0;display:flex;flex-direction:column;}
-.leafcard .top{padding:20px 22px 4px;display:flex;align-items:flex-start;gap:14px;}
+.leafcard>.plate{aspect-ratio:4/3;border-bottom:1px solid var(--rule-soft);}
+.leafcard .top{padding:18px 22px 4px;display:flex;align-items:flex-start;gap:14px;}
 .leafcard .glyph{width:34px;height:44px;color:var(--leaf);flex:none;}
 .leafcard h3{font-size:17px;}
 .leafcard .vi-name{font-size:12.5px;color:var(--ink-faint);}

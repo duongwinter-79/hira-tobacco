@@ -5,6 +5,12 @@
  * and no database rows. They live in wp-content/themes/annamleaf/assets/photos/ with
  * credits.json beside them.
  *
+ * It covers the frames a stock photograph can honestly stand in for: the cover, the seven
+ * process stages and the growing region. The product frames (leaf-1 to leaf-4) are not here
+ * on purpose — a stock picture of somebody else's dried leaf tells a buyer this is the grade
+ * on offer, which is a claim about the goods. Those stay as illustrations until the client
+ * photographs their own.
+ *
  * A search engine has no eyes and neither has this script: it can only read the words
  * someone typed next to a picture. Two runs proved how far that gets you — Commons answered
  * "tobacco leaves sorting" with a 19th century engraving of enslaved people, and "shipping
@@ -72,6 +78,17 @@ const SLOTS = [
 		],
 		good: ["cao bang", "karst", "terrace", "paddy", "valley", "green", "mountain", "farmland", "morning"],
 		avoid: ["city", "street", "temple", "market", "portrait", "hotel", "traffic", "monument", "waterfall"],
+	},
+	{
+		slot: "region",
+		shows: "Growing regions: the growing area seen wide, or one valley from above",
+		queries: ["Cao Bang Vietnam valley", "Vietnam northern highlands farmland", "Cao Bang terraced fields", "Vietnam mountain valley farms"],
+		must: [
+			["cao bang", "cao bằng", "vietnam", "viet nam"],
+			["valley", "landscape", "field", "fields", "farm", "farmland", "terrace", "rice", "mountain", "countryside", "village", "aerial"],
+		],
+		good: ["cao bang", "valley", "terrace", "aerial", "farmland", "karst", "green", "paddy"],
+		avoid: ["city", "street", "temple", "market", "portrait", "hotel", "monument", "waterfall"],
 	},
 	{
 		slot: "stage-1",

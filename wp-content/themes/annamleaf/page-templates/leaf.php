@@ -26,8 +26,15 @@ endwhile;
 		<div class="wrap">
 			<div class="grid4">
 				<?php
-				foreach ( $annamleaf_items as $annamleaf_item ) {
-					get_template_part( 'template-parts/card', 'leaf', array( 'post' => $annamleaf_item ) );
+				foreach ( $annamleaf_items as $annamleaf_item_index => $annamleaf_item ) {
+					get_template_part(
+						'template-parts/card',
+						'leaf',
+						array(
+							'post'  => $annamleaf_item,
+							'index' => $annamleaf_item_index + 1,
+						)
+					);
 				}
 				?>
 			</div>

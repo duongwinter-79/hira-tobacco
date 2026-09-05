@@ -49,7 +49,8 @@ Bố cục do theme giữ cố định, nên khách sửa chữ và ảnh mà kh
   Danh sách: [docs/placeholders.md](docs/placeholders.md)
 - **Ảnh**: `node tools/fetch-photos.mjs` lọc ứng viên từ 4 thư viện giấy phép tự do rồi
   dựng `tools/photo-review.html` để **bạn tự chọn bằng mắt**; `--apply` tải đúng những ảnh
-  đã chọn vào `themes/annamleaf/assets/photos/` để commit cùng repo. Máy chỉ đọc được chữ mô
+  đã chọn vào `themes/annamleaf/assets/photos/` để commit cùng repo. Site có 13 khung ảnh:
+  `home`, `stage-1..7`, `leaf-1..4`, `region` — tối thiểu 5 là đủ chạy. Máy chỉ đọc được chữ mô
   tả cạnh ảnh nên không tự quyết. Khung nào không chọn thì vẽ minh hoạ vector kèm chú thích
   ảnh cần chụp. Upload featured image vào là ảnh thật thay chỗ ngay.
   Shot list: [docs/shot-list.md](docs/shot-list.md)

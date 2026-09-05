@@ -173,7 +173,7 @@ node tools/fetch-photos.mjs --apply
 
 1. **Bước 1** tìm ảnh ở nhiều thư viện giấy phép tự do, lọc và chấm điểm, rồi sinh ra một
    trang HTML tại `tools/photo-review.html`. **Chưa tải ảnh nào về.**
-2. **Bước 2** mở trang đó trong trình duyệt: mỗi khung ảnh (bìa Cao Bằng + 7 bước quy trình)
+2. **Bước 2** mở trang đó trong trình duyệt: mỗi khung ảnh (ảnh bìa + 7 bước quy trình)
    có tối đa 8 ứng viên hiện ảnh thật, kèm điểm, nguồn, giấy phép và link tới trang gốc.
    Tích chọn ảnh bạn thấy đúng, bấm **Save picks** — trình duyệt tải xuống
    `photo-picks.json`. Chuyển file đó vào thư mục `tools/` (hoặc cứ để trong Downloads,
@@ -385,8 +385,8 @@ node tools/reference-shots.mjs
 open tools/reference/index.html
 ```
 
-Trong bảng: mỗi ảnh có một ô chọn khung (A1…D7, đúng mã trong
-[shot-list.md](shot-list.md)) và một ô ghi chú *"chụp lại thế nào ở nhà máy mình"*. Gắn xong
+Trong bảng: mỗi ảnh có một ô chọn khung (`home`, `stage-1..7`, `leaf-1..4`, `region`, hero
+các trang — đúng tên khung trong [shot-list.md](shot-list.md)) và một ô ghi chú *"chụp lại thế nào ở nhà máy mình"*. Gắn xong
 bấm **Tổng hợp brief** — nội dung sinh ra dán được vào `docs/shot-brief.md` hoặc gửi thẳng
 cho người chụp ảnh.
 
