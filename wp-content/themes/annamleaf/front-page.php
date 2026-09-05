@@ -4,7 +4,7 @@
  *
  * Section order is fixed by design; every word, figure and photograph in it is editable.
  * Hero and intro come from the front page's own fields, the figures from the company
- * profile, and the three content strips from the process stages, leaf types and regions.
+ * profile, and the three content strips from the process stages, products and regions.
  *
  * @package AnnamLeaf
  */

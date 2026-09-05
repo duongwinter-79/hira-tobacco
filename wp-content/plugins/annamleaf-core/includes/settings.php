@@ -206,7 +206,7 @@ function annamleaf_render_settings_page(): void {
 
 		<?php if ( isset( $_GET['annamleaf_rebuilt'] ) ) : ?>
 			<div class="notice notice-success is-dismissible">
-				<p><?php esc_html_e( 'Default content rebuilt: pages, process stages, leaf types, regions and the menu are back to the delivered version.', 'annamleaf-core' ); ?></p>
+				<p><?php esc_html_e( 'Default content rebuilt: pages, process stages, products, regions and the menu are back to the delivered version.', 'annamleaf-core' ); ?></p>
 			</div>
 		<?php endif; ?>
 		<p class="description" style="max-width:60em;">
@@ -296,7 +296,7 @@ function annamleaf_render_settings_page(): void {
 
 		<h2><?php esc_html_e( 'Default content', 'annamleaf-core' ); ?></h2>
 		<p class="description" style="max-width:60em;">
-			<?php esc_html_e( 'Restores the delivered site: the six pages with their full text, the seven process stages, the leaf types, the regions and the menu. Use it if a page was emptied by accident, or after the site files are updated.', 'annamleaf-core' ); ?>
+			<?php esc_html_e( 'Restores the delivered site: the six pages with their full text, the seven process stages, the products, the regions and the menu. Use it if a page was emptied by accident, or after the site files are updated.', 'annamleaf-core' ); ?>
 		</p>
 		<p class="description" style="max-width:60em;">
 			<strong><?php esc_html_e( 'This overwrites the text of those six pages.', 'annamleaf-core' ); ?></strong>

@@ -182,7 +182,7 @@ function annamleaf_plugin_notice(): void {
 	<div class="notice notice-warning">
 		<p>
 			<strong><?php esc_html_e( 'Annam Leaf: the content plugin is not active.', 'annamleaf' ); ?></strong>
-			<?php esc_html_e( 'The theme needs the Annam Leaf Core plugin for its pages, process stages, leaf types and the Company profile screen. Activate it under Plugins.', 'annamleaf' ); ?>
+			<?php esc_html_e( 'The theme needs the Annam Leaf Core plugin for its pages, process stages, products and the Company profile screen. Activate it under Plugins.', 'annamleaf' ); ?>
 			<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>"><?php esc_html_e( 'Go to Plugins', 'annamleaf' ); ?></a>
 		</p>
 	</div>

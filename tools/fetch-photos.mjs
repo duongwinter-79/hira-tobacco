@@ -6,7 +6,7 @@
  * credits.json beside them.
  *
  * It covers the frames a stock photograph can honestly stand in for: the cover, the seven
- * process stages and the growing region. The product frames (leaf-1 to leaf-4) are not here
+ * process stages and the growing region. The product frames (leaf-1 to leaf-3) are not here
  * on purpose — a stock picture of somebody else's dried leaf tells a buyer this is the grade
  * on offer, which is a claim about the goods. Those stay as illustrations until the client
  * photographs their own.

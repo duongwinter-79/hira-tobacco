@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Annam Leaf Core
  * Plugin URI:        https://annamleaf.com/
- * Description:       Content structure for the Annam Leaf website: process stages, leaf types, growing regions, page heroes and the company profile settings. Lives in a plugin, not the theme, so the content survives a redesign.
+ * Description:       Content structure for the Annam Leaf website: process stages, products, growing regions, page heroes and the company profile settings. Lives in a plugin, not the theme, so the content survives a redesign.
  * Version:           1.0.0
  * Requires at least: 6.4
  * Requires PHP:      8.0

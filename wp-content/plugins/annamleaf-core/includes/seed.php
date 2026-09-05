@@ -2,7 +2,7 @@
 /**
  * First-run content.
  *
- * Activating the plugin builds the whole site: seven process stages, four leaf types,
+ * Activating the plugin builds the whole site: seven process stages, three products,
  * the Cao Bằng growing region and six finished pages, with the front page set and the
  * menu built. The
  * pages arrive written, not as empty shells asking the client to assemble sections — the
@@ -135,7 +135,7 @@ function annamleaf_seed_stages(): array {
 		),
 		array(
 			'title'   => __( 'Curing', 'annamleaf-core' ),
-			'content' => __( 'Flue-curing for Virginia, air-curing for Burley. Temperature and humidity follow a set curve — this is the stage that decides colour, aroma and sugar.', 'annamleaf-core' ),
+			'content' => __( 'Temperature and humidity follow a set curve during curing, because this is the stage that decides colour, aroma and usable quality before processing.', 'annamleaf-core' ),
 			'shot'    => __( 'Barn exteriors; golden leaf hanging inside — the signature shot', 'annamleaf-core' ),
 		),
 		array(
@@ -157,46 +157,36 @@ function annamleaf_seed_stages(): array {
 }
 
 /**
- * The leaf portfolio. Moisture and packing carry the trade's usual figures as a starting
- * point; grades are company specific, so they stay empty until the client fills them in.
+ * The product portfolio. Moisture and packing carry starting values where they are useful;
+ * grades are company specific, so they stay empty until the client fills them in.
  *
  * @return array<int, array{title: string, vi: string, curing: string, excerpt: string, moisture: string, packing: string}>
  */
 function annamleaf_seed_leaves(): array {
-	$cases = __( '200 kg cases', 'annamleaf-core' );
-
 	return array(
 		array(
-			'title'    => __( 'Flue-cured Virginia', 'annamleaf-core' ),
-			'vi'       => 'Virginia sấy lò',
-			'curing'   => __( 'Flue-cured', 'annamleaf-core' ),
-			'excerpt'  => __( 'Bright leaf, high sugar, cured in temperature-controlled barns.', 'annamleaf-core' ),
+			'title'    => __( 'Sợi thuốc lá', 'annamleaf-core' ),
+			'vi'       => __( 'Cut rag tobacco', 'annamleaf-core' ),
+			'curing'   => __( 'Cut to specification', 'annamleaf-core' ),
+			'excerpt'  => __( 'Processed tobacco cut to the buyer’s requested blend and particle specification.', 'annamleaf-core' ),
 			'moisture' => '12.0–13.5%',
-			'packing'  => $cases,
+			'packing'  => __( 'Packed to buyer specification', 'annamleaf-core' ),
 		),
 		array(
-			'title'    => __( 'Burley', 'annamleaf-core' ),
-			'vi'       => 'Burley sấy gió',
-			'curing'   => __( 'Air-cured', 'annamleaf-core' ),
-			'excerpt'  => __( 'Air-cured, low sugar, high filling power and casing absorption.', 'annamleaf-core' ),
+			'title'    => __( 'Cọng thuốc lá', 'annamleaf-core' ),
+			'vi'       => __( 'Tobacco stem', 'annamleaf-core' ),
+			'curing'   => __( 'Separated stem', 'annamleaf-core' ),
+			'excerpt'  => __( 'Clean tobacco stems separated from leaf during processing and prepared for industrial buyers.', 'annamleaf-core' ),
 			'moisture' => '12.0–13.5%',
-			'packing'  => $cases,
+			'packing'  => __( 'Bales or bags to buyer specification', 'annamleaf-core' ),
 		),
 		array(
-			'title'    => __( 'Oriental', 'annamleaf-core' ),
-			'vi'       => 'Oriental phơi nắng',
-			'curing'   => __( 'Sun-cured', 'annamleaf-core' ),
-			'excerpt'  => __( 'Small sun-cured leaf, aromatic, used to lift a blend.', 'annamleaf-core' ),
+			'title'    => __( 'Lá thuốc đã tách cọng', 'annamleaf-core' ),
+			'vi'       => __( 'Threshed lamina', 'annamleaf-core' ),
+			'curing'   => __( 'Threshed and redried', 'annamleaf-core' ),
+			'excerpt'  => __( 'Destemmed tobacco leaf, threshed, redried and baled for export or further processing.', 'annamleaf-core' ),
 			'moisture' => '12.0–13.5%',
-			'packing'  => $cases,
-		),
-		array(
-			'title'    => __( 'Dark air-cured', 'annamleaf-core' ),
-			'vi'       => 'Lá sẫm sấy gió',
-			'curing'   => __( 'Air-cured', 'annamleaf-core' ),
-			'excerpt'  => __( 'Heavier, darker leaf for full-bodied blends.', 'annamleaf-core' ),
-			'moisture' => '12.0–13.5%',
-			'packing'  => $cases,
+			'packing'  => __( 'Pressed and labelled bales', 'annamleaf-core' ),
 		),
 	);
 }
@@ -224,6 +214,10 @@ function annamleaf_seed_content( bool $force = false ): void {
 			),
 			$index + 1
 		);
+	}
+
+	if ( $force ) {
+		annamleaf_remove_old_default_leaves();
 	}
 
 	foreach ( annamleaf_seed_leaves() as $index => $leaf ) {
@@ -255,6 +249,21 @@ function annamleaf_seed_content( bool $force = false ): void {
 	);
 
 	annamleaf_seed_pages( $force );
+}
+
+/**
+ * Remove the old delivered product records that no longer match the client's range.
+ *
+ * @return void
+ */
+function annamleaf_remove_old_default_leaves(): void {
+	foreach ( array( 'Flue-cured Virginia', 'Burley', 'Oriental', 'Dark air-cured' ) as $title ) {
+		$existing = get_page_by_path( sanitize_title( $title ), OBJECT, 'annam_leaf' );
+
+		if ( $existing instanceof WP_Post ) {
+			wp_delete_post( (int) $existing->ID, true );
+		}
+	}
 }
 
 /**
@@ -380,11 +389,9 @@ function annamleaf_seed_page_definitions(): array {
 			annamleaf_block_h( __( 'Shipped in the form you need', 'annamleaf-core' ) )
 			. annamleaf_block_list(
 				array(
-					'<strong>' . __( 'Threshed lamina', 'annamleaf-core' ) . '</strong> — ' . __( 'threshed, redried and baled to export standard.', 'annamleaf-core' ),
-					'<strong>' . __( 'Whole leaf', 'annamleaf-core' ) . '</strong> — ' . __( 'packed by grade for buyers who process in house.', 'annamleaf-core' ),
-					'<strong>' . __( 'Stems', 'annamleaf-core' ) . '</strong> — ' . __( 'separated on the threshing line.', 'annamleaf-core' ),
-					'<strong>' . __( 'Cut rag', 'annamleaf-core' ) . '</strong> — ' . __( 'cut to your specification.', 'annamleaf-core' ),
-					'<strong>' . __( 'Scrap', 'annamleaf-core' ) . '</strong> — ' . __( 'recovered during processing.', 'annamleaf-core' ),
+					'<strong>' . __( 'Sợi thuốc lá', 'annamleaf-core' ) . '</strong> — ' . __( 'cut tobacco prepared to the buyer’s specification.', 'annamleaf-core' ),
+					'<strong>' . __( 'Cọng thuốc lá', 'annamleaf-core' ) . '</strong> — ' . __( 'stems separated during processing and packed for industrial use.', 'annamleaf-core' ),
+					'<strong>' . __( 'Lá thuốc đã tách cọng', 'annamleaf-core' ) . '</strong> — ' . __( 'threshed lamina, redried and baled to export standard.', 'annamleaf-core' ),
 				)
 			)
 			. annamleaf_block_h( __( 'When the crop moves', 'annamleaf-core' ) )

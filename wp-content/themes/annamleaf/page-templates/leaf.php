@@ -3,7 +3,7 @@
  * Template Name: Leaf portfolio
  * Template Post Type: page
  *
- * The leaf page: hero, the leaf types as cards and as a specification table, then
+ * The leaf page: hero, the products as cards and as a specification table, then
  * whatever else the client writes on the page — delivery forms, crop calendar.
  *
  * @package AnnamLeaf

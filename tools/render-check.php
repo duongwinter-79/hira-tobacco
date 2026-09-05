@@ -3,7 +3,7 @@
  * Development aid: render the theme templates without a WordPress install.
  *
  * Stubs the WordPress functions the theme calls, feeds it a fake set of process stages
- * and leaf types, and writes the resulting HTML to tools/output/. It catches the mistakes
+ * and products, and writes the resulting HTML to tools/output/. It catches the mistakes
  * that would otherwise only show up on a live install — a mistyped function name, a bad
  * argument, a template that fatals — and lets the markup be reviewed in a browser.
  *
@@ -89,14 +89,14 @@ foreach ( array( 'Seed & nursery', 'Fields & farmer training', 'Harvest', 'Curin
 
 $leaves = array();
 
-foreach ( array( 'Flue-cured Virginia' => 'Virginia sấy lò', 'Burley' => 'Burley sấy gió', 'Oriental' => 'Oriental phơi nắng', 'Dark air-cured' => 'Lá sẫm sấy gió' ) as $i => $title ) {
+foreach ( array( 'Sợi thuốc lá' => 'Cut rag tobacco', 'Cọng thuốc lá' => 'Tobacco stem', 'Lá thuốc đã tách cọng' => 'Threshed lamina' ) as $i => $title ) {
 	$index    = count( $leaves );
 	$leaves[] = annamleaf_fake(
 		200 + $index,
 		'annam_leaf',
 		$i,
 		'<p>Short description of the leaf type.</p>',
-		array( 'vi_name' => $title, 'curing' => 'Flue-cured' )
+		array( 'vi_name' => $title, 'curing' => 'Processed product' )
 	);
 }
 

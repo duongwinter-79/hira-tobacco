@@ -47,7 +47,7 @@ function annamleaf_description(): string {
 	} elseif ( is_post_type_archive( 'annam_stage' ) ) {
 		$description = __( 'How our leaf is grown, cured, graded and processed — every stage inside our own system.', 'annamleaf' );
 	} elseif ( is_post_type_archive( 'annam_leaf' ) ) {
-		$description = __( 'Flue-cured Virginia, Burley, Oriental and dark air-cured leaf: types, grades, moisture and packing.', 'annamleaf' );
+		$description = __( 'Sợi thuốc lá, cọng thuốc lá and lá thuốc đã tách cọng: specifications, moisture and packing for industrial buyers.', 'annamleaf' );
 	}
 
 	if ( '' === $description ) {

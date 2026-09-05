@@ -5,7 +5,7 @@ quan trọng nhất của kiến trúc này:
 
 | | Chứa gì | Vì sao tách |
 | --- | --- | --- |
-| `wp-content/plugins/annamleaf-core/` | Nội dung: quy trình, chủng loại lá, vùng trồng, hồ sơ công ty, các trường của trang | Đổi giao diện sau này không mất dữ liệu |
+| `wp-content/plugins/annamleaf-core/` | Nội dung: quy trình, sản phẩm, vùng trồng, hồ sơ công ty, các trường của trang | Đổi giao diện sau này không mất dữ liệu |
 | `wp-content/themes/annamleaf/` | Chỉ trình bày: template, CSS, minh hoạ, form RFQ | Có thể thiết kế lại mà không đụng vào nội dung |
 
 Theme gọi plugin qua các hàm bọc có `function_exists()`. Tắt plugin thì site vẫn chạy,
@@ -46,13 +46,13 @@ Danh sách Process và Our Leaf trong admin có cột **Photo**: chỗ nào chư
 | Liên hệ | `/contact/` | `page-templates/contact.php` — nội dung trang + form RFQ |
 
 Năm trang này là **Page thật**, không phải archive — nên mọi chữ trên đó đều sửa được từ
-**Pages**. Bản thân từng bước quy trình và từng chủng loại lá vẫn là record riêng, sửa ở
+**Pages**. Bản thân từng bước quy trình và từng sản phẩm vẫn là record riêng, sửa ở
 **Process** và **Our Leaf**.
 
 ## Nội dung mặc định
 
 Kích hoạt plugin lần đầu là site đã đầy đủ nội dung — 6 trang **đã viết sẵn chữ**, 7 bước
-quy trình, 4 chủng loại lá, vùng trồng Cao Bằng, menu và trang chủ. Không phải tự chèn khối nào.
+quy trình, 3 sản phẩm, vùng trồng Cao Bằng, menu và trang chủ. Không phải tự chèn khối nào.
 
 **Ảnh tạm:** Company profile → *Import temporary photographs* tải ảnh giấy phép tự do từ
 Wikimedia Commons vào các khung còn trống, có ghi công trên ảnh và xoá được bằng một nút.
@@ -67,7 +67,7 @@ mới nhất: **Company profile → Rebuild default content**. Nút này ghi đ�
 1. Cài WordPress 6.4+ / PHP 8.0+.
 2. Copy `wp-content/themes/annamleaf` và `wp-content/plugins/annamleaf-core` vào site.
 3. Kích hoạt plugin **Annam Leaf Core** trước — lần kích hoạt đầu tiên nó tự tạo 7 bước
-   quy trình, 4 chủng loại lá, 3 vùng trồng, 5 trang, đặt trang chủ và dựng menu chính.
+   quy trình, 3 sản phẩm, 3 vùng trồng, 5 trang, đặt trang chủ và dựng menu chính.
 4. Kích hoạt theme **Annam Leaf**.
 5. Vào **Settings → Permalinks** bấm Save một lần (để URL `/process/` và `/our-leaf/` hoạt động).
 

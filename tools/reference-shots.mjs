@@ -86,7 +86,6 @@ const FRAMES = [
 	["leaf-1", "leaf-1 · Sản phẩm 1"],
 	["leaf-2", "leaf-2 · Sản phẩm 2"],
 	["leaf-3", "leaf-3 · Sản phẩm 3"],
-	["leaf-4", "leaf-4 · Sản phẩm 4"],
 	["region", "region · Vùng trồng"],
 	["hero-about", "Hero trang About"],
 	["hero-leaf", "Hero trang Our Leaf"],

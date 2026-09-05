@@ -65,7 +65,7 @@ Mở **http://localhost:8888** — WordPress hiện màn hình cài đặt:
 Trong wp-admin (menu bên trái):
 
 1. **Plugins** → tìm **Annam Leaf Core** → bấm **Activate**.
-   Đây là lúc nội dung mẫu được tạo: 7 bước quy trình, 4 chủng loại lá, vùng trồng Cao Bằng,
+   Đây là lúc nội dung mẫu được tạo: 7 bước quy trình, 3 sản phẩm, vùng trồng Cao Bằng,
    6 trang, trang chủ và menu. **Phải làm bước này trước.**
 2. **Appearance → Themes** → di chuột lên **Annam Leaf** → bấm **Activate**.
 3. **Settings → Permalinks** → bấm **Save Changes** (không cần đổi gì).
@@ -136,9 +136,9 @@ trước khi chạy — xem mục xử lý lỗi bên dưới nếu nó báo kh�
 
 | # | Làm gì | Kỳ vọng thấy gì |
 | --- | --- | --- |
-| 1 | Mở trang chủ | Hero xanh đậm, dải 4 số liệu, 4 thẻ quy trình, 4 thẻ sản phẩm, vùng trồng, dải CTA |
+| 1 | Mở trang chủ | Hero xanh đậm, dải 4 số liệu, 4 thẻ quy trình, 3 thẻ sản phẩm, vùng trồng, dải CTA |
 | 2 | Bấm **Process** trên menu | Đoạn mở đầu + 7 bước, ảnh so le trái–phải |
-| 3 | Bấm **Our Leaf** | 4 thẻ chủng loại, bảng quy cách, mục "Shipped in the form you need" và lịch mùa vụ |
+| 3 | Bấm **Our Leaf** | 3 thẻ sản phẩm, bảng quy cách, mục "Shipped in the form you need" và lịch mùa vụ |
 | 3b | Bấm **About** và **Quality** | Trang đã có sẵn chữ đầy đủ, gồm khối 3 cột — không phải trang trống |
 | 4 | Admin → **Company profile** → điền "Trading name" → Save | Tên công ty đổi ngay trên header và footer |
 | 5 | Admin → **Process** → mở 1 bước → **Featured image** → upload ảnh bất kỳ | Ảnh thật thay chỗ minh hoạ vector, đúng trong khung đó |

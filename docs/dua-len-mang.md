@@ -75,8 +75,8 @@ backup tự động, và cho tạo email theo tên miền (`sales@annamleaf.com`
 
 1. **Cài WordPress** — hầu hết hosting có nút cài 1 chạm trong cPanel/DirectAdmin.
 2. **Upload plugin** — wp-admin → Plugins → Add New → Upload Plugin → `annamleaf-core.zip`
-   → Install → **Activate**. Lần bật đầu tiên plugin tạo sẵn 7 bước quy trình, 4 chủng loại
-   lá, 3 vùng trồng, 5 trang, trang chủ và menu.
+   → Install → **Activate**. Lần bật đầu tiên plugin tạo sẵn 7 bước quy trình, 3 sản phẩm,
+   3 vùng trồng, 5 trang, trang chủ và menu.
 3. **Upload theme** — Appearance → Themes → Add New → Upload Theme → `annamleaf-theme.zip`
    → Install → **Activate**.
 4. **Settings → Permalinks** → Save Changes (để `/process/` và `/our-leaf/` chạy).

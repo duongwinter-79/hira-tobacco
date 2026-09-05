@@ -44,7 +44,7 @@ function annamleaf_register_post_types(): void {
 				'add_new_item'   => __( 'Add leaf type', 'annamleaf-core' ),
 				'edit_item'      => __( 'Edit leaf type', 'annamleaf-core' ),
 				'menu_name'      => __( 'Our Leaf', 'annamleaf-core' ),
-				'not_found'      => __( 'No leaf types yet.', 'annamleaf-core' ),
+				'not_found'      => __( 'No products yet.', 'annamleaf-core' ),
 			),
 			'public'        => true,
 			'has_archive'   => false,

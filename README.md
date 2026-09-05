@@ -36,7 +36,7 @@ Toàn bộ nội dung là các ô nhập có nhãn trong wp-admin, không phải
 - **Company profile** — tên công ty, địa chỉ, email, điện thoại, 4 con số năng lực, dòng chú
   thích chân trang, bật/tắt age gate 18+
 - **Process** — 7 bước quy trình: tiêu đề, mô tả, thứ tự, ảnh
-- **Our Leaf** — chủng loại lá: grade, độ ẩm, kiểu sấy, đóng gói
+- **Our Leaf** — sản phẩm: grade, độ ẩm, quy cách xử lý, đóng gói
 - **Regions** — vùng trồng
 - **Pages** — nội dung các trang, có sẵn khối dựng sẵn (block pattern) cho từng mục
 

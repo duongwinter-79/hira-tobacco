@@ -26,11 +26,9 @@ function annamleaf_rfq_fields(): array {
 
 	if ( empty( $leaf_types ) ) {
 		$leaf_types = array(
-			__( 'Flue-cured Virginia', 'annamleaf' ),
-			__( 'Burley', 'annamleaf' ),
-			__( 'Oriental', 'annamleaf' ),
-			__( 'Dark air-cured', 'annamleaf' ),
-			__( 'Cut rag / scrap', 'annamleaf' ),
+			__( 'Sợi thuốc lá', 'annamleaf' ),
+			__( 'Cọng thuốc lá', 'annamleaf' ),
+			__( 'Lá thuốc đã tách cọng', 'annamleaf' ),
 		);
 	}
 

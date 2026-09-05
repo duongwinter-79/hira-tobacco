@@ -27,7 +27,7 @@ còn thiếu, và như vậy vẫn hơn dùng ảnh sai.
 Bốn ô đầu của mục "How we work" trên trang chủ dùng đúng `stage-1` … `stage-4`. Ảnh bìa và
 bốn ô này là toàn bộ phần ảnh của trang chủ phía trên.
 
-## Nên có — thêm 8 ảnh cho kín trang chủ và trang Process
+## Nên có — thêm 7 ảnh cho kín trang chủ và trang Process
 
 | Tên file | Featured image của | Cảnh |
 | --- | --- | --- |
@@ -37,11 +37,10 @@ bốn ô này là toàn bộ phần ảnh của trang chủ phía trên.
 | `leaf-1.jpg` | Our Leaf → **sản phẩm thứ 1** | Sản phẩm trải phẳng trên nền trơn |
 | `leaf-2.jpg` | Our Leaf → **sản phẩm thứ 2** | như trên |
 | `leaf-3.jpg` | Our Leaf → **sản phẩm thứ 3** | như trên |
-| `leaf-4.jpg` | Our Leaf → **sản phẩm thứ 4** | như trên |
 | `region.jpg` | Regions → **vùng đầu tiên** | Toàn cảnh vùng trồng, hoặc flycam một thung lũng |
 
-Thứ tự `leaf-1..4` là thứ tự các mục trong **Our Leaf** ở wp-admin. Mặc định đang là
-Flue-cured Virginia, Burley, Oriental, lá sẫm sấy gió — sửa hoặc xoá mục nào thì số thứ tự
+Thứ tự `leaf-1..3` là thứ tự các mục trong **Our Leaf** ở wp-admin. Mặc định đang là
+Sợi thuốc lá, cọng thuốc lá, lá thuốc đã tách cọng — sửa hoặc xoá mục nào thì số thứ tự
 chạy theo. Nếu dùng Featured image thì khỏi lo thứ tự.
 
 **Cách chụp ảnh sản phẩm (`leaf-*`)**: nền xám hoặc gỗ mộc, ánh sáng cửa sổ ban ngày,
@@ -87,5 +86,5 @@ gói. Không đặt thì là hình vẽ, vẫn ổn.
 | Mức | Số ảnh | Kết quả |
 | --- | --- | --- |
 | Tối thiểu | 5 | Trang chủ có ảnh thật ở mọi chỗ dễ thấy |
-| Đủ | 13 | Không còn hình vẽ nào trên trang chủ, Process và Our Leaf |
-| Đầy đủ | 17 | Thêm ảnh nền tiêu đề cho 4 trang phụ |
+| Đủ | 12 | Không còn hình vẽ nào trên trang chủ, Process và Our Leaf |
+| Đầy đủ | 16 | Thêm ảnh nền tiêu đề cho 4 trang phụ |
