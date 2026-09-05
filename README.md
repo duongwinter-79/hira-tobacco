@@ -17,6 +17,7 @@ tools/package.sh                 Đóng gói theme + plugin thành zip để upl
 tools/fetch-photos.mjs           Lọc ứng viên ảnh, dựng trang duyệt, tải ảnh bạn chọn
 tools/test-photo-scoring.mjs     Kiểm tra bộ lọc ảnh (chạy offline)
 tools/reference-shots.mjs        Kéo ảnh site tham chiếu về máy làm brief chụp ảnh
+tools/reference-sites.json       Danh sách site tham chiếu (sửa ở đây, không sửa code)
 ```
 
 Chưa dùng WordPress bao giờ? Xem **[docs/chay-thu-local.md](docs/chay-thu-local.md)** —

@@ -367,23 +367,22 @@ và thông báo lỗi đầy đủ.
 
 ## Lấy ảnh site tham chiếu về làm brief chụp ảnh
 
-`tools/reference-shots.mjs` mở Chromium, vào các site tham chiếu (dongvietthanh.com,
-arestobacco.com, satatobacco.com, meti.com.tr, universalcorp.com), **tải toàn bộ ảnh về
+`tools/reference-shots.mjs` mở Chromium, đi qua các site tham chiếu, **tải toàn bộ ảnh về
 `tools/reference/`**, chụp lại toàn trang để xem bố cục, rồi dựng một bảng để gắn từng ảnh
 với khung tương ứng trên site Annam Leaf.
 
 Cài một lần:
 
-```powershell
+```sh
 npm install --save-dev playwright
 npx playwright install chromium
 ```
 
 Chạy:
 
-```powershell
+```sh
 node tools/reference-shots.mjs
-start tools\reference\index.html
+open tools/reference/index.html
 ```
 
 Trong bảng: mỗi ảnh có một ô chọn khung (A1…D7, đúng mã trong
@@ -391,17 +390,58 @@ Trong bảng: mỗi ảnh có một ô chọn khung (A1…D7, đúng mã trong
 bấm **Tổng hợp brief** — nội dung sinh ra dán được vào `docs/shot-brief.md` hoặc gửi thẳng
 cho người chụp ảnh.
 
-Tuỳ chọn:
+### Danh sách site nằm ở `tools/reference-sites.json`
 
-```sh
-node tools/reference-shots.mjs --url=https://…      # thêm site (lặp lại được)
-node tools/reference-shots.mjs --only=dongvietthanh # chỉ site khớp chuỗi này
-node tools/reference-shots.mjs --min=700            # bỏ ảnh nhỏ hơn 700px
-node tools/reference-shots.mjs --depth=1            # theo cả link nội bộ một cấp
+Không phải trong code. Thêm site mới thì thêm một mục vào file đó:
+
+```json
+{
+	"name": "Tên hiển thị",
+	"start": "https://example.com/",
+	"depth": 1,
+	"maxPages": 14,
+	"include": "example\\.com",
+	"exclude": "(/tag/|/category/|\\.pdf$)"
+}
 ```
 
-Script lấy cả `<img>` lẫn ảnh nền CSS (ảnh bìa thường là ảnh nền), chờ lazy-load bằng cách
-cuộn hết trang, và nghỉ giữa các trang — đây là máy chủ của người khác.
+| Khoá | Ý nghĩa |
+| --- | --- |
+| `start` | Trang bắt đầu. Chỉ cần một trang, script tự tìm các trang khác |
+| `depth` | Đi xa bao nhiêu cấp link từ trang đó. `0` = chỉ trang này, `1` là đủ cho hầu hết site |
+| `maxPages` | Trần số trang, để không bò cả website |
+| `include` | Regex: chỉ theo link khớp. Bỏ trống thì mặc định là cùng tên miền |
+| `exclude` | Regex: bỏ qua link khớp — tag, category, phân trang, PDF |
+| `minWidth` | Ngưỡng chiều rộng riêng cho site này |
+
+Hai khoá ở cấp ngoài cùng áp cho mọi site: `minWidth` và `skipUrl` (regex loại logo, icon,
+favicon theo tên file).
+
+### Tuỳ chọn dòng lệnh
+
+```sh
+node tools/reference-shots.mjs --list              # xem danh sách, không chạy gì
+node tools/reference-shots.mjs --only=mibica       # chỉ site khớp chuỗi này
+node tools/reference-shots.mjs --url=https://…     # chỉ URL này, bỏ qua danh sách
+node tools/reference-shots.mjs --depth=2 --max=25  # đè cấu hình, đi sâu hơn
+node tools/reference-shots.mjs --min=700           # bỏ ảnh nhỏ hơn 700px
+node tools/reference-shots.mjs --fresh             # xoá kết quả cũ, làm lại từ đầu
+node tools/reference-shots.mjs --sites=khac.json   # dùng danh sách khác
+```
+
+**Kết quả cộng dồn qua các lần chạy.** Hôm nay lấy một site, mai lấy site khác, bảng tham
+chiếu vẫn hiện đủ cả hai. Trang nào vào lại thì bản ghi cũ của trang đó bị thay, phần còn
+lại giữ nguyên. Muốn xoá sạch thì `--fresh`.
+
+### Script lọc ảnh thế nào
+
+- Lấy cả `<img>`, ảnh nền CSS (ảnh bìa thường là ảnh nền), và các thuộc tính lazy-load
+  (`data-src`, `data-original`, `data-lazy-src`) mà thư viện lazy không kịp nạp
+- Cuộn hết trang trước khi đọc, để lazy-load nhả ảnh ra
+- **Đọc kích thước thật từ header file** (PNG/JPEG/GIF/WebP) chứ không tin số DOM báo — ảnh
+  lazy khai kích thước của placeholder 1×1, ảnh nền khai kích thước cái khung nó lấp
+- Bỏ file dưới 12 KB (placeholder, ảnh nền mờ) và ảnh trùng URL giữa các trang
+- Nghỉ 1,2 giây giữa các trang — đây là máy chủ của người khác
 
 ### Ảnh trong `tools/reference/` không được đưa lên website
 

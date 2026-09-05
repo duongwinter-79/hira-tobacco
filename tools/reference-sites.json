@@ -1,0 +1,55 @@
+{
+	"minWidth": 500,
+	"skipUrl": "(logo|favicon|sprite|avatar|placeholder|/icons?/|icon-|-150x150|-100x100)",
+	"sites": [
+		{
+			"name": "Đồng Việt Thành",
+			"start": "https://dongvietthanh.com/",
+			"depth": 1,
+			"maxPages": 14,
+			"exclude": "(/tag/|/category/|/page/\\d|\\.pdf$|#)"
+		},
+		{
+			"name": "Trust Tobacco",
+			"start": "http://www.trusttobacco.net/",
+			"depth": 1,
+			"maxPages": 14,
+			"exclude": "(\\.pdf$|#)"
+		},
+		{
+			"name": "Mibica",
+			"start": "https://mibica.vn/tobacco/",
+			"depth": 1,
+			"maxPages": 14,
+			"include": "mibica\\.vn",
+			"exclude": "(/tag/|/category/|/page/\\d|\\.pdf$|#)"
+		},
+		{
+			"name": "Ares Tobacco",
+			"start": "https://arestobacco.com/",
+			"depth": 1,
+			"maxPages": 10,
+			"exclude": "(\\.pdf$|#)"
+		},
+		{
+			"name": "SATA Tobacco",
+			"start": "https://www.satatobacco.com/",
+			"depth": 1,
+			"maxPages": 10,
+			"exclude": "(\\.pdf$|#)"
+		},
+		{
+			"name": "METI",
+			"start": "https://meti.com.tr/",
+			"depth": 1,
+			"maxPages": 10,
+			"exclude": "(\\.pdf$|#)"
+		},
+		{
+			"name": "Universal Leaf",
+			"start": "https://www.universalcorp.com/universal-leaf-tobacco/",
+			"depth": 0,
+			"maxPages": 4
+		}
+	]
+}
