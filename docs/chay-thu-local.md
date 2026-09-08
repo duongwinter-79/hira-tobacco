@@ -15,6 +15,80 @@ Hướng dẫn cho người **chưa dùng WordPress bao giờ**. Có ba cách, c
 
 ---
 
+## Bắt đầu nhanh — vừa clone repo về (macOS / Linux)
+
+Toàn bộ chuỗi lệnh, chạy theo thứ tự. Chi tiết từng bước ở các mục bên dưới.
+
+```sh
+# 0. kiểm tra máy — thiếu Docker thì cài Docker Desktop và MỞ APP LÊN
+docker --version
+node -v
+
+# 1. đúng nhánh
+cd ~/Desktop/hira-tobacco
+git branch --show-current            # phải là claude/annamleaf-website-plan-40gtio
+git pull
+
+# 2. bật WordPress (lần đầu tải ~600 MB, vài phút)
+docker compose up -d
+until curl -sf -o /dev/null http://localhost:8888; do sleep 3; done; echo "sẵn sàng"
+
+# 3. cài WordPress bằng một lệnh, không cần qua màn hình wizard
+docker compose run --rm cli wp core install \
+  --url=http://localhost:8888 \
+  --title="Annam Leaf" \
+  --admin_user=admin \
+  --admin_password=annamleaf \
+  --admin_email=admin@example.com \
+  --skip-email
+
+# 4. bật theme + plugin, đặt permalink
+docker compose run --rm cli wp theme activate annamleaf
+docker compose run --rm cli wp plugin activate annamleaf-core
+docker compose run --rm cli wp rewrite structure '/%postname%/' --hard
+```
+
+Xong: **http://localhost:8888** · quản trị **http://localhost:8888/wp-admin** (`admin` /
+`annamleaf`). Bật plugin là nội dung mẫu tự dựng — 6 trang, 7 bước quy trình, sản phẩm, vùng
+trồng.
+
+Ba việc tuỳ chọn sau đó:
+
+```sh
+# ảnh mặc định — chọn bằng mắt, xem mục "Ảnh mặc định đi kèm theme"
+export PEXELS_API_KEY="khoá-của-bạn"
+node tools/fetch-photos.mjs
+open tools/photo-review.html
+node tools/fetch-photos.mjs --apply
+
+# ảnh tham chiếu làm brief chụp — xem mục cuối tài liệu này
+npm install --save-dev playwright
+npx playwright install chromium
+node tools/reference-shots.mjs
+open tools/reference/index.html
+
+# kiểm tra code (macOS không có sẵn PHP)
+brew install php
+sh tools/lint.sh
+sh tools/package.sh
+```
+
+Tắt và làm lại:
+
+```sh
+docker compose down        # tắt, giữ dữ liệu
+docker compose down -v     # xoá sạch database, cài lại từ bước 2
+```
+
+**Windows:** thay `open` bằng `start`, và chạy mỗi lệnh một dòng (xem cảnh báo PowerShell ở
+trên). Bước 2 không có `curl` thì cứ mở http://localhost:8888 bằng trình duyệt, thấy trang
+là chạy tiếp được.
+
+**Đừng chạy `npx @wordpress/env`** — đường đó hỏng trên mạng không vào được
+`api.wordpress.org`. File `.wp-env.json` còn trong repo chỉ là di tích của Cách C.
+
+---
+
 ## Trước khi bắt đầu: kiểm tra code mà không cần cài gì
 
 Nếu máy có PHP (`php -v` chạy được), bạn kiểm tra được toàn bộ code trong 5 giây:
