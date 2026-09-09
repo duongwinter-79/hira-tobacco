@@ -38,3 +38,9 @@ tools/photo-picks.json
 # sinh ra bởi tools/reference-shots.mjs — ảnh của công ty khác, chỉ để tham chiếu,
 # tuyệt đối không commit và không đưa lên website
 tools/reference/
+
+# khoá API — .env.example là bản mẫu, .env thật không bao giờ commit
+.env
+
+# sinh ra bởi tools/generate-images.mjs — ảnh nháp chờ duyệt, không cần versioning
+tools/generated/

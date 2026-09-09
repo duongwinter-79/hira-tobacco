@@ -1,0 +1,11 @@
+{
+	"mcpServers": {
+		"gemini-image": {
+			"command": "npx",
+			"args": ["-y", "@ycse/nanobanana-mcp"],
+			"env": {
+				"GEMINI_API_KEY": "${GEMINI_API_KEY}"
+			}
+		}
+	}
+}
