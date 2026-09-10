@@ -49,7 +49,8 @@ chạm, sao lưu tự động.
 | Hosting quốc tế | Hostinger, SiteGround | Nhanh hơn với người mua nước ngoài — mà đó mới là khách của site này |
 | VPS | DigitalOcean, Vultr | Rẻ hơn nhưng bạn phải tự vá bảo mật. Không nên nếu sau này bàn giao cho khách |
 
-**Khuyến nghị:** hosting chia sẻ quốc tế có CDN, vì người mua là nhà máy ở nước ngoài.
+**Đã chốt: Hostinger, gói Business.** Từng bước cho hPanel ở
+[deploy-hostinger.md](deploy-hostinger.md) — tài liệu đó thay cho Giai đoạn 1 đến 4 ở dưới.
 
 Xong giai đoạn này phải có: một bản WordPress trắng chạy được ở địa chỉ tạm của nhà cung cấp,
 biết tài khoản quản trị và có quyền vào panel để sửa DNS.
