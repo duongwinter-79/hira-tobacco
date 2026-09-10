@@ -21,6 +21,7 @@ tools/fetch-photos.mjs           Lọc ứng viên ảnh, dựng trang duyệt, 
 tools/test-photo-scoring.mjs     Kiểm tra bộ lọc ảnh (chạy offline)
 tools/reference-shots.mjs        Kéo ảnh site tham chiếu về máy làm brief chụp ảnh
 tools/reference-sites.json       Danh sách site tham chiếu (sửa ở đây, không sửa code)
+tools/doctor.mjs                 Kiểm tra bản chạy trên máy và tự sửa lỗi cấu hình
 tools/set-photos.mjs             Đưa ảnh từ thư mục bất kỳ vào theme, tự khớp tên file
 tools/export-photos.php          Chép ảnh đã upload vào theme để thành ảnh mặc định
 ```

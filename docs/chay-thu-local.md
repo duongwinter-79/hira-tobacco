@@ -633,6 +633,45 @@ không có IP công khai riêng, và nhiều nhà mạng chặn cổng 80/443. B
 
 ---
 
+## Hỏng gì đó? Chạy một lệnh này trước
+
+```powershell
+node tools/doctor.mjs
+```
+
+Nó chạy hết những lệnh chẩn đoán lặp đi lặp lại, in ra chỗ nào sai, và nói rõ lệnh sửa. Sửa
+được thì bảo nó sửa luôn:
+
+```powershell
+node tools/doctor.mjs --fix
+```
+
+Xem qua tunnel thì đưa cả link vào — nó sẽ tải trang thật và kiểm tra các thẻ CSS có trỏ
+đúng tên miền không, đây là cách nhanh nhất để biết vì sao trang bị vỡ định dạng:
+
+```powershell
+node tools/doctor.mjs --url=https://abc-def.trycloudflare.com
+```
+
+Nó kiểm tra 11 thứ:
+
+| Nhóm | Kiểm tra |
+| --- | --- |
+| Docker | daemon có chạy không, `db` và `wordpress` còn sống không |
+| WordPress | `localhost:8888` có trả lời không, theme `annamleaf` và plugin `annamleaf-core` đã bật chưa |
+| Đường dẫn đẹp | cấu trúc permalink, `.htaccess` có luật rewrite, Apache có đọc `.htaccess` không, `/about/` trả 200 |
+| Địa chỉ site | mu-plugin đã nạp chưa, `SITE_URL` đang là gì |
+| Tunnel | trang trả 200, các thẻ CSS trỏ đúng host, có bị mixed content không |
+
+Sáu lỗi nó tự sửa được: theme/plugin chưa bật, permalink chưa đặt, `.htaccess` rỗng, Apache
+bỏ qua `.htaccess`, và `SITE_URL` bị ghim vào một link tunnel đã chết. Những lỗi cần bạn ra
+tay — Docker chưa mở, tunnel đã tắt — thì nó nói thẳng chứ không tự đoán.
+
+`--fix` chỉ đụng tới cấu hình: bật theme/plugin, đặt permalink, chép `.htaccess`, dựng lại
+container. Không xoá database, không sửa nội dung.
+
+---
+
 ## Xử lý lỗi thường gặp
 
 ### Trang chủ mở được, nhưng `/about/` trả về "Not Found" của Apache
