@@ -46,7 +46,7 @@ $annamleaf_vi_name  = annamleaf_get_meta( $annamleaf_id, 'vi_name' );
 		<?php annamleaf_leaf_mark( 'glyph' ); ?>
 		<div>
 			<h3><?php echo esc_html( get_the_title( $annamleaf_item ) ); ?></h3>
-			<?php if ( '' !== $annamleaf_vi_name ) : ?>
+			<?php if ( '' !== $annamleaf_vi_name && annamleaf_is_vietnamese() ) : ?>
 				<p class="vi-name"><?php echo esc_html( $annamleaf_vi_name ); ?></p>
 			<?php endif; ?>
 		</div>

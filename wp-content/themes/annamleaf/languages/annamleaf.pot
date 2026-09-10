@@ -526,3 +526,11 @@ msgstr ""
 #: single.php:40
 msgid "← Back to the overview"
 msgstr ""
+
+#: inc/rfq.php:31
+msgid "Tobacco stem"
+msgstr ""
+
+#: inc/seo.php:50
+msgid "Whole leaf, threshed lamina and tobacco stem, shipped in the form your line needs."
+msgstr ""

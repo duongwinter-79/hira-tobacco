@@ -61,6 +61,19 @@ function annamleaf_get_field( string $key, string $placeholder = '' ): string {
 }
 
 /**
+ * Is the site being read in Vietnamese?
+ *
+ * English is the default language and the buyers it addresses are abroad, so Vietnamese
+ * trade names belong on the Vietnamese site only — not as a subtitle under every English
+ * one. Polylang and WPML both set the locale before templates run.
+ *
+ * @return bool
+ */
+function annamleaf_is_vietnamese(): bool {
+	return 0 === strpos( determine_locale(), 'vi' );
+}
+
+/**
  * The trading name, or its placeholder.
  *
  * @return string

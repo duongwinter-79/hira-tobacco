@@ -414,7 +414,7 @@ msgstr "Website dành cho khách hàng công nghiệp và đối tác thương m
 
 #: patterns/delivery-forms.php:17
 msgid "Threshed lamina"
-msgstr "Lamina đã tách cọng"
+msgstr "Lá đã tách cọng"
 
 #: patterns/crop-calendar.php:26
 msgid "Threshing line running"
@@ -527,3 +527,11 @@ msgstr "đã tách cọng, tái sấy và đóng kiện theo tiêu chuẩn xuấ
 #: single.php:40
 msgid "← Back to the overview"
 msgstr "← Quay lại danh sách"
+
+#: inc/rfq.php:31
+msgid "Tobacco stem"
+msgstr "Cọng thuốc lá"
+
+#: inc/seo.php:50
+msgid "Whole leaf, threshed lamina and tobacco stem, shipped in the form your line needs."
+msgstr "Lá nguyên, lá đã tách cọng và cọng thuốc lá — giao theo đúng dạng dây chuyền của bạn cần."

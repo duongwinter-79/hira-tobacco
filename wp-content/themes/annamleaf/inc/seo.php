@@ -47,7 +47,7 @@ function annamleaf_description(): string {
 	} elseif ( is_post_type_archive( 'annam_stage' ) ) {
 		$description = __( 'How our leaf is grown, cured, graded and processed — every stage inside our own system.', 'annamleaf' );
 	} elseif ( is_post_type_archive( 'annam_leaf' ) ) {
-		$description = __( 'Sợi thuốc lá, cọng thuốc lá and lá thuốc đã tách cọng: specifications, moisture and packing for industrial buyers.', 'annamleaf' );
+		$description = __( 'Whole leaf, threshed lamina and tobacco stem, shipped in the form your line needs.', 'annamleaf' );
 	}
 
 	if ( '' === $description ) {

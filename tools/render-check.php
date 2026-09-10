@@ -114,6 +114,10 @@ $GLOBALS['annamleaf_fixtures'] = array(
 
 // ---------------------------------------------------------------- WordPress stubs
 
+function determine_locale(): string {
+	return getenv( 'ANNAMLEAF_LOCALE' ) ?: 'en_US';
+}
+
 function esc_html( $t ) { return htmlspecialchars( (string) $t, ENT_QUOTES, 'UTF-8' ); }
 function esc_attr( $t ) { return esc_html( $t ); }
 function esc_url( $t ) { return esc_html( $t ); }

@@ -210,7 +210,7 @@ function annamleaf_seed_content( bool $force = false ): void {
 	}
 
 	if ( $force ) {
-		annamleaf_remove_old_default_leaves();
+		annamleaf_remove_retired_defaults();
 	}
 
 	foreach ( annamleaf_seed_leaves() as $index => $leaf ) {
@@ -227,7 +227,7 @@ function annamleaf_seed_content( bool $force = false ): void {
 	// Placeholder until the client names the province. Others get added in Regions.
 	annamleaf_seed_post(
 		'annam_region',
-		'Việt Nam',
+		'Vietnam',
 		'',
 		array(
 			'leaf_types' => __( 'Leaf type to confirm', 'annamleaf-core' ),
@@ -240,11 +240,14 @@ function annamleaf_seed_content( bool $force = false ): void {
 }
 
 /**
- * Remove the old delivered product records that no longer match the client's range.
+ * Delete the default records earlier versions of this plugin seeded.
+ *
+ * Seeding matches on slug, so a renamed default is not updated but left beside its
+ * replacement. This clears the ones we know we created.
  *
  * @return void
  */
-function annamleaf_remove_old_default_leaves(): void {
+function annamleaf_remove_retired_defaults(): void {
 	$retired = array(
 		// The first portfolio, by leaf variety.
 		'Flue-cured Virginia',
@@ -256,6 +259,14 @@ function annamleaf_remove_old_default_leaves(): void {
 		'Cọng thuốc lá',
 		'Lá thuốc đã tách cọng',
 	);
+
+	// The region record was seeded with its Vietnamese spelling before the site settled on
+	// English as its default language.
+	$old_region = get_page_by_path( sanitize_title( 'Việt Nam' ), OBJECT, 'annam_region' );
+
+	if ( $old_region instanceof WP_Post ) {
+		wp_delete_post( (int) $old_region->ID, true );
+	}
 
 	foreach ( $retired as $title ) {
 		$existing = get_page_by_path( sanitize_title( $title ), OBJECT, 'annam_leaf' );
@@ -510,8 +521,9 @@ function annamleaf_seed_pages( bool $force = false ): void {
 				'rfq_to'            => 'sales@annamleaf.com',
 				'phone'             => '+84 963 785 936',
 				'whatsapp'          => '+84 963 785 936',
-				'office_address'    => 'Việt Nam',
-				'region'            => 'Việt Nam',
+				'office_address'    => 'Vietnam',
+				'factory_address'   => 'Vietnam',
+				'region'            => 'Vietnam',
 				'show_placeholders' => '1',
 				'trade_notice'      => __( 'This site is intended for industrial buyers and trade partners. It is not directed at consumers.', 'annamleaf-core' ),
 			),

@@ -26,9 +26,9 @@ function annamleaf_rfq_fields(): array {
 
 	if ( empty( $leaf_types ) ) {
 		$leaf_types = array(
-			__( 'Sợi thuốc lá', 'annamleaf' ),
-			__( 'Cọng thuốc lá', 'annamleaf' ),
-			__( 'Lá thuốc đã tách cọng', 'annamleaf' ),
+			__( 'Whole leaf', 'annamleaf' ),
+			__( 'Threshed lamina', 'annamleaf' ),
+			__( 'Tobacco stem', 'annamleaf' ),
 		);
 	}
 
