@@ -312,6 +312,49 @@ Thứ tự ưu tiên khi hiển thị một khung ảnh:
 
 Xoá ảnh tạm = xoá file trong thư mục đó, giao diện tự quay về hình vẽ.
 
+## Đưa ảnh vào website — không cần vào wp-admin
+
+Ảnh nằm trong `wp-content/themes/annamleaf/assets/photos/`, mà thư mục đó nằm trong repo.
+Bỏ file đúng tên vào đó là **mọi bản cài mới đều có ảnh**, không cần thư viện ảnh, không cần
+đặt Featured image cho từng mục.
+
+`tools/set-photos.mjs` làm việc chép đó, và tự đoán ảnh nào vào khung nào theo tên file:
+
+```sh
+node tools/set-photos.mjs --list                              # 12 khung, khung nào đã có ảnh
+node tools/set-photos.mjs --from=~/Downloads/anh-khach        # xem nó định làm gì
+node tools/set-photos.mjs --from=~/Downloads/anh-khach --apply
+git add wp-content/themes/annamleaf/assets/photos
+git commit -m "Anh cua khach"
+```
+
+Không có `--apply` thì **không ghi gì**, chỉ in ra bản nháp.
+
+**Cách nó đoán.** Đọc tên file, bỏ dấu tiếng Việt, so với từ khoá của từng khung — cả tiếng
+Việt lẫn tiếng Anh: `Lo say lua vang.jpg` → `stage-4`, `vuon uom khay.jpg` → `stage-1`,
+`cong thuoc la.jpg` → `leaf-3`. File đặt đúng tên khung (`stage-6.jpg`) thì vào thẳng khung
+đó, không cần đoán. File nào không đoán được, hoặc lẫn giữa hai khung, nó báo ra chứ không
+đoán bừa — lúc đó chỉ định thẳng:
+
+```sh
+node tools/set-photos.mjs "stage-7=~/Downloads/IMG_20260910_113355.jpg" --apply
+```
+
+Bỏ ảnh khỏi một khung (quay về hình vẽ minh hoạ):
+
+```sh
+node tools/set-photos.mjs --clear=leaf-2 --apply
+```
+
+**Nó cũng kiểm tra giúp:** in ra kích thước thật và dung lượng, cảnh báo nếu ảnh dưới 1400px
+(sẽ mờ), ảnh dọc (khung là ảnh ngang nên bị cắt nhiều) hoặc nặng quá 1,5 MB. Giữ nguyên định
+dạng gốc — theme đọc `.jpg`, `.png`, `.webp`.
+
+Và khi một khung nhận ảnh của khách, dòng ghi công **TEMPORARY** của ảnh mượn ở khung đó tự
+bị gỡ khỏi `credits.json`.
+
+---
+
 ## Biến ảnh đã upload thành ảnh mặc định của bản cài
 
 Ảnh khách upload nằm trong `wp-content/uploads/` — thư mục này **không** nằm trong repo, nên
