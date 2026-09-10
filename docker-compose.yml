@@ -47,6 +47,7 @@ services:
 
   # Chạy lệnh WordPress từ dòng lệnh, ví dụ:
   #   docker compose run --rm cli wp theme activate annamleaf
+  #   docker compose run --rm cli wp eval-file /repo/tools/export-photos.php
   cli:
     image: wordpress:cli
     profiles: ["cli"]
@@ -62,6 +63,8 @@ services:
       - wp-core:/var/www/html
       - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
       - ./wp-content/plugins/annamleaf-core:/var/www/html/wp-content/plugins/annamleaf-core
+      # Scripts chạy bằng `wp eval-file`, ví dụ tools/export-photos.php.
+      - ./tools:/repo/tools
 
 volumes:
   db-data:

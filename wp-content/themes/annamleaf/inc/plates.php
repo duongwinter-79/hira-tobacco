@@ -193,9 +193,18 @@ function annamleaf_bundled_photo( string $slot ): ?array {
 	static $credits = null;
 
 	$slot = sanitize_file_name( $slot );
-	$file = get_template_directory() . '/assets/photos/' . $slot . '.jpg';
+	$base = get_template_directory() . '/assets/photos/' . $slot;
+	$name = '';
 
-	if ( ! is_readable( $file ) ) {
+	// Whatever the client exported is what ships; a photo is not always a JPEG.
+	foreach ( array( 'jpg', 'jpeg', 'png', 'webp' ) as $extension ) {
+		if ( is_readable( $base . '.' . $extension ) ) {
+			$name = $slot . '.' . $extension;
+			break;
+		}
+	}
+
+	if ( '' === $name ) {
 		return null;
 	}
 
@@ -210,7 +219,7 @@ function annamleaf_bundled_photo( string $slot ): ?array {
 	}
 
 	return array(
-		'url'    => get_template_directory_uri() . '/assets/photos/' . $slot . '.jpg',
+		'url'    => get_template_directory_uri() . '/assets/photos/' . $name,
 		'credit' => (string) ( $credits[ $slot ]['credit'] ?? '' ),
 	);
 }

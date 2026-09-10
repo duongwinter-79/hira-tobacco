@@ -312,6 +312,32 @@ Thứ tự ưu tiên khi hiển thị một khung ảnh:
 
 Xoá ảnh tạm = xoá file trong thư mục đó, giao diện tự quay về hình vẽ.
 
+## Biến ảnh đã upload thành ảnh mặc định của bản cài
+
+Ảnh khách upload nằm trong `wp-content/uploads/` — thư mục này **không** nằm trong repo, nên
+cài lại ở máy khác là mất. `tools/export-photos.php` chép chúng vào theme:
+
+```sh
+docker compose run --rm cli wp eval-file /repo/tools/export-photos.php --dry-run
+docker compose run --rm cli wp eval-file /repo/tools/export-photos.php
+```
+
+Script duyệt trang chủ, các mục Process, Our Leaf và Regions theo đúng thứ tự hiển thị, lấy
+**Featured image** của từng mục và ghi vào `wp-content/themes/annamleaf/assets/photos/` với
+đúng tên khung: `home`, `stage-1..7`, `leaf-1..N`, `region`. Thư mục đó nằm trong repo, nên:
+
+```sh
+git add wp-content/themes/annamleaf/assets/photos
+git commit -m "Ảnh mặc định của khách"
+```
+
+Từ đó về sau, **cài mới ở bất cứ đâu là đã có sẵn ảnh** — không cần thư viện ảnh, không cần
+bản ghi database. Mục nào chưa đặt Featured image thì script báo ra và bỏ qua.
+
+Giữ nguyên định dạng gốc — theme đọc được `.jpg`, `.jpeg`, `.png` và `.webp`.
+
+---
+
 ## Ảnh tạm từ Wikimedia Commons (cách thứ hai, vào thư viện ảnh)
 
 Cách này đưa ảnh vào **thư viện ảnh của WordPress** thay vì vào repo — tiện khi muốn chọn

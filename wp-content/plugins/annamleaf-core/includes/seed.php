@@ -157,36 +157,29 @@ function annamleaf_seed_stages(): array {
 }
 
 /**
- * The product portfolio. Moisture and packing carry starting values where they are useful;
- * grades are company specific, so they stay empty until the client fills them in.
+ * The product portfolio, as the client declared it: whole leaf, threshed lamina and stem.
  *
- * @return array<int, array{title: string, vi: string, curing: string, excerpt: string, moisture: string, packing: string}>
+ * Titles are English with the Vietnamese name underneath, because the site serves industrial
+ * buyers abroad and English is its default language.
+ *
+ * @return array<int, array{title: string, vi: string, excerpt: string}>
  */
 function annamleaf_seed_leaves(): array {
 	return array(
 		array(
-			'title'    => __( 'Sợi thuốc lá', 'annamleaf-core' ),
-			'vi'       => __( 'Cut rag tobacco', 'annamleaf-core' ),
-			'curing'   => __( 'Cut to specification', 'annamleaf-core' ),
-			'excerpt'  => __( 'Processed tobacco cut to the buyer’s requested blend and particle specification.', 'annamleaf-core' ),
-			'moisture' => '12.0–13.5%',
-			'packing'  => __( 'Packed to buyer specification', 'annamleaf-core' ),
+			'title'   => __( 'Whole leaf', 'annamleaf-core' ),
+			'vi'      => __( 'Lá nguyên', 'annamleaf-core' ),
+			'excerpt' => __( 'Cured leaf graded and baled whole, before threshing — for buyers who run their own processing line.', 'annamleaf-core' ),
 		),
 		array(
-			'title'    => __( 'Cọng thuốc lá', 'annamleaf-core' ),
-			'vi'       => __( 'Tobacco stem', 'annamleaf-core' ),
-			'curing'   => __( 'Separated stem', 'annamleaf-core' ),
-			'excerpt'  => __( 'Clean tobacco stems separated from leaf during processing and prepared for industrial buyers.', 'annamleaf-core' ),
-			'moisture' => '12.0–13.5%',
-			'packing'  => __( 'Bales or bags to buyer specification', 'annamleaf-core' ),
+			'title'   => __( 'Threshed lamina', 'annamleaf-core' ),
+			'vi'      => __( 'Lá đã tách cọng', 'annamleaf-core' ),
+			'excerpt' => __( 'Leaf threshed to remove the stem, redried to shipping moisture and pressed into labelled bales.', 'annamleaf-core' ),
 		),
 		array(
-			'title'    => __( 'Lá thuốc đã tách cọng', 'annamleaf-core' ),
-			'vi'       => __( 'Threshed lamina', 'annamleaf-core' ),
-			'curing'   => __( 'Threshed and redried', 'annamleaf-core' ),
-			'excerpt'  => __( 'Destemmed tobacco leaf, threshed, redried and baled for export or further processing.', 'annamleaf-core' ),
-			'moisture' => '12.0–13.5%',
-			'packing'  => __( 'Pressed and labelled bales', 'annamleaf-core' ),
+			'title'   => __( 'Tobacco stem', 'annamleaf-core' ),
+			'vi'      => __( 'Cọng thuốc lá', 'annamleaf-core' ),
+			'excerpt' => __( 'Stems separated during threshing, cleaned and packed for industrial buyers.', 'annamleaf-core' ),
 		),
 	);
 }
@@ -225,12 +218,7 @@ function annamleaf_seed_content( bool $force = false ): void {
 			'annam_leaf',
 			$leaf['title'],
 			annamleaf_block_p( $leaf['excerpt'] ),
-			array(
-				'vi_name'  => $leaf['vi'],
-				'curing'   => $leaf['curing'],
-				'moisture' => $leaf['moisture'],
-				'packing'  => $leaf['packing'],
-			),
+			array( 'vi_name' => $leaf['vi'] ),
 			$index + 1,
 			$leaf['excerpt']
 		);
@@ -257,7 +245,19 @@ function annamleaf_seed_content( bool $force = false ): void {
  * @return void
  */
 function annamleaf_remove_old_default_leaves(): void {
-	foreach ( array( 'Flue-cured Virginia', 'Burley', 'Oriental', 'Dark air-cured' ) as $title ) {
+	$retired = array(
+		// The first portfolio, by leaf variety.
+		'Flue-cured Virginia',
+		'Burley',
+		'Oriental',
+		'Dark air-cured',
+		// The second, by product form with Vietnamese titles.
+		'Sợi thuốc lá',
+		'Cọng thuốc lá',
+		'Lá thuốc đã tách cọng',
+	);
+
+	foreach ( $retired as $title ) {
 		$existing = get_page_by_path( sanitize_title( $title ), OBJECT, 'annam_leaf' );
 
 		if ( $existing instanceof WP_Post ) {
@@ -389,9 +389,9 @@ function annamleaf_seed_page_definitions(): array {
 			annamleaf_block_h( __( 'Shipped in the form you need', 'annamleaf-core' ) )
 			. annamleaf_block_list(
 				array(
-					'<strong>' . __( 'Sợi thuốc lá', 'annamleaf-core' ) . '</strong> — ' . __( 'cut tobacco prepared to the buyer’s specification.', 'annamleaf-core' ),
-					'<strong>' . __( 'Cọng thuốc lá', 'annamleaf-core' ) . '</strong> — ' . __( 'stems separated during processing and packed for industrial use.', 'annamleaf-core' ),
-					'<strong>' . __( 'Lá thuốc đã tách cọng', 'annamleaf-core' ) . '</strong> — ' . __( 'threshed lamina, redried and baled to export standard.', 'annamleaf-core' ),
+					'<strong>' . __( 'Whole leaf', 'annamleaf-core' ) . '</strong> — ' . __( 'graded and baled before threshing, for buyers who run their own line.', 'annamleaf-core' ),
+					'<strong>' . __( 'Threshed lamina', 'annamleaf-core' ) . '</strong> — ' . __( 'destemmed, redried and baled to export standard.', 'annamleaf-core' ),
+					'<strong>' . __( 'Tobacco stem', 'annamleaf-core' ) . '</strong> — ' . __( 'separated during threshing and packed for industrial use.', 'annamleaf-core' ),
 				)
 			)
 			. annamleaf_block_h( __( 'When the crop moves', 'annamleaf-core' ) )
@@ -408,8 +408,8 @@ function annamleaf_seed_page_definitions(): array {
 			),
 		'meta'     => array(
 			'hero_eyebrow'   => __( 'Our leaf', 'annamleaf-core' ),
-			'hero_title'     => __( 'Types, specifications and packing', 'annamleaf-core' ),
-			'hero_text'      => __( 'Samples on request. Grades are matched against your own reference samples before shipment.', 'annamleaf-core' ),
+			'hero_title'     => __( 'Shipped in the form your line needs', 'annamleaf-core' ),
+			'hero_text'      => __( 'Samples on request. Every lot is matched against your own reference samples before shipment.', 'annamleaf-core' ),
 			'hero_shot_note' => __( 'Graded leaf laid out by type', 'annamleaf-core' ),
 		),
 	);
@@ -503,9 +503,16 @@ function annamleaf_seed_pages( bool $force = false ): void {
 		ANNAMLEAF_OPTION,
 		array_merge(
 			array(
-				'show_placeholders' => '1',
-				'region'            => 'Việt Nam',
+				// What the client has confirmed so far. Anything already stored wins over these,
+				// so re-activating the plugin never overwrites an edit made in wp-admin.
+				'company_name'      => 'Annam Leaf',
+				'email'             => 'sales@annamleaf.com',
+				'rfq_to'            => 'sales@annamleaf.com',
+				'phone'             => '+84 963 785 936',
+				'whatsapp'          => '+84 963 785 936',
 				'office_address'    => 'Việt Nam',
+				'region'            => 'Việt Nam',
+				'show_placeholders' => '1',
 				'trade_notice'      => __( 'This site is intended for industrial buyers and trade partners. It is not directed at consumers.', 'annamleaf-core' ),
 			),
 			$options
