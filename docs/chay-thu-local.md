@@ -418,6 +418,54 @@ công ty này.
 
 ## Xử lý lỗi thường gặp
 
+### Trang chủ mở được, nhưng `/about/` trả về "Not Found" của Apache
+
+Lỗi này là của **Apache**, không phải WordPress — nhận ra qua dòng
+`Apache/2.4.x (Debian) Server at localhost Port 8888`. Trang chủ không cần rewrite nên vẫn
+chạy; mọi đường dẫn khác thì cần.
+
+Hai nguyên nhân, phân biệt bằng hai lệnh:
+
+```sh
+docker compose exec wordpress cat /var/www/html/.htaccess
+docker compose exec wordpress grep -A3 "Directory /var/www" /etc/apache2/apache2.conf
+```
+
+**1. Không có file `.htaccess`** (lệnh đầu báo `No such file`) — WordPress chưa ghi được nó:
+
+```sh
+docker compose run --rm cli wp rewrite structure '/%postname%/' --hard
+docker compose run --rm cli wp rewrite flush --hard
+```
+
+Vẫn không có thì ghi tay:
+
+```sh
+docker compose exec wordpress sh -c 'printf "%s\n" "# BEGIN WordPress" "<IfModule mod_rewrite.c>" "RewriteEngine On" "RewriteBase /" "RewriteRule ^index\\.php$ - [L]" "RewriteCond %{REQUEST_FILENAME} !-f" "RewriteCond %{REQUEST_FILENAME} !-d" "RewriteRule . /index.php [L]" "</IfModule>" "# END WordPress" > /var/www/html/.htaccess'
+```
+
+**2. Có `.htaccess` nhưng Apache bỏ qua nó** — lệnh thứ hai in ra `AllowOverride None`.
+Debian đặt như vậy theo mặc định. Repo đã có sẵn `docker/apache-permalinks.conf` để sửa,
+chỉ cần lấy code mới rồi dựng lại container:
+
+```sh
+git pull
+docker compose down
+docker compose up -d
+```
+
+`down` (không có `-v`) chỉ tắt container, **không mất dữ liệu**.
+
+Kiểm tra lại:
+
+```sh
+curl -I http://localhost:8888/about/
+```
+
+Phải là `HTTP/1.1 200 OK`. Nếu ra `404` thì dán kết quả hai lệnh chẩn đoán ở trên.
+
+
+
 ### Không thấy menu "Company profile" trong wp-admin
 
 Menu đó do **plugin** tạo ra, nên nó chỉ hiện khi plugin đang bật.

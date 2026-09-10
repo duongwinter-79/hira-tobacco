@@ -44,6 +44,8 @@ services:
       - wp-core:/var/www/html
       - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
       - ./wp-content/plugins/annamleaf-core:/var/www/html/wp-content/plugins/annamleaf-core
+      # Không có dòng này thì /about/ trả 404 trong khi trang chủ vẫn mở được.
+      - ./docker/apache-permalinks.conf:/etc/apache2/conf-enabled/zz-annamleaf.conf:ro
 
   # Chạy lệnh WordPress từ dòng lệnh, ví dụ:
   #   docker compose run --rm cli wp theme activate annamleaf
