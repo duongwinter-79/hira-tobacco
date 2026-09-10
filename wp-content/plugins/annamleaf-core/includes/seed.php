@@ -347,7 +347,7 @@ function annamleaf_seed_page_definitions(): array {
 				__( 'We grow, cure, grade, process and export leaf tobacco from our own fields in Vietnam. Most suppliers buy what the market offers; we start at the seedbed, which is why every bale we ship can be traced back to the field it grew in, the barn it was cured in and the week it was graded.', 'annamleaf-core' ),
 				sprintf(
 					/* translators: %s: growing region. */
-					__( 'The company was founded in [year] and works with farming households across %s. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate.', 'annamleaf-core' ),
+					__( 'The company was founded in 2024 and works with farming households across %s. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate.', 'annamleaf-core' ),
 					annamleaf_option( 'region', __( '[growing region]', 'annamleaf-core' ) )
 				)
 			)

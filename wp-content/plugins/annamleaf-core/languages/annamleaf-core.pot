@@ -724,7 +724,7 @@ msgid "That means every bale we ship traces back to the field it grew in, the ba
 msgstr ""
 
 #: includes/seed.php:330
-msgid "The company was founded in [year] and works with farming households across %s. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate."
+msgid "The company was founded in 2024 and works with farming households across %s. We supply industrial buyers only — cigarette manufacturers and leaf merchants — and ship on the Incoterms they nominate."
 msgstr ""
 
 #: includes/seed.php:144
