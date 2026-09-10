@@ -40,9 +40,9 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DEBUG: 1
-      # Địa chỉ site nhìn từ bên ngoài. Bỏ trống thì WordPress dùng localhost:8888 như thường.
-      # Khi mở tunnel để khách xem, đặt biến này bằng URL công khai, ví dụ:
-      #   SITE_URL=https://abc-def.trycloudflare.com docker compose up -d
+      # Địa chỉ site nhìn từ bên ngoài. Bỏ trống thì WordPress dùng địa chỉ trong database.
+      # Đặt "auto" khi chạy sau tunnel — WordPress lấy địa chỉ từ request, nên link tunnel
+      # đổi bao nhiêu lần cũng không phải dựng lại container.
       # Xem docs/chay-thu-local.md, mục "Cho khách xem bản chạy trên máy bạn".
       SITE_URL: ${SITE_URL:-}
     volumes:

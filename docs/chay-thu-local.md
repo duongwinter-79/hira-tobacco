@@ -445,56 +445,63 @@ Cài `cloudflared` một lần: https://developers.cloudflare.com/cloudflare-one
 cloudflared tunnel --url http://localhost:8888
 ```
 
-Nó in ra một địa chỉ dạng `https://<chữ-ngẫu-nhiên>.trycloudflare.com`. **Chưa dùng được
-ngay** — phải báo cho WordPress biết địa chỉ công khai của nó, nếu không mọi link, CSS và ảnh
-vẫn trỏ về `localhost:8888`, trình duyệt của khách không tải được và trang hiện ra trơ trụi
-không có định dạng:
+Nó in ra một địa chỉ dạng `https://<chữ-ngẫu-nhiên>.trycloudflare.com`.
 
-```sh
-SITE_URL=https://<chữ-ngẫu-nhiên>.trycloudflare.com docker compose up -d
-```
-
-Windows PowerShell:
+**Chuẩn bị một lần duy nhất** — bật chế độ tự nhận địa chỉ cho WordPress:
 
 ```powershell
-$env:SITE_URL="https://<chữ-ngẫu-nhiên>.trycloudflare.com"
+cd C:\Users\Admin\Desktop\hira-tobacco
+$env:SITE_URL="auto"
 docker compose up -d
 ```
 
-Gửi link đó cho khách. Xong việc thì tắt `cloudflared`, rồi trả site về localhost:
+`auto` nghĩa là WordPress lấy địa chỉ từ chính request đang tới. Sau bước này, **mở tunnel
+bao nhiêu lần cũng được, link đổi bao nhiêu lần cũng được** — không phải gõ lại gì, không
+phải dựng lại container. `localhost:8888` vẫn chạy song song bình thường.
 
-```sh
-docker compose down
+Không có bước này thì WordPress in `localhost:8888` vào mọi thẻ CSS và ảnh, trình duyệt phía
+khách không tải được, trang hiện ra trơ trụi không định dạng.
+
+> **Đừng đặt `SITE_URL` bằng một địa chỉ tunnel cụ thể.** Link `trycloudflare.com` chết ngay
+> khi bạn tắt cloudflared. Lần sau mở tunnel mới mà container vẫn giữ địa chỉ cũ thì WordPress
+> ép mọi request về địa chỉ đã chết đó, và trình duyệt báo **`DNS_PROBE_FINISHED_NXDOMAIN`**.
+> Dùng `auto` là hết hẳn chuyện này.
+
+Gửi link cho khách. Xong việc thì Ctrl+C tắt cloudflared — site vẫn chạy ở `localhost:8888`.
+
+Muốn trả về hoàn toàn như cũ:
+
+```powershell
+Remove-Item Env:\SITE_URL
 docker compose up -d
 ```
 
-`SITE_URL` để trống là WordPress quay lại `localhost:8888` như cũ — địa chỉ không bị ghi vào
-database, nên không phải dọn gì.
+Không bắt buộc: `auto` để nguyên cũng không ảnh hưởng gì khi chạy trên máy.
 
-#### Vẫn vỡ CSS sau khi đặt `SITE_URL`?
+#### Vẫn vỡ CSS, hoặc bị chuyển hướng về địa chỉ cũ?
 
-Cơ chế này nằm ở mu-plugin `docker/mu-plugins/annamleaf-site-url.php`, mount vào container.
-Nếu bạn đang chạy một container dựng từ trước khi có mount đó thì nó chưa được nạp — dựng
-lại là xong:
+Kiểm tra container thật sự đang giữ giá trị nào:
 
 ```powershell
-docker compose down
-$env:SITE_URL="https://<chữ-ngẫu-nhiên>.trycloudflare.com"
-docker compose up -d
-```
-
-Kiểm tra WordPress đã nhận địa chỉ mới chưa:
-
-```powershell
+docker compose exec wordpress printenv SITE_URL
 docker compose exec wordpress ls /var/www/html/wp-content/mu-plugins
-curl.exe -s -o NUL -w "%{http_code} %{redirect_url}`n" https://<chữ-ngẫu-nhiên>.trycloudflare.com
 ```
 
-Lệnh đầu phải liệt kê `annamleaf-site-url.php`. Lệnh sau phải trả `200` — nếu ra `301` kèm
-địa chỉ `localhost:8888` thì mu-plugin chưa được nạp.
+Lệnh đầu phải in `auto`. In ra một địa chỉ `trycloudflare.com` cũ nghĩa là container chưa
+được dựng lại — `docker compose down` rồi `up -d`. In ra rỗng thì bạn đặt biến ở cửa sổ
+PowerShell này nhưng chạy `docker compose` ở cửa sổ khác; biến môi trường không đi theo cửa
+sổ.
 
-Xem mã nguồn trang cũng biết ngay: các thẻ `<link rel="stylesheet" href="...">` phải trỏ tới
-tên miền tunnel, không phải `localhost:8888`.
+Lệnh sau phải liệt kê `annamleaf-site-url.php`.
+
+Cách chắc chắn nhất, dùng khi rối:
+
+```powershell
+docker compose down
+$env:SITE_URL="auto"
+docker compose up -d --force-recreate
+docker compose exec wordpress printenv SITE_URL
+```
 
 ### Cách 2 — Gắn thẳng `annamleaf.com` vào máy bạn
 

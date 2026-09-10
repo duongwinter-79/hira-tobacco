@@ -23,9 +23,31 @@ if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X
 	$_SERVER['HTTPS'] = 'on';
 }
 
-$annamleaf_site_url = getenv( 'SITE_URL' );
+$annamleaf_site_url = (string) getenv( 'SITE_URL' );
 
-if ( is_string( $annamleaf_site_url ) && '' !== $annamleaf_site_url ) {
+/*
+ * SITE_URL=auto — lấy địa chỉ từ chính request đang tới.
+ *
+ * Link trycloudflare.com đổi mỗi lần mở tunnel. Nếu phải gõ lại địa chỉ vào SITE_URL rồi
+ * dựng lại container mỗi lần, chỉ cần quên một bước là WordPress ép mọi request về địa chỉ
+ * cũ đã chết, và trình duyệt báo NXDOMAIN. Với 'auto' thì tunnel nào cũng chạy, không phải
+ * khởi động lại gì.
+ *
+ * Chỉ dùng cho môi trường xem tạm trên máy: nó tin vào Host header của request. Trên hosting
+ * thật thì đặt địa chỉ cố định, hoặc bỏ hẳn biến này đi.
+ */
+if ( 'auto' === $annamleaf_site_url ) {
+	$annamleaf_host = isset( $_SERVER['HTTP_HOST'] ) ? (string) $_SERVER['HTTP_HOST'] : '';
+
+	if ( preg_match( '/^[A-Za-z0-9.-]+(:\d{1,5})?$/', $annamleaf_host ) ) {
+		$annamleaf_scheme   = ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ) ? 'https' : 'http';
+		$annamleaf_site_url = $annamleaf_scheme . '://' . $annamleaf_host;
+	} else {
+		$annamleaf_site_url = '';
+	}
+}
+
+if ( '' !== $annamleaf_site_url ) {
 	$annamleaf_site_url = untrailingslashit( $annamleaf_site_url );
 
 	// Lọc option thay vì define hằng số: không ghi gì vào database, bỏ biến môi trường đi là
