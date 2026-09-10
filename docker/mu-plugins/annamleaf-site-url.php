@@ -23,6 +23,25 @@ if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X
 	$_SERVER['HTTPS'] = 'on';
 }
 
+/**
+ * Nửa "host[:port]" của một địa chỉ — đúng phần bị sai khi xem qua tunnel.
+ *
+ * So bằng host chứ không bằng cả chuỗi, vì content_url() chạy địa chỉ qua set_url_scheme()
+ * trước: scheme đã bị đổi sang https, chỉ còn host là dấu vết của địa chỉ cũ.
+ *
+ * @param string $url Địa chỉ cần đọc.
+ * @return string Rỗng nếu địa chỉ không có host.
+ */
+function annamleaf_url_origin( string $url ): string {
+	$parts = wp_parse_url( $url );
+
+	if ( empty( $parts['host'] ) ) {
+		return '';
+	}
+
+	return $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
+}
+
 $annamleaf_site_url = (string) getenv( 'SITE_URL' );
 
 /*
@@ -63,6 +82,65 @@ if ( '' !== $annamleaf_site_url ) {
 		'option_siteurl',
 		static function () use ( $annamleaf_site_url ) {
 			return $annamleaf_site_url;
+		}
+	);
+
+	/*
+	 * Địa chỉ của wp-content phải sửa thêm một lần nữa, tách khỏi hai filter ở trên.
+	 *
+	 * wp-settings.php đóng băng WP_CONTENT_URL từ siteurl trong database:
+	 *
+	 *     496: wp_plugin_directory_constants();   // define WP_CONTENT_URL, đọc get_option('siteurl')
+	 *     506: foreach ( wp_get_mu_plugins() ... ) // file này mới được nạp ở đây
+	 *
+	 * Mười dòng, nhưng đủ để hai filter option_* ở trên tới quá muộn — và hằng số thì không
+	 * define lại được. Kết quả là một trang nửa đúng nửa sai: link, canonical, REST đều mang
+	 * địa chỉ tunnel, còn style.css, site.js và mọi tấm ảnh của theme vẫn trỏ về
+	 * localhost:8888. Trình duyệt người xem không tải được cái nào — đó chính là lúc CSS "vỡ".
+	 *
+	 * Không sửa được hằng số thì sửa lúc đọc: content_url(), plugins_url() và wp_upload_dir()
+	 * đều chạy kết quả qua filter trước khi trả về.
+	 */
+	$annamleaf_rebase = static function ( $url ) use ( $annamleaf_site_url ) {
+		if ( ! is_string( $url ) || '' === $url || ! defined( 'WP_CONTENT_URL' ) ) {
+			return $url;
+		}
+
+		$annamleaf_stale = annamleaf_url_origin( (string) WP_CONTENT_URL );
+
+		/*
+		 * Chỉ đúng một địa chỉ là sai: cái WP_CONTENT_URL giữ lại lúc khởi động. Mọi địa chỉ
+		 * khác giữ nguyên — CDN đặt cố ý, hay địa chỉ vốn đã đúng, sửa vào là hỏng thêm.
+		 */
+		if ( '' === $annamleaf_stale || annamleaf_url_origin( $url ) !== $annamleaf_stale ) {
+			return $url;
+		}
+
+		$parts = wp_parse_url( $url );
+
+		return $annamleaf_site_url
+			. ( isset( $parts['path'] ) ? $parts['path'] : '' )
+			. ( isset( $parts['query'] ) ? '?' . $parts['query'] : '' );
+	};
+
+	add_filter( 'content_url', $annamleaf_rebase );
+	add_filter( 'plugins_url', $annamleaf_rebase );
+
+	/*
+	 * wp_upload_dir() dựng baseurl thẳng từ WP_CONTENT_URL, nên ảnh trong Media Library vỡ y
+	 * hệt ảnh của theme. Site đang dùng ảnh nằm trong theme nên chưa thấy — nhưng khách thêm
+	 * một tấm ảnh qua wp-admin là gặp ngay.
+	 */
+	add_filter(
+		'upload_dir',
+		static function ( $uploads ) use ( $annamleaf_rebase ) {
+			foreach ( array( 'url', 'baseurl' ) as $annamleaf_key ) {
+				if ( ! empty( $uploads[ $annamleaf_key ] ) ) {
+					$uploads[ $annamleaf_key ] = $annamleaf_rebase( $uploads[ $annamleaf_key ] );
+				}
+			}
+
+			return $uploads;
 		}
 	);
 }
