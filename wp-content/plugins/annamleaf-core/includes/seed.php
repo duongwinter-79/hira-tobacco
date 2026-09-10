@@ -406,15 +406,15 @@ function annamleaf_seed_page_definitions(): array {
 				)
 			)
 			. annamleaf_block_h( __( 'When the crop moves', 'annamleaf-core' ) )
-			. annamleaf_block_p( __( 'Replace the months below with this season’s dates.', 'annamleaf-core' ) )
+			. annamleaf_block_p( __( 'The winter–spring crop of the northern highlands. Dates move a few weeks with the weather, so confirm current availability when you enquire.', 'annamleaf-core' ) )
 			. annamleaf_block_table(
 				array( __( 'Stage', 'annamleaf-core' ), __( 'Period', 'annamleaf-core' ), __( 'Notes', 'annamleaf-core' ) ),
 				array(
-					array( __( 'Sowing', 'annamleaf-core' ), '[month–month]', __( 'In our own nurseries', 'annamleaf-core' ) ),
-					array( __( 'Transplanting', 'annamleaf-core' ), '[month–month]', __( 'Varies by region and weather', 'annamleaf-core' ) ),
-					array( __( 'Harvest and curing', 'annamleaf-core' ), '[month–month]', __( 'Several picking passes', 'annamleaf-core' ) ),
-					array( __( 'Processing', 'annamleaf-core' ), '[month–month]', __( 'Threshing line running', 'annamleaf-core' ) ),
-					array( __( 'Shipment', 'annamleaf-core' ), '[month–month]', __( 'Ex port of loading', 'annamleaf-core' ) ),
+					array( __( 'Sowing', 'annamleaf-core' ), __( 'October – December', 'annamleaf-core' ), __( 'In our own nurseries', 'annamleaf-core' ) ),
+					array( __( 'Transplanting', 'annamleaf-core' ), __( 'January – February', 'annamleaf-core' ), __( 'Once the coldest weeks have passed', 'annamleaf-core' ) ),
+					array( __( 'Harvest and curing', 'annamleaf-core' ), __( 'April – July', 'annamleaf-core' ), __( 'Several picking passes, bottom leaves first', 'annamleaf-core' ) ),
+					array( __( 'Processing', 'annamleaf-core' ), __( 'June – September', 'annamleaf-core' ), __( 'Threshing line running', 'annamleaf-core' ) ),
+					array( __( 'Shipment', 'annamleaf-core' ), __( 'August – December', 'annamleaf-core' ), __( 'Ex port of loading', 'annamleaf-core' ) ),
 				)
 			),
 		'meta'     => array(
