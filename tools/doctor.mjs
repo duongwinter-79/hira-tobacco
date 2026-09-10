@@ -15,6 +15,7 @@
 
 import { execFile } from "node:child_process";
 import { Resolver, promises as dnsPromises } from "node:dns";
+import { request as httpRequest } from "node:http";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -23,6 +24,13 @@ const ARGS = process.argv.slice(2);
 const FIX = ARGS.includes("--fix");
 const URL_ARG = (ARGS.find((a) => a.startsWith("--url=")) || "").split("=").slice(1).join("=");
 const LOCAL = "http://localhost:8888";
+
+// Địa chỉ chỉ có nghĩa trên máy đang chạy container. Một thẻ CSS trỏ vào đây thì trình duyệt
+// của người xem qua tunnel không bao giờ tải được.
+const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1", "host.docker.internal"]);
+
+// Tên miền không tồn tại, chỉ dùng làm Host giả để thử. Không có request nào thật sự đi ra.
+const PROBE_HOST = "annamleaf-doctor.invalid";
 
 const ok = (s) => `  \x1b[32m✓\x1b[0m ${s}`;
 const bad = (s) => `  \x1b[31m✗\x1b[0m ${s}`;
@@ -69,6 +77,63 @@ async function body(url) {
 	} catch (error) {
 		return { status: 0, text: "", error: error.message };
 	}
+}
+
+/**
+ * Gọi bản chạy trên máy nhưng mang Host của một tên miền khác, đúng như tunnel làm.
+ *
+ * fetch() không cho đặt header Host, nên phải xuống node:http. Nhờ nó mà kiểm tra được địa
+ * chỉ asset ngay cả khi không có tunnel nào đang sống.
+ */
+function bodyAsHost(host) {
+	const local = new URL(LOCAL);
+
+	return new Promise((resolve) => {
+		const req = httpRequest(
+			{
+				host: local.hostname,
+				port: local.port,
+				path: "/",
+				headers: { Host: host, "X-Forwarded-Proto": "https" },
+			},
+			(response) => {
+				let text = "";
+				response.setEncoding("utf8");
+				response.on("data", (chunk) => (text += chunk));
+				response.on("end", () => resolve({ status: response.statusCode, text }));
+			}
+		);
+
+		req.setTimeout(15000, () => req.destroy(new Error("hết giờ")));
+		req.on("error", (error) => resolve({ status: 0, text: "", error: error.message }));
+		req.end();
+	});
+}
+
+/**
+ * Host của một địa chỉ, hoặc rỗng nếu chuỗi không phải địa chỉ tuyệt đối.
+ */
+function hostnameOf(url) {
+	try {
+		return new URL(url).hostname;
+	} catch {
+		return "";
+	}
+}
+
+/**
+ * Địa chỉ CSS và JS trong một trang, kèm những địa chỉ trỏ ngược về bản chạy trên máy.
+ *
+ * Chỉ host của bản chạy trên máy mới là lỗi. Trước đây chỗ này cờ mọi host khác host tunnel,
+ * nên fonts.googleapis.com — nằm ngoài tunnel là cố ý, và được nạp trước — luôn bị báo trước
+ * và che mất localhost:8888, tức là che đúng cái lỗi thật.
+ */
+function assets(html) {
+	const css = [...html.matchAll(/<link[^>]+rel=["']stylesheet["'][^>]*href=["']([^"']+)["']/gi)].map((m) => m[1]);
+	const js = [...html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)].map((m) => m[1]);
+	const absolute = [...css, ...js].filter((h) => /^https?:\/\//i.test(h));
+
+	return { css, absolute, stale: absolute.filter((h) => LOCAL_HOSTS.has(hostnameOf(h))) };
 }
 
 /**
@@ -242,7 +307,9 @@ async function main( pass = 1 ) {
 	const value = siteUrl.out.trim();
 
 	if ("auto" === value) {
-		console.log(ok("SITE_URL=auto — tunnel nào cũng chạy"));
+		// Nói đúng việc nó làm: lấy địa chỉ theo request. "Tunnel nào cũng chạy" là lời hứa quá
+		// rộng — auto sửa được link nhưng không tự sửa được địa chỉ asset, nên phải thử riêng.
+		console.log(ok("SITE_URL=auto — địa chỉ lấy theo request"));
 	} else if (value) {
 		fail(`SITE_URL đang ghim vào "${value}" — link tunnel cũ đã chết thì mọi request bị đẩy về đó (NXDOMAIN)`, {
 			label: 'đặt SITE_URL=auto rồi dựng lại container',
@@ -255,6 +322,36 @@ async function main( pass = 1 ) {
 		});
 	} else {
 		console.log(warn("SITE_URL rỗng — chạy localhost thì không sao, xem qua tunnel thì phải đặt auto"));
+	}
+
+	/*
+	 * Thử một request mang Host lạ, ngay trên máy.
+	 *
+	 * Đây là lỗi vỡ CSS kinh điển và nó không cần tunnel mới lộ ra: WP_CONTENT_URL bị đóng
+	 * băng từ siteurl trong database ở wp-settings.php dòng 496, mười dòng trước khi mu-plugin
+	 * được nạp ở dòng 506. Link thì đúng địa chỉ mới, còn style.css với site.js vẫn trỏ về
+	 * localhost:8888. Bắt được ở đây thì khỏi phải dựng tunnel lên mới biết.
+	 */
+	if ("auto" === value) {
+		const probe = await bodyAsHost(PROBE_HOST);
+
+		if (200 !== probe.status) {
+			console.log(warn(`không thử được Host giả (${probe.error || probe.status})`));
+		} else {
+			const found = assets(probe.text);
+
+			if (found.stale.length) {
+				fail(
+					`asset vẫn trỏ về ${hostnameOf(found.stale[0])} khi request mang Host khác — xem qua tunnel sẽ vỡ CSS`,
+					{
+						label: "git pull — mu-plugin cần bản lọc content_url, plugins_url và upload_dir",
+						manual: true,
+					}
+				);
+			} else {
+				console.log(ok(`asset đi theo Host của request (${found.absolute.length} thẻ CSS/JS)`));
+			}
+		}
 	}
 
 	// ------------------------------------------------------------------ tunnel
@@ -287,23 +384,23 @@ async function main( pass = 1 ) {
 		} else {
 			console.log(ok(`trả 200`));
 
-			const hrefs = [...page.text.matchAll(/<link[^>]+rel=["']stylesheet["'][^>]*href=["']([^"']+)["']/gi)]
-				.map((m) => m[1]);
 			const wanted = new URL(URL_ARG).host;
-			const wrongHost = hrefs.filter((h) => /^https?:\/\//i.test(h) && new URL(h).host !== wanted);
-			const insecure = hrefs.filter((h) => h.startsWith("http://"));
+			const found = assets(page.text);
+			const insecure = found.absolute.filter((h) => h.startsWith("http://"));
 
-			if (!hrefs.length) {
+			if (!found.css.length) {
 				console.log(warn("không thấy thẻ stylesheet nào — trang có thể đang lỗi"));
-			} else if (wrongHost.length) {
-				fail(`CSS trỏ sang ${new URL(wrongHost[0]).host} thay vì ${wanted}`, {
-					label: 'đặt SITE_URL=auto rồi dựng lại container',
-					cmd: ["compose", ["up", "-d", "--force-recreate"], { SITE_URL: "auto" }],
+			} else if (found.stale.length) {
+				// Dựng lại container không cứu được: WP_CONTENT_URL đọc từ database chứ không
+				// đọc biến môi trường, nên SITE_URL đặt gì cũng vậy. Chỉ code mới sửa được.
+				fail(`asset trỏ về ${hostnameOf(found.stale[0])} thay vì ${wanted} — trình duyệt người xem không tải được`, {
+					label: "git pull — mu-plugin cần bản lọc content_url, plugins_url và upload_dir",
+					manual: true,
 				});
 			} else if (insecure.length) {
-				fail("CSS dùng http:// trong trang https — trình duyệt chặn mixed content, X-Forwarded-Proto không tới được PHP");
+				fail(`asset dùng http:// trong trang https (${hostnameOf(insecure[0])}) — trình duyệt chặn mixed content, X-Forwarded-Proto không tới được PHP`);
 			} else {
-				console.log(ok(`${hrefs.length} thẻ CSS đều trỏ đúng ${wanted}`));
+				console.log(ok(`${found.css.length} thẻ CSS trỏ đúng địa chỉ`));
 			}
 		}
 	}
@@ -323,10 +420,12 @@ async function report( pass = 1 ) {
 	}
 
 	const fixable = problems.filter((p) => p.fix && !p.fix.manual);
-	const manual = problems.filter((p) => p.fix && p.fix.manual);
+	// Hai lỗi khác nhau thường chung một cách sửa — địa chỉ asset sai thì cả kiểm tra tại chỗ
+	// lẫn kiểm tra qua tunnel đều báo. In lặp lại làm người đọc tưởng phải làm hai lần.
+	const manual = [...new Set(problems.filter((p) => p.fix && p.fix.manual).map((p) => p.fix.label))];
 
-	for (const problem of manual) {
-		console.log(`Phải tự chạy: ${problem.fix.label}\n`);
+	for (const label of manual) {
+		console.log(`Phải tự chạy: ${label}\n`);
 	}
 
 	console.log(`\x1b[31m${problems.length} vấn đề\x1b[0m, ${fixable.length} sửa tự động được.\n`);
