@@ -14,6 +14,7 @@
  */
 
 import { execFile } from "node:child_process";
+import { Resolver, promises as dnsPromises } from "node:dns";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -68,6 +69,29 @@ async function body(url) {
 	} catch (error) {
 		return { status: 0, text: "", error: error.message };
 	}
+}
+
+/**
+ * Phân giải tên miền bằng DNS của máy và bằng 1.1.1.1, để tách lỗi máy khỏi lỗi tunnel.
+ */
+async function resolveBoth(host) {
+	const viaSystem = dnsPromises.lookup(host).then(
+		(r) => ({ ok: true, addresses: [r.address] }),
+		(e) => ({ ok: false, error: e.code || e.message, addresses: [] })
+	);
+
+	const resolver = new Resolver();
+	resolver.setServers(["1.1.1.1"]);
+
+	const viaCloudflare = new Promise((resolve) => {
+		resolver.resolve4(host, (error, addresses) => {
+			resolve(error ? { ok: false, error: error.code || error.message, addresses: [] } : { ok: true, addresses });
+		});
+	});
+
+	const [system, cloudflare] = await Promise.all([viaSystem, viaCloudflare]);
+
+	return { system, cloudflare };
 }
 
 /* ------------------------------------------------------------------- kiểm tra */
@@ -236,10 +260,29 @@ async function main() {
 	if (URL_ARG) {
 		console.log(`\nQua tunnel ${URL_ARG}`);
 
-		const page = await body(URL_ARG);
+		const host = new URL(URL_ARG).host.split(":")[0];
+		const dns = await resolveBoth(host);
+
+		if (dns.system.ok) {
+			console.log(ok(`DNS phân giải ${host} → ${dns.system.addresses[0]}`));
+		} else if (dns.cloudflare.ok) {
+			// Máy phân giải được qua 1.1.1.1 nhưng không qua DNS mặc định: lỗi ở máy, không
+			// phải ở tunnel. Đây là lúc trình duyệt báo NXDOMAIN dù tunnel vẫn sống.
+			fail(
+				`DNS của máy không phân giải được ${host} (${dns.system.error}), nhưng 1.1.1.1 thì được`,
+				{
+					label: "ipconfig /flushdns, rồi đổi DNS của card mạng sang 1.1.1.1 và 8.8.8.8",
+					manual: true,
+				}
+			);
+		} else {
+			fail(`không phân giải được ${host} ở cả DNS máy lẫn 1.1.1.1 — tunnel đã tắt hoặc link sai`);
+		}
+
+		const page = dns.system.ok || dns.cloudflare.ok ? await body(URL_ARG) : { status: 0, error: "bỏ qua vì DNS hỏng" };
 
 		if (200 !== page.status) {
-			fail(`trả ${page.status || page.error} — tunnel còn chạy không?`);
+			if (dns.system.ok) fail(`trả ${page.status || page.error} — tunnel còn chạy không?`);
 		} else {
 			console.log(ok(`trả 200`));
 
@@ -277,7 +320,12 @@ async function report() {
 		return;
 	}
 
-	const fixable = problems.filter((p) => p.fix);
+	const fixable = problems.filter((p) => p.fix && !p.fix.manual);
+	const manual = problems.filter((p) => p.fix && p.fix.manual);
+
+	for (const problem of manual) {
+		console.log(`Phải tự chạy: ${problem.fix.label}\n`);
+	}
 
 	console.log(`\x1b[31m${problems.length} vấn đề\x1b[0m, ${fixable.length} sửa tự động được.\n`);
 

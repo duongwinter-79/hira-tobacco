@@ -661,7 +661,7 @@ Nó kiểm tra 11 thứ:
 | WordPress | `localhost:8888` có trả lời không, theme `annamleaf` và plugin `annamleaf-core` đã bật chưa |
 | Đường dẫn đẹp | cấu trúc permalink, `.htaccess` có luật rewrite, Apache có đọc `.htaccess` không, `/about/` trả 200 |
 | Địa chỉ site | mu-plugin đã nạp chưa, `SITE_URL` đang là gì |
-| Tunnel | trang trả 200, các thẻ CSS trỏ đúng host, có bị mixed content không |
+| Tunnel | tên miền có phân giải được không (so DNS máy với 1.1.1.1), trang trả 200, các thẻ CSS trỏ đúng host, có bị mixed content không |
 
 Sáu lỗi nó tự sửa được: theme/plugin chưa bật, permalink chưa đặt, `.htaccess` rỗng, Apache
 bỏ qua `.htaccess`, và `SITE_URL` bị ghim vào một link tunnel đã chết. Những lỗi cần bạn ra
@@ -671,6 +671,51 @@ tay — Docker chưa mở, tunnel đã tắt — thì nó nói thẳng chứ kh�
 container. Không xoá database, không sửa nội dung.
 
 ---
+
+### Tunnel vẫn chạy nhưng trình duyệt không vào được
+
+Log cloudflared lặp lại `Failed to refresh DNS local resolver ... i/o timeout` và trình
+duyệt báo không kết nối được, hoặc `DNS_PROBE_FINISHED_NXDOMAIN`.
+
+Đây gần như luôn là **DNS trên máy bạn**, không phải tunnel. Hai dấu hiệu xác nhận:
+
+- Log cloudflared có dòng `originService=http://localhost:8888` kèm request nào đó → tunnel
+  đã từng chuyển được request về máy, tức là đường tunnel lành
+- Sau đó **không còn dòng request nào nữa** → trình duyệt không tới được Cloudflare
+
+`node tools/doctor.mjs --url=<link>` phân giải tên miền bằng cả DNS của máy lẫn 1.1.1.1 và
+nói rõ bên nào hỏng.
+
+Cách sửa, theo thứ tự:
+
+```powershell
+ipconfig /flushdns
+nslookup bedrooms-possession-mouse-few.trycloudflare.com
+nslookup bedrooms-possession-mouse-few.trycloudflare.com 1.1.1.1
+```
+
+Hai lệnh `nslookup` cho biết ngay:
+
+| Kết quả | Nghĩa là | Sửa |
+| --- | --- | --- |
+| Cả hai ra IP | DNS ổn, lỗi ở chỗ khác | Thử mở link bằng điện thoại dùng 4G |
+| Lệnh 2 hỏng, lệnh 3 ra IP | DNS mặc định của nhà mạng hỏng | Đổi DNS card mạng sang `1.1.1.1` và `8.8.8.8` |
+| Cả hai hỏng | Tunnel đã tắt thật, hoặc gõ sai link | Mở lại tunnel, lấy link mới |
+
+Đổi DNS trên Windows: **Settings → Network & Internet → Ethernet (hoặc Wi-Fi) → DNS server
+assignment → Edit → Manual → IPv4 on →** Preferred `1.1.1.1`, Alternate `8.8.8.8`.
+
+**Phép thử nhanh nhất:** mở link bằng điện thoại **tắt Wi-Fi, dùng 4G**. Vào được nghĩa là
+tunnel hoàn toàn lành và lỗi nằm ở mạng/DNS của máy tính.
+
+Riêng dòng `i/o timeout` với `region1.v2.argotunnel.com`: đó là bộ phân giải nội bộ của
+cloudflared, chỉ dùng để chọn giao thức dự phòng. Nó không làm tunnel chết, nhưng là bằng
+chứng DNS của máy đang có vấn đề. Chạy tunnel bằng `--protocol http2` để không phụ thuộc vào
+UDP, vốn hay bị nhà mạng Việt Nam bóp:
+
+```powershell
+cloudflared tunnel --url http://localhost:8888 --protocol http2
+```
 
 ## Xử lý lỗi thường gặp
 
