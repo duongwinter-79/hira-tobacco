@@ -23,6 +23,7 @@ import { constants } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { execFileSync } from "node:child_process";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "wp-content/themes/annamleaf/assets/photos");
@@ -185,6 +186,24 @@ async function install(slot, source, credits) {
 	return path.basename(target);
 }
 
+/**
+ * Which photo files git is actually carrying. Returns null when git cannot answer, so the
+ * listing simply says nothing rather than claiming a file is untracked.
+ */
+function trackedPhotos() {
+	try {
+		const out = execFileSync("git", ["ls-files", "wp-content/themes/annamleaf/assets/photos"], {
+			cwd: ROOT,
+			encoding: "utf8",
+			stdio: ["ignore", "pipe", "ignore"],
+		});
+
+		return new Set(out.split("\n").filter(Boolean).map((f) => path.basename(f)));
+	} catch {
+		return null;
+	}
+}
+
 /* ------------------------------------------------------------------ running */
 
 async function collect() {
@@ -261,13 +280,51 @@ async function collect() {
 
 async function main() {
 	if (LIST) {
+		const credits = await readCredits();
+		const tracked = trackedPhotos();
+		let borrowed = 0;
+		let uncommitted = 0;
+
 		console.log("Các khung ảnh của website:\n");
+
 		for (const slot of SLOTS) {
-			const here = (await Promise.all(EXTENSIONS.map((e) => exists(path.join(OUT, `${slot.slot}.${e}`)))))
-				.some(Boolean);
-			console.log(`  ${slot.slot.padEnd(9)} ${here ? "đã có " : "trống "} ${slot.what}`);
+			let name = "";
+
+			for (const extension of EXTENSIONS) {
+				if (await exists(path.join(OUT, `${slot.slot}.${extension}`))) {
+					name = `${slot.slot}.${extension}`;
+					break;
+				}
+			}
+
+			if (!name) {
+				console.log(`  ${slot.slot.padEnd(9)} trống    ${slot.what}`);
+				continue;
+			}
+
+			const marks = [];
+
+			// A photo only ships if git has it; an untracked file lives on this machine alone.
+			if (tracked && !tracked.has(name)) {
+				marks.push("chưa commit");
+				uncommitted++;
+			}
+
+			if (credits[slot.slot]) {
+				marks.push("ảnh mượn, phải thay");
+				borrowed++;
+			}
+
+			console.log(
+				`  ${slot.slot.padEnd(9)} ${name.padEnd(14)} ${slot.what}` +
+				(marks.length ? `\n  ${" ".repeat(9)} ${marks.join(" · ")}` : "")
+			);
 		}
-		console.log("\nĐặt tên file theo tên khung (stage-4.jpg) là chắc ăn nhất.");
+
+		console.log("");
+		if (uncommitted) console.log(`${uncommitted} ảnh chưa commit — bản cài ở máy khác sẽ không có chúng.`);
+		if (borrowed) console.log(`${borrowed} ảnh là ảnh mượn giấy phép tự do, phải thay bằng ảnh của khách trước khi go-live.`);
+		console.log("Đặt tên file theo tên khung (stage-4.jpg) là chắc ăn nhất.");
 		return;
 	}
 
