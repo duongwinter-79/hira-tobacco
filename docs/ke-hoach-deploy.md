@@ -76,8 +76,12 @@ Thứ tự **plugin trước, theme sau** — theme cần các loại nội dung
 
 Đây là phần cần phối hợp với người đang giữ tài khoản domain.
 
-**Bước 1 — biết domain đang ở đâu.** Đăng ký ở đâu (Namecheap, GoDaddy, PA Vietnam,
-Mắt Bão…), ai giữ tài khoản. Cần quyền sửa **DNS record**, không cần chuyển domain đi đâu cả.
+**Bước 1 — biết domain đang ở đâu.** `annamleaf.com` đăng ký ở **Squarespace**, bạn giữ tài
+khoản. Cần quyền sửa **DNS record** hoặc đổi nameserver — không cần chuyển domain đi đâu.
+
+Nếu đã chuyển DNS sang Cloudflare ở giai đoạn tunnel (xem
+[chay-thu-local.md](chay-thu-local.md)) thì mọi thay đổi từ đây làm trong Cloudflare, không
+quay lại Squarespace nữa.
 
 **Bước 2 — chọn cách trỏ.**
 

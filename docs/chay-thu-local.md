@@ -430,9 +430,13 @@ muốn gắn luôn `annamleaf.com` vào đó, dùng **tunnel**: một dịch v�
 cổng 8888 trên máy bạn, không cần IP tĩnh, không cần mở cổng router.
 
 > **Đây là cách xem tạm, không phải cách chạy thật.** Site chỉ sống khi máy bạn bật và Docker
-> đang chạy. Tắt máy là khách thấy lỗi. Đừng để khách hàng thật vào bằng đường này.
+> đang chạy. Tắt máy, mất mạng, hoặc Windows Update khởi động lại là khách thấy lỗi.
+>
+> Cách 1 cho một link ngẫu nhiên, dựng trong hai phút, không đụng tới tên miền — dùng khi chỉ
+> cần khách xem rồi góp ý. Cách 2 gắn thẳng `annamleaf.com` vào máy bạn, cần đổi nameserver
+> sang Cloudflare và nên khoá wp-admin lại.
 
-### Cách 1 — Link tạm, không đụng tới tên miền (khuyên dùng)
+### Cách 1 — Link tạm, không đụng tới tên miền
 
 Cài `cloudflared` một lần: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
 (Windows có bản `.msi`; macOS `brew install cloudflared`).
@@ -468,28 +472,117 @@ database, nên không phải dọn gì.
 
 ### Cách 2 — Gắn thẳng `annamleaf.com` vào máy bạn
 
-Làm được, nhưng phải đổi nameserver của domain sang Cloudflare:
+Domain đang đăng ký ở **Squarespace**. Squarespace cho đổi nameserver, nên làm được.
 
-1. Tạo tài khoản Cloudflare, **Add a site** → `annamleaf.com`
-2. Cloudflare nhập các bản ghi DNS hiện có — **đối chiếu lại từng dòng**, nhất là `MX` và
-   `TXT`, trước khi sang bước sau
-3. Vào tài khoản đăng ký domain, đổi nameserver sang cặp Cloudflare cho
-4. `cloudflared tunnel login`, rồi `cloudflared tunnel create annamleaf`
-5. `cloudflared tunnel route dns annamleaf annamleaf.com`
-6. Chạy tunnel trỏ về `http://localhost:8888`
-7. `SITE_URL=https://annamleaf.com docker compose up -d`
+Chuyển DNS sang Cloudflare **một lần bây giờ** là hợp lý: giai đoạn tunnel dùng nó, và khi
+lên Hostinger thì chỉ đổi bản ghi `A` trong Cloudflare chứ không phải quay lại Squarespace.
+Một lần đổi, không phải hai — khác với lo ngại ở mục dưới.
 
-**Ba lý do tôi không khuyên cách này:**
+Cloudflare Tunnel **bắt buộc** DNS phải nằm ở Cloudflare: `cloudflared tunnel route dns` tạo
+một bản ghi trỏ tới `<id>.cfargotunnel.com`, và tên đó chỉ phân giải được bên trong DNS của
+Cloudflare. Giữ DNS ở Squarespace thì phải dùng ngrok trả phí (~$8–10/tháng) — nó cho gắn tên
+miền riêng bằng `CNAME` từ bất kỳ nhà cung cấp DNS nào.
 
-- Đổi nameserver là việc một chiều đáng làm **một lần**, lúc lên hosting thật. Làm bây giờ
-  rồi vài tuần nữa lại đổi tiếp là tự chuốc rủi ro mất bản ghi email.
-- Người mua vào `annamleaf.com` mà gặp lỗi vì máy bạn tắt thì đó là ấn tượng đầu tiên về
-  công ty khách hàng.
-- Một bản WordPress có wp-admin mở ra internet, chạy trên máy cá nhân, không có tường lửa
-  hay bản vá của nhà cung cấp hosting.
+#### B1. Đưa domain vào Cloudflare
 
-Nếu vẫn cần domain thật để khách xem cho "có cảm giác", dùng **tên miền phụ**:
-`demo.annamleaf.com` trỏ vào tunnel, còn `annamleaf.com` để dành cho hosting thật.
+1. Tạo tài khoản Cloudflare (gói Free), **Add a site** → `annamleaf.com`
+2. Cloudflare quét và nhập các bản ghi DNS đang có ở Squarespace
+3. **Chụp màn hình toàn bộ bản ghi DNS ở Squarespace trước khi sang bước sau**, rồi đối chiếu
+   từng dòng với danh sách Cloudflare vừa nhập — đặc biệt `MX` và `TXT`. Thiếu một dòng `MX`
+   là mất email của domain
+4. Cloudflare đưa ra **hai nameserver** dạng `xxx.ns.cloudflare.com`
+
+#### B2. Đổi nameserver ở Squarespace
+
+Trong tài khoản Squarespace: **Domains** → chọn `annamleaf.com` → **DNS** (hoặc
+*Nameservers* / *Advanced DNS settings*) → chọn dùng **custom nameservers**, xoá nameserver
+Squarespace và điền hai của Cloudflare.
+
+Chờ 15 phút đến vài giờ. Cloudflare gửi email khi domain đã active. Kiểm tra:
+
+```sh
+nslookup -type=ns annamleaf.com
+```
+
+> Nếu domain này đang chạy một website Squarespace thì đổi nameserver sẽ **tắt** website đó.
+
+#### B3. Tạo tunnel có tên
+
+Link `trycloudflare.com` đổi mỗi lần chạy lại, nên phải dùng tunnel có tên:
+
+```sh
+cloudflared tunnel login
+cloudflared tunnel create annamleaf
+cloudflared tunnel route dns annamleaf annamleaf.com
+cloudflared tunnel route dns annamleaf www.annamleaf.com
+```
+
+`login` mở trình duyệt để cấp quyền. `route dns` tự tạo bản ghi trong Cloudflare — không phải
+thêm tay.
+
+Tạo file cấu hình (Windows: `C:\Users\Admin\.cloudflared\config.yml`):
+
+```yaml
+tunnel: annamleaf
+credentials-file: C:\Users\Admin\.cloudflared\<tunnel-id>.json
+
+ingress:
+  - hostname: annamleaf.com
+    service: http://localhost:8888
+  - hostname: www.annamleaf.com
+    service: http://localhost:8888
+  - service: http_status:404
+```
+
+Chạy:
+
+```sh
+cloudflared tunnel run annamleaf
+```
+
+Muốn nó tự chạy lại sau khi khởi động máy: `cloudflared service install`.
+
+#### B4. Báo địa chỉ cho WordPress
+
+```powershell
+$env:SITE_URL="https://annamleaf.com"
+docker compose up -d
+```
+
+Thiếu bước này thì mọi link và ảnh vẫn trỏ `localhost:8888`.
+
+#### B5. Cloudflare SSL
+
+**SSL/TLS → Overview**: đặt **Full**. Tunnel đã mã hoá đoạn từ Cloudflare về máy bạn, nên
+*Flexible* là thừa và gây vòng lặp chuyển hướng.
+
+#### B6. Chặn wp-admin khỏi internet
+
+Đây là phần bù cho rủi ro lớn nhất của cách này — một bản WordPress quản trị mở ra internet,
+chạy trên máy cá nhân, không có bản vá của nhà cung cấp hosting.
+
+**Cloudflare Zero Trust → Access → Applications** → **Add an application** → *Self-hosted*:
+
+- Application domain: `annamleaf.com`, path `wp-admin`
+- Policy: **Allow**, tiêu chí **Emails** → điền email của bạn
+- Thêm một application nữa cho path `wp-login.php`
+
+Miễn phí tới 50 người dùng. Sau đó ai vào `/wp-admin` cũng phải xác thực email trước khi
+WordPress kịp thấy request. Trang công khai không bị ảnh hưởng.
+
+Và vẫn phải:
+
+```powershell
+docker compose run --rm cli wp user update admin --user_pass="<mật khẩu dài, ngẫu nhiên>"
+```
+
+#### Cần biết về cách này
+
+- **Site chỉ sống khi máy bạn bật và Docker chạy.** Tắt máy, mất mạng, Windows Update khởi
+  động lại — khách vào `annamleaf.com` thấy lỗi 502 của Cloudflare
+- Nên giữ **Hide from search engines** bật cho tới khi lên hosting thật
+- Khi chuyển sang Hostinger: tắt tunnel, đổi bản ghi `A` của `@` trong Cloudflare trỏ về IP
+  Hostinger, xoá bản ghi tunnel, bỏ `SITE_URL`. Squarespace không phải đụng tới nữa
 
 ### Cách 3 — Mở cổng router
 
