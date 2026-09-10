@@ -108,6 +108,46 @@ nslookup annamleaf.com
 WordPress Address và Site Address thành `https://annamleaf.com` (có `https`, không có `www`,
 không có dấu `/` cuối). Rồi bật chuyển hướng `www` → không `www` trong panel hosting.
 
+### Cloudflare — nên dùng, nhưng đọc kỹ ba chỗ
+
+Cloudflare **không phải hosting** cho site này: Cloudflare Pages chỉ chạy HTML tĩnh, không
+chạy PHP, nên WordPress không đặt lên đó được — giống Vercel. Nó đứng **trước** hosting, làm
+DNS + CDN + tường lửa.
+
+Bản miễn phí đủ dùng và đáng bật, nhất là khi chọn hosting đặt máy chủ ở Việt Nam mà người
+mua lại ở nước ngoài:
+
+| Được gì | Ý nghĩa với site này |
+| --- | --- |
+| CDN ~300 điểm | Ảnh và CSS phục vụ từ nước gần người mua, không kéo về tận VN |
+| SSL miễn phí | Kể cả khi hosting chưa cấp cert |
+| Chống DDoS, chặn bot | Không phải cấu hình gì |
+| Quản lý DNS gọn | Sửa bản ghi thấy hiệu lực gần như tức thì |
+| Analytics không cần script | Không phải nhúng Google Analytics |
+
+**Chỗ thứ nhất — dùng Cloudflare là phải đổi nameserver.** Đây đúng là việc mục trên khuyên
+tránh khi domain đang chạy email. Cloudflare có nhập tự động các bản ghi hiện có khi thêm
+domain, nhưng **phải tự đối chiếu lại**: chụp màn hình toàn bộ bản ghi DNS cũ trước khi đổi,
+rồi so từng dòng `MX`, `TXT` (SPF/DKIM/DMARC) sau khi nhập. Thiếu một dòng MX là mất email
+công ty.
+
+**Chỗ thứ hai — chế độ SSL phải là Full (strict).** Mặc định của Cloudflare là *Flexible*,
+nghĩa là Cloudflare nói HTTPS với người xem nhưng nói HTTP với hosting. WordPress sẽ rơi vào
+vòng lặp chuyển hướng, hoặc hiện cảnh báo nội dung hỗn hợp. Bật SSL trên hosting trước, rồi
+đặt Cloudflare sang **Full (strict)**.
+
+**Chỗ thứ ba — chỉ bật đám mây cam cho web.** Bản ghi nào phục vụ email (`mail`, `smtp`,
+`webmail`) phải để **DNS only** (đám mây xám). Cloudflare không chuyển tiếp lưu lượng email;
+bật cam cho những bản ghi đó là email chết.
+
+Không cần đụng tới cache: Cloudflare mặc định **không** cache HTML, nên wp-admin và form báo
+giá chạy bình thường. Chỉ khi nào muốn nhanh hơn nữa mới tính tới cache trang, và lúc đó phải
+loại trừ `/wp-admin/*` cùng cookie đăng nhập.
+
+Thứ tự làm: hosting chạy được trên IP tạm → trỏ domain thẳng về hosting → xác nhận site và
+email đều ổn → **rồi mới** thêm Cloudflare. Thêm Cloudflare ngay từ đầu thì lúc hỏng không
+biết hỏng ở tầng nào.
+
 ## Giai đoạn 4 — Email và form báo giá
 
 Form báo giá trên trang Liên hệ gửi thư bằng `wp_mail()`. Mặc định PHP gửi thẳng, và thư
