@@ -96,7 +96,7 @@ async function resolveBoth(host) {
 
 /* ------------------------------------------------------------------- kiểm tra */
 
-const problems = [];
+let problems = [];
 
 /**
  * Ghi nhận một lỗi, kèm lệnh sửa nếu có.
@@ -108,8 +108,9 @@ function fail(message, fix) {
 	if (fix) console.log(dim(`      sửa: ${fix.label}`));
 }
 
-async function main() {
-	console.log(`\nKiểm tra bản chạy ở ${ROOT}\n`);
+async function main( pass = 1 ) {
+	problems = [];
+	console.log(`\n${ 2 === pass ? 'Kiểm tra lại' : 'Kiểm tra bản chạy' } ở ${ROOT}\n`);
 
 	// ---------------------------------------------------------------- Docker
 	console.log("Docker");
@@ -118,7 +119,7 @@ async function main() {
 
 	if (daemon.failed) {
 		fail("Docker chưa chạy — mở Docker Desktop rồi chạy lại.");
-		return report();
+		return report( pass );
 	}
 
 	console.log(ok(`daemon ${daemon.out}`));
@@ -139,7 +140,7 @@ async function main() {
 		}
 	}
 
-	if (problems.length) return report();
+	if (problems.length) return report( pass );
 
 	// ------------------------------------------------------------- WordPress
 	console.log("\nWordPress");
@@ -307,16 +308,17 @@ async function main() {
 		}
 	}
 
-	return report();
+	return report( pass );
 }
 
 /* --------------------------------------------------------------------- kết */
 
-async function report() {
+async function report( pass = 1 ) {
 	console.log("");
 
 	if (!problems.length) {
 		console.log("\x1b[32mKhông có vấn đề nào.\x1b[0m\n");
+		process.exitCode = 0;
 		return;
 	}
 
@@ -331,9 +333,12 @@ async function report() {
 
 	if (!fixable.length) return void (process.exitCode = 1);
 
-	if (!FIX) {
-		console.log("Chạy lại với --fix để sửa:\n");
-		console.log("  node tools/doctor.mjs --fix\n");
+	if (!FIX || 2 === pass) {
+		console.log(
+			2 === pass
+				? "Những vấn đề trên cần bạn xử lý tay.\n"
+				: "Chạy lại với --fix để sửa:\n\n  node tools/doctor.mjs --fix\n"
+		);
 		process.exitCode = 1;
 		return;
 	}
@@ -353,8 +358,10 @@ async function report() {
 		}
 	}
 
-	console.log("\nKiểm tra lại:\n");
-	console.log("  node tools/doctor.mjs" + (URL_ARG ? ` --url=${URL_ARG}` : "") + "\n");
+	// Sửa xong thì tự soát lại một lượt — bắt người dùng gõ lại lệnh là thừa, và lượt hai cho
+	// biết ngay lệnh sửa có ăn thua không.
+	console.log("");
+	await main( 2 );
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
