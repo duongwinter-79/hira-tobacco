@@ -89,14 +89,15 @@ foreach ( array( 'Seed & nursery', 'Fields & farmer training', 'Harvest', 'Curin
 
 $leaves = array();
 
-foreach ( array( 'Sợi thuốc lá' => 'Cut rag tobacco', 'Cọng thuốc lá' => 'Tobacco stem', 'Lá thuốc đã tách cọng' => 'Threshed lamina' ) as $i => $title ) {
+// The same three the plugin seeds, so the offline render matches a fresh install.
+foreach ( array( 'Whole leaf' => 'Lá nguyên', 'Threshed lamina' => 'Lá đã tách cọng', 'Tobacco stem' => 'Cọng thuốc lá' ) as $i => $title ) {
 	$index    = count( $leaves );
 	$leaves[] = annamleaf_fake(
 		200 + $index,
 		'annam_leaf',
 		$i,
 		'<p>Short description of the leaf type.</p>',
-		array( 'vi_name' => $title, 'curing' => 'Processed product' )
+		array( 'vi_name' => $title )
 	);
 }
 

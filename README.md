@@ -12,6 +12,7 @@ wp-content/themes/annamleaf/     Theme WordPress — chỉ phần trình bày
 wp-content/plugins/annamleaf-core/  Plugin — toàn bộ nội dung có cấu trúc
 demo/index.html                  Bản demo tĩnh 1 file, dùng làm bản thiết kế gốc
 docs/chay-thu-local.md           Chạy site trên máy — chuỗi lệnh đầy đủ ở mục "Bắt đầu nhanh"
+docs/ke-hoach-deploy.md          Kế hoạch 6 giai đoạn: hosting, tên miền, email, bàn giao
 docs/                            Kiến trúc, đưa lên mạng, bản khai thông tin khách hàng
 tools/render-check.php           Render thử template không cần cài WordPress
 tools/package.sh                 Đóng gói theme + plugin thành zip để upload
