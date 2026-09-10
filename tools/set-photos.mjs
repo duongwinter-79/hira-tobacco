@@ -187,6 +187,35 @@ async function install(slot, source, credits) {
 }
 
 /**
+ * Is there a photo file for this name, whatever the extension?
+ */
+async function anyFileFor(slot) {
+	for (const extension of EXTENSIONS) {
+		if (await exists(path.join(OUT, `${slot}.${extension}`))) return true;
+	}
+
+	return false;
+}
+
+/**
+ * Files sitting in the folder that no frame reads — left behind when the portfolio shrank,
+ * or misnamed. They ship inside the theme zip and are never shown, so they should go.
+ */
+async function orphans() {
+	let files = [];
+
+	try {
+		files = await readdir(OUT);
+	} catch {
+		return [];
+	}
+
+	return files
+		.filter((f) => EXTENSIONS.includes(path.extname(f).slice(1).toLowerCase()))
+		.filter((f) => !NAMES.has(path.basename(f, path.extname(f))));
+}
+
+/**
  * Which photo files git is actually carrying. Returns null when git cannot answer, so the
  * listing simply says nothing rather than claiming a file is untracked.
  */
@@ -321,6 +350,16 @@ async function main() {
 			);
 		}
 
+		const extra = await orphans();
+
+		if (extra.length) {
+			console.log("");
+			console.log("File thừa — không khung nào đọc, nên xoá:");
+			for (const file of extra) {
+				console.log(`  ${file}   →  node tools/set-photos.mjs --clear=${path.basename(file, path.extname(file))} --apply`);
+			}
+		}
+
 		console.log("");
 		if (uncommitted) console.log(`${uncommitted} ảnh chưa commit — bản cài ở máy khác sẽ không có chúng.`);
 		if (borrowed) console.log(`${borrowed} ảnh là ảnh mượn giấy phép tự do, phải thay bằng ảnh của khách trước khi go-live.`);
@@ -334,8 +373,9 @@ async function main() {
 	const { chosen, notes } = await collect();
 
 	for (const slot of CLEAR) {
-		if (!NAMES.has(slot)) {
-			notes.push(`--clear=${slot}: không phải tên khung`);
+		// Also clears a file no frame reads any more — that is exactly when you need it.
+		if (!NAMES.has(slot) && !(await anyFileFor(slot))) {
+			notes.push(`--clear=${slot}: không phải tên khung, và cũng không có file nào tên đó`);
 			continue;
 		}
 
