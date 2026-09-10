@@ -46,6 +46,33 @@ hàng, và ảnh riêng cho từng sản phẩm.
 Ba điều cần tránh: không có người đang hút thuốc, không có bao bì thuốc lá thành phẩm, không
 lấy ảnh trên mạng để dùng trực tiếp.
 
+## Lịch mùa vụ — đã điền sẵn, khách chỉ cần xác nhận
+
+Trang **Our Leaf** có bảng lịch mùa vụ. Website đã điền sẵn lịch **vụ đông xuân miền núi
+phía Bắc**, nên khách không phải nghĩ ra từ đầu — chỉ cần nói đúng hay sai:
+
+| Giai đoạn | Đang để trên web | Ghi chú |
+| --- | --- | --- |
+| Gieo ươm | Tháng 10 – 12 | Trong vườn ươm của công ty |
+| Trồng ra đồng | Tháng 1 – 2 | Sau đợt rét đậm |
+| Thu hoạch & sấy | Tháng 4 – 7 | Hái nhiều đợt, lá gốc trước |
+| Chế biến | Tháng 6 – 9 | Dây chuyền chạy |
+| Giao hàng | Tháng 8 – 12 | Tính từ cảng xuất |
+
+**Nếu vùng trồng ở miền Nam hoặc Tây Nguyên** — Tây Ninh, Gia Lai, Đắk Lắk, Ninh Thuận —
+lịch lệch khoảng ba tháng: gieo ươm tháng 9–10, trồng tháng 11–12, thu hoạch tháng 2–4, giao
+hàng từ tháng 5. Hỏi vùng trồng ở đâu trước, rồi mới chốt lịch.
+
+Câu hỏi gọn nhất cho khách:
+
+> *Vụ vừa rồi nhà mình gieo ươm tháng mấy, trồng ra đồng tháng mấy, bắt đầu hái tháng mấy và
+> hái xong tháng mấy?*
+
+Bốn mốc đó là đủ — chế biến và giao hàng suy ra được.
+
+Người mua đọc mục này để biết khi nào có hàng mà lên kế hoạch nhập, nên lệch vài tuần thì
+không sao, lệch cả mùa thì mất khách.
+
 ## Gợi ý nội dung website
 
 Có thể viết website theo hướng ngắn gọn, chuyên nghiệp, tập trung vào năng lực cung ứng B2B:
