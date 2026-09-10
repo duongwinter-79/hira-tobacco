@@ -423,6 +423,90 @@ công ty này.
 
 ---
 
+## Cho khách xem bản chạy trên máy bạn
+
+Máy bạn đang chạy WordPress ở `localhost:8888` — chỉ mình bạn vào được. Muốn khách xem, hoặc
+muốn gắn luôn `annamleaf.com` vào đó, dùng **tunnel**: một dịch vụ mở đường từ internet về
+cổng 8888 trên máy bạn, không cần IP tĩnh, không cần mở cổng router.
+
+> **Đây là cách xem tạm, không phải cách chạy thật.** Site chỉ sống khi máy bạn bật và Docker
+> đang chạy. Tắt máy là khách thấy lỗi. Đừng để khách hàng thật vào bằng đường này.
+
+### Cách 1 — Link tạm, không đụng tới tên miền (khuyên dùng)
+
+Cài `cloudflared` một lần: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
+(Windows có bản `.msi`; macOS `brew install cloudflared`).
+
+```sh
+cloudflared tunnel --url http://localhost:8888
+```
+
+Nó in ra một địa chỉ dạng `https://<chữ-ngẫu-nhiên>.trycloudflare.com`. **Chưa dùng được
+ngay** — phải báo cho WordPress biết địa chỉ công khai của nó, nếu không mọi link và ảnh vẫn
+trỏ về `localhost:8888` và trang sẽ vỡ:
+
+```sh
+SITE_URL=https://<chữ-ngẫu-nhiên>.trycloudflare.com docker compose up -d
+```
+
+Windows PowerShell:
+
+```powershell
+$env:SITE_URL="https://<chữ-ngẫu-nhiên>.trycloudflare.com"
+docker compose up -d
+```
+
+Gửi link đó cho khách. Xong việc thì tắt `cloudflared`, rồi trả site về localhost:
+
+```sh
+docker compose down
+docker compose up -d
+```
+
+`SITE_URL` để trống là WordPress quay lại `localhost:8888` như cũ — địa chỉ không bị ghi vào
+database, nên không phải dọn gì.
+
+### Cách 2 — Gắn thẳng `annamleaf.com` vào máy bạn
+
+Làm được, nhưng phải đổi nameserver của domain sang Cloudflare:
+
+1. Tạo tài khoản Cloudflare, **Add a site** → `annamleaf.com`
+2. Cloudflare nhập các bản ghi DNS hiện có — **đối chiếu lại từng dòng**, nhất là `MX` và
+   `TXT`, trước khi sang bước sau
+3. Vào tài khoản đăng ký domain, đổi nameserver sang cặp Cloudflare cho
+4. `cloudflared tunnel login`, rồi `cloudflared tunnel create annamleaf`
+5. `cloudflared tunnel route dns annamleaf annamleaf.com`
+6. Chạy tunnel trỏ về `http://localhost:8888`
+7. `SITE_URL=https://annamleaf.com docker compose up -d`
+
+**Ba lý do tôi không khuyên cách này:**
+
+- Đổi nameserver là việc một chiều đáng làm **một lần**, lúc lên hosting thật. Làm bây giờ
+  rồi vài tuần nữa lại đổi tiếp là tự chuốc rủi ro mất bản ghi email.
+- Người mua vào `annamleaf.com` mà gặp lỗi vì máy bạn tắt thì đó là ấn tượng đầu tiên về
+  công ty khách hàng.
+- Một bản WordPress có wp-admin mở ra internet, chạy trên máy cá nhân, không có tường lửa
+  hay bản vá của nhà cung cấp hosting.
+
+Nếu vẫn cần domain thật để khách xem cho "có cảm giác", dùng **tên miền phụ**:
+`demo.annamleaf.com` trỏ vào tunnel, còn `annamleaf.com` để dành cho hosting thật.
+
+### Cách 3 — Mở cổng router
+
+Về lý thuyết được, thực tế hiếm khi chạy ở Việt Nam: hầu hết nhà mạng dùng CGNAT nên máy bạn
+không có IP công khai riêng, và nhiều nhà mạng chặn cổng 80/443. Bỏ qua.
+
+### Nhớ khi dùng tunnel
+
+- Công tắc **Hide from search engines** trong Company profile phải **bật** — mặc định đã bật.
+  Không thì Google có thể lập chỉ mục bản demo chạy trên máy bạn.
+- Đổi mật khẩu `admin`. Mật khẩu `annamleaf` trong hướng dẫn cài là để chạy trên máy, không
+  phải để mở ra internet.
+- Link `trycloudflare.com` đổi mỗi lần chạy lại. Cần link cố định thì phải là tunnel có tên
+  (Cách 2) hoặc tài khoản ngrok trả phí.
+
+---
+
 ## Xử lý lỗi thường gặp
 
 ### Trang chủ mở được, nhưng `/about/` trả về "Not Found" của Apache
