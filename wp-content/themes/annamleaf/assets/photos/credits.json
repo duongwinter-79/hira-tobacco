@@ -1,20 +1,80 @@
 {
 	"home": {
-		"credit": "No machine-readable author provided. Ajarnmike assumed (based on copyright claims). · CC BY-SA 2.5 · Wikimedia Commons",
-		"source": "https://commons.wikimedia.org/wiki/File%3ACaoBang.jpg",
-		"title": "File:CaoBang.jpg",
-		"query": "Cao Bang Vietnam landscape"
+		"credit": "",
+		"source": "https://dongvietthanh.com/dau-tu-trong-nguyen-lieu-thuoc-la",
+		"title": "Vùng trồng nguyên liệu — Đồng Việt Thành",
+		"query": "reference: dongvietthanh.com"
+	},
+	"stage-1": {
+		"credit": "",
+		"source": "https://www.satatobacco.com/",
+		"title": "Cây con đưa xuống luống",
+		"query": "reference: satatobacco.com"
+	},
+	"stage-2": {
+		"credit": "",
+		"source": "https://dongvietthanh.com/dau-tu-trong-nguyen-lieu-thuoc-la",
+		"title": "Vùng trồng nguyên liệu — Đồng Việt Thành",
+		"query": "reference: dongvietthanh.com"
+	},
+	"stage-3": {
+		"credit": "",
+		"source": "https://www.satatobacco.com/",
+		"title": "Hái lá bằng tay tại ruộng",
+		"query": "reference: satatobacco.com"
 	},
 	"stage-4": {
-		"credit": "Carol M. Highsmith · Public domain · Wikimedia Commons",
-		"source": "https://commons.wikimedia.org/wiki/File%3ATobacco-curing%20barn%20near%20Budd's%20Creek%2C%20Maryland%20LCCN2011631665.tif",
-		"title": "File:Tobacco-curing barn near Budd's Creek, Maryland LCCN2011631665.tif",
-		"query": "tobacco curing barn"
+		"credit": "",
+		"source": "https://mibica.vn/",
+		"title": "Lá treo trong lò sấy",
+		"query": "reference: mibica.vn"
+	},
+	"stage-5": {
+		"credit": "",
+		"source": "https://mibica.vn/tobacco/",
+		"title": "Đối chiếu nắm lá với mẫu grade",
+		"query": "reference: mibica.vn"
+	},
+	"stage-6": {
+		"credit": "",
+		"source": "https://dongvietthanh.com/quy-trinh-san-xuat-cua-nha-may",
+		"title": "Dây chuyền chế biến — Đồng Việt Thành",
+		"query": "reference: dongvietthanh.com"
 	},
 	"stage-7": {
-		"credit": "Captain Albert E. Theberge, NOAA Corps (ret.) · Public domain · Wikimedia Commons",
-		"source": "https://commons.wikimedia.org/wiki/File%3ALine3174%20-%20Shipping%20Containers%20at%20the%20terminal%20at%20Port%20Elizabeth%2C%20New%20Jersey%20-%20NOAA.jpg",
-		"title": "File:Line3174 - Shipping Containers at the terminal at Port Elizabeth, New Jersey - NOAA.jpg",
-		"query": "shipping container terminal"
+		"credit": "",
+		"source": "https://dongvietthanh.com/kho-mat",
+		"title": "Kho mát — Đồng Việt Thành",
+		"query": "reference: dongvietthanh.com"
+	},
+	"leaf-1": {
+		"credit": "",
+		"source": "https://meti.com.tr/stems-product/",
+		"title": "Stems (cọng thuốc lá)",
+		"query": "reference: meti.com.tr"
+	},
+	"leaf-2": {
+		"credit": "",
+		"source": "https://arestobacco.com/cut-rag-tobacco-product/",
+		"title": "Cut rag (sợi thuốc lá)",
+		"query": "reference: arestobacco.com"
+	},
+	"leaf-3": {
+		"credit": "",
+		"source": "https://meti.com.tr/reconstituted-tobacco/",
+		"title": "Reconstituted tobacco (lá tái chế)",
+		"query": "reference: meti.com.tr"
+	},
+	"leaf-4": {
+		"credit": "",
+		"source": "https://meti.com.tr/",
+		"title": "Lá sẫm sấy gió",
+		"query": "reference: meti.com.tr"
+	},
+	"region": {
+		"credit": "",
+		"source": "https://dongvietthanh.com/dau-tu-trong-nguyen-lieu-thuoc-la",
+		"title": "Vùng trồng — Đồng Việt Thành",
+		"query": "reference: dongvietthanh.com"
 	}
 }
