@@ -360,7 +360,7 @@ msgid "Specifications"
 msgstr ""
 
 #: front-page.php:119
-msgid "Specifications and crop calendar →"
+msgid "Products and crop calendar →"
 msgstr ""
 
 #: patterns/crop-calendar.php:18

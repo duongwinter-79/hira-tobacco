@@ -42,7 +42,6 @@ annamleaf_hero(
 	)
 );
 
-annamleaf_stats_strip();
 ?>
 
 <?php if ( $annamleaf_front_id && '' !== trim( (string) get_post_field( 'post_content', $annamleaf_front_id ) ) ) : ?>
@@ -125,7 +124,7 @@ annamleaf_stats_strip();
 			</div>
 			<p style="margin-top:28px;">
 				<a href="<?php echo esc_url( annamleaf_leaf_url() ); ?>">
-					<?php esc_html_e( 'Specifications and crop calendar →', 'annamleaf' ); ?>
+					<?php esc_html_e( 'Products and crop calendar →', 'annamleaf' ); ?>
 				</a>
 			</p>
 		</div>

@@ -41,44 +41,6 @@ endwhile;
 		</div>
 	</section>
 
-	<section class="sec sec--card">
-		<div class="wrap">
-			<?php
-			annamleaf_section_head(
-				__( 'Specifications', 'annamleaf' ),
-				__( 'The same leaf, as a spec sheet', 'annamleaf' )
-			);
-			?>
-			<div class="scroller">
-				<table>
-					<thead>
-						<tr>
-							<th><?php esc_html_e( 'Type', 'annamleaf' ); ?></th>
-							<th><?php esc_html_e( 'Curing', 'annamleaf' ); ?></th>
-							<th><?php esc_html_e( 'Grades', 'annamleaf' ); ?></th>
-							<th><?php esc_html_e( 'Moisture', 'annamleaf' ); ?></th>
-							<th><?php esc_html_e( 'Packing', 'annamleaf' ); ?></th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ( $annamleaf_items as $annamleaf_item ) : ?>
-							<tr>
-								<td><strong><?php echo esc_html( get_the_title( $annamleaf_item ) ); ?></strong></td>
-								<?php
-								foreach ( array( 'curing', 'grades', 'moisture', 'packing' ) as $annamleaf_key ) :
-									$annamleaf_value = annamleaf_get_meta( $annamleaf_item->ID, $annamleaf_key );
-									?>
-									<td class="<?php echo 'moisture' === $annamleaf_key ? 'num' : ''; ?>">
-										<?php echo '' !== $annamleaf_value ? esc_html( $annamleaf_value ) : wp_kses_post( annamleaf_ph( 'TBC' ) ); ?>
-									</td>
-								<?php endforeach; ?>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</section>
 <?php endif; ?>
 
 <?php if ( '' !== trim( wp_strip_all_tags( get_post_field( 'post_content', get_the_ID() ) ) ) ) : ?>

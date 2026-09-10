@@ -102,42 +102,6 @@ function annamleaf_option_field( string $key, string $placeholder = '' ): string
 }
 
 /**
- * The four capacity figures for the strip under the hero.
- *
- * @return array<int, array{figure: string, label: string}>
- */
-function annamleaf_stats(): array {
-	$defaults = array(
-		array( 'X', __( 'Contracted growing area', 'annamleaf-core' ) ),
-		array( 'X', __( 'Farming households', 'annamleaf-core' ) ),
-		array( 'X,000 MT', __( 'Processed leaf per year', 'annamleaf-core' ) ),
-		array( 'X', __( 'Export markets', 'annamleaf-core' ) ),
-	);
-
-	$stats = array();
-
-	foreach ( $defaults as $index => $fallback ) {
-		$number = $index + 1;
-		$figure = annamleaf_option( 'stat_' . $number . '_figure' );
-		$label  = annamleaf_option( 'stat_' . $number . '_label' );
-
-		$stats[] = array(
-			'figure' => '' !== $figure ? esc_html( $figure ) : annamleaf_placeholder( $fallback[0] ),
-			'label'  => '' !== $label ? esc_html( $label ) : esc_html( $fallback[1] ),
-		);
-	}
-
-	return array_values(
-		array_filter(
-			$stats,
-			static function ( array $stat ): bool {
-				return '' !== $stat['figure'];
-			}
-		)
-	);
-}
-
-/**
  * The address the quote request form delivers to.
  *
  * @return string

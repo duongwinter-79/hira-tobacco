@@ -3,7 +3,7 @@
  * First-run content.
  *
  * Activating the plugin builds the whole site: seven process stages, three products,
- * the Cao Bằng growing region and six finished pages, with the front page set and the
+ * one growing region and six finished pages, with the front page set and the
  * menu built. The
  * pages arrive written, not as empty shells asking the client to assemble sections — the
  * work left is editing wording and swapping in real figures and photographs.
@@ -236,10 +236,10 @@ function annamleaf_seed_content( bool $force = false ): void {
 		);
 	}
 
-	// The one region we know. Others get added in Regions as the client confirms them.
+	// Placeholder until the client names the province. Others get added in Regions.
 	annamleaf_seed_post(
 		'annam_region',
-		'Cao Bằng',
+		'Việt Nam',
 		'',
 		array(
 			'leaf_types' => __( 'Leaf type to confirm', 'annamleaf-core' ),
@@ -504,7 +504,8 @@ function annamleaf_seed_pages( bool $force = false ): void {
 		array_merge(
 			array(
 				'show_placeholders' => '1',
-				'region'            => 'Cao Bằng',
+				'region'            => 'Việt Nam',
+				'office_address'    => 'Việt Nam',
 				'trade_notice'      => __( 'This site is intended for industrial buyers and trade partners. It is not directed at consumers.', 'annamleaf-core' ),
 			),
 			$options

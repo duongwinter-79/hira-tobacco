@@ -176,29 +176,6 @@ function annamleaf_page_hero( int $post_id, string $motif = 'plant' ): void {
 }
 
 /**
- * Print the capacity figures strip.
- */
-function annamleaf_stats_strip(): void {
-	$stats = function_exists( 'annamleaf_stats' ) ? annamleaf_stats() : array();
-
-	if ( empty( $stats ) ) {
-		return;
-	}
-	?>
-	<div class="stats">
-		<div class="wrap">
-			<?php foreach ( $stats as $stat ) : ?>
-				<div class="stat">
-					<p class="fig"><?php echo wp_kses_post( $stat['figure'] ); ?></p>
-					<p class="lbl"><?php echo wp_kses_post( $stat['label'] ); ?></p>
-				</div>
-			<?php endforeach; ?>
-		</div>
-	</div>
-	<?php
-}
-
-/**
  * Print a call to action band.
  *
  * @param string $title     Heading.

@@ -49,19 +49,6 @@ function annamleaf_option_fields(): array {
 				),
 			),
 		),
-		'figures' => array(
-			'title'  => __( 'Capacity figures', 'annamleaf-core' ),
-			'fields' => array(
-				'stat_1_figure' => array( 'label' => __( 'Figure 1', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_1_label'  => array( 'label' => __( 'Label 1', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_2_figure' => array( 'label' => __( 'Figure 2', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_2_label'  => array( 'label' => __( 'Label 2', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_3_figure' => array( 'label' => __( 'Figure 3', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_3_label'  => array( 'label' => __( 'Label 3', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_4_figure' => array( 'label' => __( 'Figure 4', 'annamleaf-core' ), 'type' => 'text' ),
-				'stat_4_label'  => array( 'label' => __( 'Label 4', 'annamleaf-core' ), 'type' => 'text' ),
-			),
-		),
 		'trade'   => array(
 			'title'  => __( 'Trade notice', 'annamleaf-core' ),
 			'fields' => array(

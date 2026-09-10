@@ -361,8 +361,8 @@ msgid "Specifications"
 msgstr "Quy cách"
 
 #: front-page.php:119
-msgid "Specifications and crop calendar →"
-msgstr "Quy cách và lịch mùa vụ →"
+msgid "Products and crop calendar →"
+msgstr "Sản phẩm và lịch mùa vụ →"
 
 #: patterns/crop-calendar.php:18
 msgid "Stage"

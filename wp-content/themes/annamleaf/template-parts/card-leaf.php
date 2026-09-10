@@ -21,8 +21,6 @@ if ( ! $annamleaf_item instanceof WP_Post ) {
 $annamleaf_id       = $annamleaf_item->ID;
 $annamleaf_index    = max( 1, (int) ( $args['index'] ?? 1 ) );
 $annamleaf_vi_name  = annamleaf_get_meta( $annamleaf_id, 'vi_name' );
-$annamleaf_grades   = annamleaf_get_meta( $annamleaf_id, 'grades' );
-$annamleaf_moisture = annamleaf_get_meta( $annamleaf_id, 'moisture' );
 ?>
 <article class="leafcard">
 	<?php
@@ -56,14 +54,4 @@ $annamleaf_moisture = annamleaf_get_meta( $annamleaf_id, 'moisture' );
 
 	<p><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $annamleaf_item->post_excerpt ?: $annamleaf_item->post_content ), 20, '…' ) ); ?></p>
 
-	<dl>
-		<div>
-			<dt><?php esc_html_e( 'Grades', 'annamleaf' ); ?></dt>
-			<dd><?php echo '' !== $annamleaf_grades ? esc_html( $annamleaf_grades ) : wp_kses_post( annamleaf_ph( 'TBC' ) ); ?></dd>
-		</div>
-		<div>
-			<dt><?php esc_html_e( 'Moisture', 'annamleaf' ); ?></dt>
-			<dd class="num"><?php echo '' !== $annamleaf_moisture ? esc_html( $annamleaf_moisture ) : wp_kses_post( annamleaf_ph( 'TBC' ) ); ?></dd>
-		</div>
-	</dl>
 </article>

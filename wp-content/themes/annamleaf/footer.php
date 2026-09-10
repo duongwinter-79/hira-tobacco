@@ -25,12 +25,6 @@ $annamleaf_notice = annamleaf_get(
 						<span class="tag"><?php echo esc_html( get_bloginfo( 'description' ) ); ?></span>
 					</span>
 				</a>
-				<p style="max-width:38ch;font-size:13.5px;">
-					<?php echo wp_kses_post( annamleaf_get_field( 'legal_name', __( 'COMPANY LEGAL NAME', 'annamleaf' ) ) ); ?><br>
-					<?php echo wp_kses_post( annamleaf_get_field( 'office_address', __( 'REGISTERED ADDRESS', 'annamleaf' ) ) ); ?><br>
-					<?php esc_html_e( 'Business reg.', 'annamleaf' ); ?>
-					<?php echo wp_kses_post( annamleaf_get_field( 'reg_no', __( 'NO.', 'annamleaf' ) ) ); ?>
-				</p>
 			</div>
 
 			<div>
@@ -65,7 +59,7 @@ $annamleaf_notice = annamleaf_get(
 			<span class="agebadge">18+</span>
 			<p>
 				&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
-				<?php echo wp_kses_post( annamleaf_get_field( 'legal_name', __( 'COMPANY LEGAL NAME', 'annamleaf' ) ) ); ?>
+				<?php echo wp_kses_post( annamleaf_company_name() ); ?>
 			</p>
 		</div>
 	</div>

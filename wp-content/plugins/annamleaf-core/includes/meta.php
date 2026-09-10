@@ -44,23 +44,6 @@ function annamleaf_field_groups(): array {
 					'type'  => 'text',
 					'hint'  => __( 'Shown under the English name on the card.', 'annamleaf-core' ),
 				),
-				'curing'   => array(
-					'label' => __( 'Curing', 'annamleaf-core' ),
-					'type'  => 'text',
-					'hint'  => __( 'Flue-cured, air-cured, sun-cured.', 'annamleaf-core' ),
-				),
-				'grades'   => array(
-					'label' => __( 'Grades', 'annamleaf-core' ),
-					'type'  => 'text',
-				),
-				'moisture' => array(
-					'label' => __( 'Moisture', 'annamleaf-core' ),
-					'type'  => 'text',
-				),
-				'packing'  => array(
-					'label' => __( 'Packing', 'annamleaf-core' ),
-					'type'  => 'text',
-				),
 			),
 		),
 		'annam_region' => array(
