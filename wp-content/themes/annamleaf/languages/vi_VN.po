@@ -535,3 +535,7 @@ msgstr "Cọng thuốc lá"
 #: inc/seo.php:50
 msgid "Whole leaf, threshed lamina and tobacco stem, shipped in the form your line needs."
 msgstr "Lá nguyên, lá đã tách cọng và cọng thuốc lá — giao theo đúng dạng dây chuyền của bạn cần."
+
+#: inc/seo.php:150
+msgid "This site is hidden from search engines. Untick “Hide from search engines” in Company profile on the day it goes live."
+msgstr "Website đang bị ẩn khỏi công cụ tìm kiếm. Bỏ tick “Hide from search engines” trong Company profile vào ngày chạy thật."

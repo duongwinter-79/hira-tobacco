@@ -121,6 +121,43 @@ function annamleaf_meta_tags(): void {
 add_action( 'wp_head', 'annamleaf_meta_tags', 5 );
 
 /**
+ * Keep the site out of search results while it is still a demo.
+ *
+ * Filtering wp_robots rather than printing a tag means WordPress emits one robots meta,
+ * and an SEO plugin installed later still sees the intent instead of fighting a stray tag.
+ *
+ * @param array<string, mixed> $robots Robots directives.
+ * @return array<string, mixed>
+ */
+function annamleaf_robots( array $robots ): array {
+	if ( '' === annamleaf_get( 'noindex' ) ) {
+		return $robots;
+	}
+
+	$robots['noindex']  = true;
+	$robots['nofollow'] = true;
+	unset( $robots['max-image-preview'], $robots['max-snippet'], $robots['max-video-preview'] );
+
+	return $robots;
+}
+add_filter( 'wp_robots', 'annamleaf_robots', 20 );
+
+/**
+ * Say so in wp-admin, because a site nobody can find looks like a site nobody wants.
+ */
+function annamleaf_noindex_notice(): void {
+	if ( '' === annamleaf_get( 'noindex' ) || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	printf(
+		'<div class="notice notice-warning"><p>%s</p></div>',
+		esc_html__( 'This site is hidden from search engines. Untick “Hide from search engines” in Company profile on the day it goes live.', 'annamleaf' )
+	);
+}
+add_action( 'admin_notices', 'annamleaf_noindex_notice' );
+
+/**
  * Print the Organization record, on the front page only.
  */
 function annamleaf_schema(): void {

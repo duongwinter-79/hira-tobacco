@@ -524,7 +524,11 @@ function annamleaf_seed_pages( bool $force = false ): void {
 				'office_address'    => 'Vietnam',
 				'factory_address'   => 'Vietnam',
 				'region'            => 'Vietnam',
-				'show_placeholders' => '1',
+				// The profile below is filled in, so empty-field markers are off and the trade
+				// gate is on — a fresh install is ready to show, not a worksheet.
+				'show_placeholders' => '',
+				'age_gate'          => '1',
+				'noindex'           => '1',
 				'trade_notice'      => __( 'This site is intended for industrial buyers and trade partners. It is not directed at consumers.', 'annamleaf-core' ),
 			),
 			$options

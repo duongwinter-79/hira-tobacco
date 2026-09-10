@@ -534,3 +534,7 @@ msgstr ""
 #: inc/seo.php:50
 msgid "Whole leaf, threshed lamina and tobacco stem, shipped in the form your line needs."
 msgstr ""
+
+#: inc/seo.php:150
+msgid "This site is hidden from search engines. Untick “Hide from search engines” in Company profile on the day it goes live."
+msgstr ""

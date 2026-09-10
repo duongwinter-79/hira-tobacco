@@ -62,6 +62,11 @@ function annamleaf_option_fields(): array {
 					'type'  => 'checkbox',
 					'hint'  => __( 'Asks visitors to confirm they are 18 or older and in the trade before the site is shown.', 'annamleaf-core' ),
 				),
+				'noindex'      => array(
+					'label' => __( 'Hide from search engines', 'annamleaf-core' ),
+					'type'  => 'checkbox',
+					'hint'  => __( 'Keeps the site out of Google while it is still a demo. Untick on the day it goes live — and only once the content and photographs are the real ones.', 'annamleaf-core' ),
+				),
 			),
 		),
 	);
