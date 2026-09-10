@@ -1,0 +1,20 @@
+# Luật rewrite chuẩn của WordPress.
+#
+# WordPress tự ghi file này khi bạn bấm Settings → Permalinks → Save trong trình duyệt.
+# Nhưng nếu cài bằng WP-CLI (`wp rewrite structure --hard`) thì nó ghi ra một khối RỖNG:
+# WP-CLI chạy ngoài Apache nên WordPress tưởng không có mod_rewrite. Giữ sẵn file này để
+# chép vào container là xong, không phải mở trình duyệt.
+#
+#   docker compose cp docker/htaccess wordpress:/var/www/html/.htaccess
+#
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress

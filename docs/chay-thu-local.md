@@ -45,8 +45,15 @@ docker compose run --rm cli wp core install \
 # 4. bật theme + plugin, đặt permalink
 docker compose run --rm cli wp theme activate annamleaf
 docker compose run --rm cli wp plugin activate annamleaf-core
-docker compose run --rm cli wp rewrite structure '/%postname%/' --hard
+docker compose run --rm cli wp rewrite structure '/%postname%/'
+
+# 5. luật rewrite cho Apache — bắt buộc khi cài bằng WP-CLI, xem ghi chú bên dưới
+docker compose cp docker/htaccess wordpress:/var/www/html/.htaccess
 ```
+
+Bước 5 không bỏ được. `wp rewrite structure --hard` chạy trong container `cli`, ở đó
+WordPress không thấy mình đang chạy dưới Apache nên ghi ra một `.htaccess` **rỗng** — trang
+chủ mở được còn `/about/` trả 404. Chép file có sẵn trong repo vào là xong.
 
 Xong: **http://localhost:8888** · quản trị **http://localhost:8888/wp-admin** (`admin` /
 `annamleaf`). Bật plugin là nội dung mẫu tự dựng — 6 trang, 7 bước quy trình, sản phẩm, vùng
@@ -438,10 +445,12 @@ docker compose run --rm cli wp rewrite structure '/%postname%/' --hard
 docker compose run --rm cli wp rewrite flush --hard
 ```
 
-Vẫn không có thì ghi tay:
+**Hoặc có file nhưng rỗng giữa `# BEGIN WordPress` và `# END WordPress`** — đây là trường
+hợp hay gặp nhất khi cài bằng WP-CLI: nó chạy ngoài Apache nên WordPress tưởng không có
+mod_rewrite và ghi ra khối trống. Chép bản có sẵn trong repo vào:
 
 ```sh
-docker compose exec wordpress sh -c 'printf "%s\n" "# BEGIN WordPress" "<IfModule mod_rewrite.c>" "RewriteEngine On" "RewriteBase /" "RewriteRule ^index\\.php$ - [L]" "RewriteCond %{REQUEST_FILENAME} !-f" "RewriteCond %{REQUEST_FILENAME} !-d" "RewriteRule . /index.php [L]" "</IfModule>" "# END WordPress" > /var/www/html/.htaccess'
+docker compose cp docker/htaccess wordpress:/var/www/html/.htaccess
 ```
 
 **2. Có `.htaccess` nhưng Apache bỏ qua nó** — lệnh thứ hai in ra `AllowOverride None`.
