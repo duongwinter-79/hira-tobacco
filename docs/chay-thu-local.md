@@ -446,8 +446,9 @@ cloudflared tunnel --url http://localhost:8888
 ```
 
 Nó in ra một địa chỉ dạng `https://<chữ-ngẫu-nhiên>.trycloudflare.com`. **Chưa dùng được
-ngay** — phải báo cho WordPress biết địa chỉ công khai của nó, nếu không mọi link và ảnh vẫn
-trỏ về `localhost:8888` và trang sẽ vỡ:
+ngay** — phải báo cho WordPress biết địa chỉ công khai của nó, nếu không mọi link, CSS và ảnh
+vẫn trỏ về `localhost:8888`, trình duyệt của khách không tải được và trang hiện ra trơ trụi
+không có định dạng:
 
 ```sh
 SITE_URL=https://<chữ-ngẫu-nhiên>.trycloudflare.com docker compose up -d
@@ -469,6 +470,31 @@ docker compose up -d
 
 `SITE_URL` để trống là WordPress quay lại `localhost:8888` như cũ — địa chỉ không bị ghi vào
 database, nên không phải dọn gì.
+
+#### Vẫn vỡ CSS sau khi đặt `SITE_URL`?
+
+Cơ chế này nằm ở mu-plugin `docker/mu-plugins/annamleaf-site-url.php`, mount vào container.
+Nếu bạn đang chạy một container dựng từ trước khi có mount đó thì nó chưa được nạp — dựng
+lại là xong:
+
+```powershell
+docker compose down
+$env:SITE_URL="https://<chữ-ngẫu-nhiên>.trycloudflare.com"
+docker compose up -d
+```
+
+Kiểm tra WordPress đã nhận địa chỉ mới chưa:
+
+```powershell
+docker compose exec wordpress ls /var/www/html/wp-content/mu-plugins
+curl.exe -s -o NUL -w "%{http_code} %{redirect_url}`n" https://<chữ-ngẫu-nhiên>.trycloudflare.com
+```
+
+Lệnh đầu phải liệt kê `annamleaf-site-url.php`. Lệnh sau phải trả `200` — nếu ra `301` kèm
+địa chỉ `localhost:8888` thì mu-plugin chưa được nạp.
+
+Xem mã nguồn trang cũng biết ngay: các thẻ `<link rel="stylesheet" href="...">` phải trỏ tới
+tên miền tunnel, không phải `localhost:8888`.
 
 ### Cách 2 — Gắn thẳng `annamleaf.com` vào máy bạn
 

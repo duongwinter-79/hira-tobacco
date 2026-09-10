@@ -45,14 +45,14 @@ services:
       #   SITE_URL=https://abc-def.trycloudflare.com docker compose up -d
       # Xem docs/chay-thu-local.md, mục "Cho khách xem bản chạy trên máy bạn".
       SITE_URL: ${SITE_URL:-}
-      WORDPRESS_CONFIG_EXTRA: require '/etc/annamleaf-wp-extra.php';
     volumes:
       - wp-core:/var/www/html
       - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
       - ./wp-content/plugins/annamleaf-core:/var/www/html/wp-content/plugins/annamleaf-core
       # Không có dòng này thì /about/ trả 404 trong khi trang chủ vẫn mở được.
       - ./docker/apache-permalinks.conf:/etc/apache2/conf-enabled/zz-annamleaf.conf:ro
-      - ./docker/wp-extra.php:/etc/annamleaf-wp-extra.php:ro
+      # Đặt SITE_URL khi chạy sau tunnel — mu-plugin nạp ở mọi lần chạy, kể cả install cũ.
+      - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
 
   # Chạy lệnh WordPress từ dòng lệnh, ví dụ:
   #   docker compose run --rm cli wp theme activate annamleaf
@@ -72,6 +72,7 @@ services:
       - wp-core:/var/www/html
       - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
       - ./wp-content/plugins/annamleaf-core:/var/www/html/wp-content/plugins/annamleaf-core
+      - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
       # Scripts chạy bằng `wp eval-file`, ví dụ tools/export-photos.php.
       - ./tools:/repo/tools
 
