@@ -370,6 +370,22 @@ const REJECT = [
 	"sketch", "illustration", "poster", "advertisement", "advert", "postcard", "map",
 	"diagram", "chart", "logo", "coat of arms", "stamp", "banknote", "cigarette card",
 	"trade card", "label design", "packaging",
+	/*
+	 * Tobacco companies issued collectable cards by the million, and museums have digitised
+	 * them by the thousand, so a search for any tobacco term is half card catalogue. They are
+	 * cleanly identifiable: a card is catalogued by who issued it and which numbered series it
+	 * belongs to. Without these, the top candidate for Cut rag was a Duke Sons & Co. card from
+	 * the "Puck" series, and second was a tin of Curly Cut.
+	 */
+	"issued by", "series (n", "trading card", "cigarette silk", "album card", "tobacco tin",
+	"snuff box", "pipe bowl", "matchbox",
+	/*
+	 * Plant pathology. Agricultural photographs of tobacco are disproportionately of things
+	 * going wrong with it, and a diseased leaf under a product heading is the worst possible
+	 * picture — the only candidate for Tobacco stem was a Fusarium infection.
+	 */
+	"fusarium", "mosaic virus", "blight", "mildew", "nematode", "wilt", "leaf spot",
+	"disease", "diseased", "pest", "parasite", "паразит", "infection", "infected", "fungus",
 	// Archive scans and the collections they come from
 	"kitlv", "lccn", "wellcome", "tropenmuseum", "rijksmuseum", "collectie", "nationaal archief",
 	"bundesarchiv", "national archives", "state library", "photograph collection", "glass plate",
