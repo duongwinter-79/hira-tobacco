@@ -564,12 +564,79 @@ async function fromFlickr(query) {
 	});
 }
 
+/**
+ * Google, through the Programmable Search Engine JSON API, filtered to reusable licences.
+ * Needs GOOGLE_API_KEY and GOOGLE_CSE_ID.
+ *
+ * WHAT THIS IS NOT. It does not crawl google.com/imghp and download whatever appears. Doing
+ * that is how every borrowed photograph on this site arrived — the results are ordinary
+ * copyrighted pictures on other companies' websites, and putting one on annamleaf.com is the
+ * problem, not the fix. This calls Google's documented API with `rights` set, so results come
+ * back already restricted to licences that permit reuse.
+ *
+ *     cc_publicdomain   no rights reserved
+ *     cc_attribute      reuse with credit
+ *     cc_sharealike     reuse with credit, share alike
+ *
+ * cc_noncommercial and cc_nonderived are left out: this is a commercial site and every frame
+ * is cropped to 3:2.
+ *
+ * TREAT THE LICENCE AS A CLAIM, NOT A FACT. Google infers `rights` from metadata a publisher
+ * put on their own page, and publishers get it wrong or copy it from somewhere else. That is
+ * weaker than Commons or Pexels, where the library itself holds the licence. So candidates
+ * from here carry VERIFY LICENCE in their credit, which lands in credits.json and prints on
+ * the page as a TEMPORARY chip until somebody opens the source page, confirms the licence,
+ * and rewrites that line by hand.
+ *
+ * Set up: an API key at https://console.cloud.google.com (enable "Custom Search API") and a
+ * search engine at https://programmablesearchengine.google.com with "Search the entire web"
+ * switched on. Free tier is 100 queries a day, and one run of this script uses several per
+ * frame.
+ */
+async function fromGoogle(query) {
+	const key = process.env.GOOGLE_API_KEY;
+	const cx = process.env.GOOGLE_CSE_ID;
+
+	if (!key || !cx) return [];
+
+	const url =
+		"https://www.googleapis.com/customsearch/v1" +
+		`?key=${encodeURIComponent(key)}&cx=${encodeURIComponent(cx)}` +
+		`&q=${encodeURIComponent(query)}` +
+		"&searchType=image&imgType=photo&imgSize=large&num=10" +
+		"&rights=cc_publicdomain%7Ccc_attribute%7Ccc_sharealike";
+
+	const data = await getJson(url);
+
+	return (data?.items || []).flatMap((item) => {
+		if (!item?.link || !item?.image) return [];
+
+		return [{
+			source: "google",
+			title: strip(item.title),
+			description: strip(item.snippet),
+			tags: "",
+			date: "",
+			width: Number(item.image.width) || 0,
+			height: Number(item.image.height) || 0,
+			url: item.link,
+			smaller: item.link,
+			thumb: item.image.thumbnailLink || item.link,
+			credit: `${item.displayLink || "unknown site"} · VERIFY LICENCE`,
+			page: item.image.contextLink || item.link,
+		}];
+	});
+}
+
 const SOURCES = [
 	{ name: "Wikimedia Commons", fn: fromCommons, bonus: 0 },
 	{ name: "Openverse", fn: fromOpenverse, bonus: 1 },
 	{ name: "Flickr", fn: fromFlickr, bonus: 2 },
 	{ name: "Pexels", fn: fromPexels, bonus: 3 },
 	{ name: "Unsplash", fn: fromUnsplash, bonus: 3 },
+	// No bonus. A licence Google inferred is worth less than one the library itself holds,
+	// so these should only win a frame when nothing better exists.
+	{ name: "Google (rights-filtered)", fn: fromGoogle, bonus: 0 },
 ];
 
 /* ------------------------------------------------------------------ scoring */
@@ -889,21 +956,48 @@ async function runApply() {
 	}
 
 	console.log(`\n${saved} downloaded into wp-content/themes/annamleaf/assets/photos/.`);
+
+	warnUnverified(credits);
+}
+
+/**
+ * Say plainly which frames are holding a licence nobody has checked.
+ *
+ * A Google result arrives with a licence Google inferred from someone else's page. Downloaded
+ * and forgotten, it is indistinguishable from the borrowed photographs this whole exercise
+ * exists to remove — so it gets named every time, until a person confirms it.
+ */
+function warnUnverified(credits) {
+	const unverified = Object.entries(credits)
+		.filter(([, value]) => String(value?.credit || "").includes("VERIFY LICENCE"))
+		.map(([slot]) => slot);
+
+	if (!unverified.length) return;
+
+	console.log(`\n\x1b[33mUnverified licence on: ${unverified.join(", ")}\x1b[0m`);
+	console.log("These came from Google with a licence it inferred, not one a library holds.");
+	console.log("Open the source page in credits.json, confirm the licence actually permits");
+	console.log("commercial use and cropping, then rewrite that credit line by hand. Until you");
+	console.log("do, the site prints them with a TEMPORARY chip and they are not safe to ship.\n");
 }
 
 async function runSearch() {
 	// A source with no key contributes nothing, so drop it rather than call it twenty times.
 	const keyed = new Map([
-		[fromPexels, "PEXELS_API_KEY"],
-		[fromUnsplash, "UNSPLASH_ACCESS_KEY"],
-		[fromFlickr, "FLICKR_API_KEY"],
+		[fromPexels, ["PEXELS_API_KEY"]],
+		[fromUnsplash, ["UNSPLASH_ACCESS_KEY"]],
+		[fromFlickr, ["FLICKR_API_KEY"]],
+		// Google needs both halves: a key, and the search engine the key queries through.
+		[fromGoogle, ["GOOGLE_API_KEY", "GOOGLE_CSE_ID"]],
 	]);
 
-	const enabled = SOURCES.filter((s) => !keyed.has(s.fn) || process.env[keyed.get(s.fn)]);
+	const enabled = SOURCES.filter(
+		(s) => !keyed.has(s.fn) || keyed.get(s.fn).every((name) => process.env[name])
+	);
 
 	console.log(`Sources: ${enabled.map((s) => s.name).join(", ")}`);
 
-	const missing = [...keyed.values()].filter((name) => !process.env[name]);
+	const missing = [...keyed.values()].flat().filter((name) => !process.env[name]);
 
 	if (missing.length) {
 		// Node does not read .env on its own — that file is Docker Compose's, and a key sitting
