@@ -40,11 +40,17 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DEBUG: 1
-      # Địa chỉ site nhìn từ bên ngoài. Bỏ trống thì WordPress dùng địa chỉ trong database.
-      # Đặt "auto" khi chạy sau tunnel — WordPress lấy địa chỉ từ request, nên link tunnel
-      # đổi bao nhiêu lần cũng không phải dựng lại container.
+      # Địa chỉ site nhìn từ bên ngoài. "auto" = WordPress lấy địa chỉ từ chính request đang
+      # tới, nên link tunnel đổi bao nhiêu lần cũng không phải dựng lại container.
+      #
+      # Mặc định nằm ngay đây chứ không nằm trong .env. Trước kia .env giữ giá trị này và bị
+      # commit để bản clone mới có sẵn — nhưng .env cũng là chỗ để khoá API, nên file đó vừa
+      # được git theo dõi vừa chứa bí mật. Để mặc định ở đây thì clone mới vẫn chạy mà không
+      # cần .env, và .env trở lại đúng vai trò: chỉ chứa bí mật, không bao giờ commit.
+      #
+      # Đặt biến môi trường SITE_URL để ghi đè, ví dụ địa chỉ cố định trên hosting thật.
       # Xem docs/chay-thu-local.md, mục "Cho khách xem bản chạy trên máy bạn".
-      SITE_URL: ${SITE_URL:-}
+      SITE_URL: ${SITE_URL:-auto}
     volumes:
       - wp-core:/var/www/html
       - ./wp-content/themes/annamleaf:/var/www/html/wp-content/themes/annamleaf
