@@ -157,7 +157,12 @@ function annamleaf_seed_stages(): array {
 }
 
 /**
- * The product portfolio, as the client declared it: whole leaf, threshed lamina and stem.
+ * The product portfolio, as the client declared it: whole leaf, threshed lamina, cut rag
+ * and stem.
+ *
+ * Order follows the processing line, which is how a buyer reads it — each entry is the one
+ * before it, taken a step further. The stem comes last because it is the by-product of
+ * threshing rather than a grade of leaf.
  *
  * Titles are English with the Vietnamese name underneath, because the site serves industrial
  * buyers abroad and English is its default language.
@@ -175,6 +180,11 @@ function annamleaf_seed_leaves(): array {
 			'title'   => __( 'Threshed lamina', 'annamleaf-core' ),
 			'vi'      => __( 'Lá đã tách cọng', 'annamleaf-core' ),
 			'excerpt' => __( 'Leaf threshed to remove the stem, redried to shipping moisture and pressed into labelled bales.', 'annamleaf-core' ),
+		),
+		array(
+			'title'   => __( 'Cut rag', 'annamleaf-core' ),
+			'vi'      => __( 'Sợi thuốc lá', 'annamleaf-core' ),
+			'excerpt' => __( 'Lamina cut to width, cased and conditioned — filler ready for a maker\'s blending and rolling line.', 'annamleaf-core' ),
 		),
 		array(
 			'title'   => __( 'Tobacco stem', 'annamleaf-core' ),
@@ -402,6 +412,7 @@ function annamleaf_seed_page_definitions(): array {
 				array(
 					'<strong>' . __( 'Whole leaf', 'annamleaf-core' ) . '</strong> — ' . __( 'graded and baled before threshing, for buyers who run their own line.', 'annamleaf-core' ),
 					'<strong>' . __( 'Threshed lamina', 'annamleaf-core' ) . '</strong> — ' . __( 'destemmed, redried and baled to export standard.', 'annamleaf-core' ),
+					'<strong>' . __( 'Cut rag', 'annamleaf-core' ) . '</strong> — ' . __( 'lamina cut to width and conditioned, ready for the blending line.', 'annamleaf-core' ),
 					'<strong>' . __( 'Tobacco stem', 'annamleaf-core' ) . '</strong> — ' . __( 'separated during threshing and packed for industrial use.', 'annamleaf-core' ),
 				)
 			)
