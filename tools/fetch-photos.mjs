@@ -5,11 +5,16 @@
  * and no database rows. They live in wp-content/themes/annamleaf/assets/photos/ with
  * credits.json beside them.
  *
- * It covers the frames a stock photograph can honestly stand in for: the cover, the seven
- * process stages and the growing region. The product frames (leaf-1 to leaf-3) are not here
- * on purpose — a stock picture of somebody else's dried leaf tells a buyer this is the grade
- * on offer, which is a claim about the goods. Those stay as illustrations until the client
- * photographs their own.
+ * It covers the cover, the seven process stages and the growing region — frames a stock
+ * photograph can honestly stand in for.
+ *
+ * It now also shortlists the four product frames (leaf-1 to leaf-4), which were deliberately
+ * excluded before, and the reason for excluding them has not gone away: a stock picture of
+ * somebody else's dried leaf tells a buyer this is the grade on offer, which is a claim about
+ * the goods, not an illustration of an activity. They are here so the choice can be made with
+ * the pictures visible instead of in the abstract. The right answer is still the client's own
+ * four photographs — see docs/shot-brief.md. If you pick stock for these, the credit has to
+ * show, and you should know you are illustrating a grade with a stranger's leaf.
  *
  * A search engine has no eyes and neither has this script: it can only read the words
  * someone typed next to a picture. Two runs proved how far that gets you — Commons answered
@@ -29,9 +34,14 @@
  *     --auto             skip the review, take the top scorer (not recommended)
  *     --force            with --auto or --apply, overwrite files already downloaded
  *
- * Sources: Wikimedia Commons and Openverse need no credentials. Pexels and Unsplash join in
- * when PEXELS_API_KEY / UNSPLASH_ACCESS_KEY are set — they carry far more modern working
- * agriculture than Commons, which is mostly archive scans.
+ * Sources: Wikimedia Commons and Openverse need no credentials. Pexels, Unsplash and Flickr
+ * join in when PEXELS_API_KEY / UNSPLASH_ACCESS_KEY / FLICKR_API_KEY are set — they carry far
+ * more modern working agriculture than Commons, which is mostly archive scans. Flickr is
+ * filtered to licences allowing commercial use and cropping.
+ *
+ * Node does not read .env by itself — that file belongs to Docker Compose. Run the script as
+ * `node --env-file=.env tools/fetch-photos.mjs` or the keys are silently ignored and you get
+ * a thin shortlist with no clue why.
  */
 
 import { mkdir, writeFile, access, readFile } from "node:fs/promises";
@@ -167,7 +177,113 @@ const SLOTS = [
 		good: ["crane", "gantry", "stacked", "quay", "loading", "ship", "terminal", "berth"],
 		avoid: ["model", "toy", "diagram", "map", "house", "architecture", "airport", "soldier", "office"],
 	},
+
+	/*
+	 * The four product frames, in the order the Our Leaf page lists them.
+	 *
+	 * Read the warning in the header before picking anything here. A photograph under
+	 * "Threshed lamina" is not illustrating an activity — it is showing a buyer the grade
+	 * they would be shipped. Somebody else's leaf in that frame is a statement about goods,
+	 * which is why these were left out until now.
+	 *
+	 * They carry `anywhere`, so the Vietnam gate does not apply.
+	 *
+	 * That gate exists because a curing barn or a valley is a picture of a place, and under
+	 * "our process" the wrong place is a false claim. A product frame is the opposite: leaf
+	 * on a plain background in daylight, with no horizon, no building and no landscape in
+	 * shot. Nothing in the frame says where it was taken, so requiring Vietnam in the caption
+	 * removed candidates without making the picture any more truthful — it took all four
+	 * frames to zero and bought nothing.
+	 *
+	 * What the gate never addressed still stands: this is somebody else's leaf under your
+	 * grade name. Only the client's own photographs fix that.
+	 */
+	{
+		slot: "leaf-1",
+		anywhere: true,
+		shows: "Whole leaf: cured leaf graded and baled whole, before threshing",
+		queries: ["whole tobacco leaf", "cured tobacco leaf", "dried tobacco leaves stacked", "graded tobacco leaf bale"],
+		must: [
+			["tobacco", "nicotiana"],
+			["leaf", "leaves", "bale", "bales", "baled", "bundle", "cured", "dried"],
+		],
+		good: ["cured", "dried", "bale", "graded", "golden", "bundle", "stacked", "flat"],
+		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "rolling"],
+	},
+	{
+		slot: "leaf-2",
+		anywhere: true,
+		shows: "Threshed lamina: leaf with the stem removed, redried and baled",
+		queries: ["threshed tobacco lamina", "tobacco lamina", "destemmed tobacco leaf", "processed tobacco leaf bale"],
+		must: [
+			["tobacco", "nicotiana"],
+			["lamina", "threshed", "destemmed", "strip", "strips", "processed", "bale", "bales"],
+		],
+		good: ["lamina", "threshed", "bale", "processed", "redried", "packed"],
+		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "field", "growing"],
+	},
+	{
+		slot: "leaf-3",
+		anywhere: true,
+		shows: "Cut rag: lamina cut to width, the filler a maker blends and rolls",
+		queries: ["cut rag tobacco", "tobacco cut filler", "shredded tobacco leaf", "tobacco strands"],
+		must: [
+			["tobacco", "nicotiana"],
+			["cut rag", "cut", "shred", "shredded", "strand", "strands", "filler", "fibre", "fiber"],
+		],
+		good: ["cut rag", "shredded", "strands", "filler", "golden", "loose"],
+		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "hand", "rolling paper"],
+	},
+	{
+		slot: "leaf-4",
+		anywhere: true,
+		shows: "Tobacco stem: stems separated during threshing, cleaned and packed",
+		queries: ["tobacco stem", "tobacco stems dried", "tobacco midrib", "tobacco stalk dried"],
+		must: [
+			["tobacco", "nicotiana"],
+			["stem", "stems", "stalk", "stalks", "midrib"],
+		],
+		good: ["stem", "stems", "dried", "packed", "separated", "cleaned"],
+		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "plant", "growing", "field"],
+	},
 ];
+
+/*
+ * Every frame has to be a photograph taken in Vietnam.
+ *
+ * The pages these fill say "our fields", "our process". A curing barn in Brazil or a quay in
+ * Rotterdam is a picture of the wrong place, and under that heading it reads as a claim about
+ * this company. The cover and the region frame already demanded it; this extends the same
+ * rule to the seven process stages, which were the frames borrowing from competitors.
+ *
+ * It goes in `must`, so the words have to appear in the title or description — tags are
+ * machine-made on most libraries and would let anything through on a stray "asia".
+ *
+ * Expect far fewer candidates, and expect some frames to come back empty. That is the honest
+ * answer rather than a failure: an empty frame prints its shot note and becomes a brief for
+ * the client's photographer, which is worth more than a convincing photograph of Indonesia.
+ */
+const VIETNAM = [
+	"vietnam", "viet nam", "việt nam", "vietnamese",
+	"cao bang", "cao bằng", "lang son", "lạng sơn", "gia lai", "ninh thuan", "ninh thuận",
+];
+
+for (const annamleafSlot of SLOTS) {
+	// `anywhere` frames opt out: see the product slots for why a close-up is different.
+	if (annamleafSlot.anywhere) {
+		continue;
+	}
+
+	if (!annamleafSlot.must.some((group) => group.includes("vietnam"))) {
+		annamleafSlot.must.push(VIETNAM);
+	}
+
+	// Ask the libraries for it as well. Filtering global results afterwards throws away the
+	// whole shortlist and burns the rate limit to do it.
+	annamleafSlot.queries = annamleafSlot.queries.map((query) =>
+		/vietnam/i.test(query) ? query : `${query} Vietnam`
+	);
+}
 
 /**
  * Words that disqualify a picture outright, wherever they appear.
@@ -350,9 +466,65 @@ async function fromUnsplash(query) {
 	});
 }
 
+/**
+ * Flickr, restricted to licences that permit commercial use and cropping. Needs
+ * FLICKR_API_KEY — free, from https://www.flickr.com/services/apps/create/apply/
+ *
+ * Worth having because Flickr is where people upload working industry: factory floors,
+ * machinery, warehouses. The curated libraries want photogenic subjects, and a threshing
+ * line is not one. Openverse indexes some Flickr already, so treat this as extra reach
+ * rather than a new world.
+ *
+ * The `license` filter is the whole point, so it is not optional:
+ *
+ *     4  CC BY          5  CC BY-SA      7  no known restrictions
+ *     8  US Government  9  CC0          10  Public Domain Mark
+ *
+ * NonCommercial (1, 2, 3) is excluded because this is a commercial site, and NoDerivatives
+ * (6) because every frame is cropped to 3:2. Asking for those and then using them would be
+ * the same mistake as lifting from a competitor, only with a licence name attached.
+ */
+async function fromFlickr(query) {
+	const key = process.env.FLICKR_API_KEY;
+
+	if (!key) return [];
+
+	const url =
+		"https://api.flickr.com/services/rest/?method=flickr.photos.search" +
+		`&api_key=${encodeURIComponent(key)}` +
+		`&text=${encodeURIComponent(query)}` +
+		"&license=4,5,7,8,9,10" +
+		"&content_type=1&media=photos&safe_search=1&sort=relevance&per_page=20" +
+		"&extras=description,date_taken,owner_name,license,tags,url_l,url_c,url_m,o_dims" +
+		"&format=json&nojsoncallback=1";
+
+	const data = await getJson(url);
+
+	return (data?.photos?.photo || []).flatMap((photo) => {
+		// url_l is the 1024px render; without it there is nothing big enough to use.
+		if (!photo?.url_l) return [];
+
+		return [{
+			source: "flickr",
+			title: strip(photo.title),
+			description: strip(photo.description?._content),
+			tags: strip(photo.tags),
+			date: strip(photo.datetaken),
+			width: Number(photo.width_l) || 0,
+			height: Number(photo.height_l) || 0,
+			url: photo.url_l,
+			smaller: photo.url_c || photo.url_l,
+			thumb: photo.url_m || photo.url_c || photo.url_l,
+			credit: `${photo.ownername || "Flickr"} · Flickr (CC)`,
+			page: `https://www.flickr.com/photos/${photo.owner}/${photo.id}`,
+		}];
+	});
+}
+
 const SOURCES = [
 	{ name: "Wikimedia Commons", fn: fromCommons, bonus: 0 },
 	{ name: "Openverse", fn: fromOpenverse, bonus: 1 },
+	{ name: "Flickr", fn: fromFlickr, bonus: 2 },
 	{ name: "Pexels", fn: fromPexels, bonus: 3 },
 	{ name: "Unsplash", fn: fromUnsplash, bonus: 3 },
 ];
@@ -677,13 +849,23 @@ async function runApply() {
 }
 
 async function runSearch() {
-	const enabled = SOURCES.filter((s) => s.fn !== fromPexels || process.env.PEXELS_API_KEY)
-		.filter((s) => s.fn !== fromUnsplash || process.env.UNSPLASH_ACCESS_KEY);
+	// A source with no key contributes nothing, so drop it rather than call it twenty times.
+	const keyed = new Map([
+		[fromPexels, "PEXELS_API_KEY"],
+		[fromUnsplash, "UNSPLASH_ACCESS_KEY"],
+		[fromFlickr, "FLICKR_API_KEY"],
+	]);
+
+	const enabled = SOURCES.filter((s) => !keyed.has(s.fn) || process.env[keyed.get(s.fn)]);
 
 	console.log(`Sources: ${enabled.map((s) => s.name).join(", ")}`);
 
-	if (!process.env.PEXELS_API_KEY && !process.env.UNSPLASH_ACCESS_KEY) {
-		console.log("Set PEXELS_API_KEY or UNSPLASH_ACCESS_KEY for modern stock photography too.\n");
+	const missing = [...keyed.values()].filter((name) => !process.env[name]);
+
+	if (missing.length) {
+		// Node does not read .env on its own — that file is Docker Compose's, and a key sitting
+		// in it looks set while every search runs without it.
+		console.log(`Not set: ${missing.join(", ")} — pass --env-file=.env if they are in there.\n`);
 	}
 
 	const shortlists = [];
