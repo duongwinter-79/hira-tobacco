@@ -9,13 +9,42 @@ Phần mô tả xung quanh để tiếng Việt cho dễ đọc.
 
 ## Chạy thế nào
 
-Server `gemini-image` đã cấu hình trong [.mcp.json](../.mcp.json), khoá đọc từ `.env`.
-Gọi tool `generate_image` với đúng các tham số ghi dưới mỗi prompt: `prompt`,
-`images[].filePath` (ảnh tham chiếu để bám bố cục), `aspectRatio`, `outputPath`.
+**File này là nguồn duy nhất.** `tools/generate-images.mjs` đọc thẳng prompt và
+`aspectRatio` từ đây — sửa prompt trong file này rồi chạy lại là ra ảnh mới, không phải
+chép prompt đi đâu cả.
 
-**Đang chặn:** model sinh ảnh của Gemini không có quota ở gói free (`limit: 0`). Phải bật
-billing cho project của khoá tại https://aistudio.google.com/apikey thì mới chạy được.
-Sinh chữ vẫn chạy bình thường trên gói free — chỉ ảnh mới cần trả phí.
+```sh
+cp .env.example .env                                  # rồi điền GEMINI_API_KEY
+node tools/generate-images.mjs --list                 # 17 khung file này định nghĩa
+node tools/generate-images.mjs --all --dry-run        # xem hết bao nhiêu tiền trước
+node tools/generate-images.mjs --slot=stage-4 --n=3   # 3 phương án cho 1 khung
+php  tools/finish-photos.php stage-4 2                # chọn phương án 2, cắt vào theme
+```
+
+Ảnh nháp nằm ở `tools/generated/` (không commit). `finish-photos.php` cắt đúng quy cách
+trong bảng tỉ lệ dưới đây, xuất JPEG q80 ≤ 900 KB, và ghi vào `credits.json` rằng đây là
+ảnh AI — `plates.php` in dòng credit đó dưới mỗi ảnh, nên không ai nhầm ảnh AI với ảnh
+chụp thật của nhà máy.
+
+Hai model dùng được, đổi bằng `--model`:
+
+| `--model` | Model ID | Giá/ảnh (1K–2K) | Khi nào dùng |
+| --- | --- | --- | --- |
+| `pro` (mặc định) | `gemini-3-pro-image-preview` | ~$0.134 | Khung khó: `stage-5`, `stage-6`, và mọi khung có người Việt |
+| `flash` | `gemini-3.1-flash-image` | ~$0.067 | Vòng thử prompt, và khung phong cảnh dễ |
+
+Cách rẻ nhất: thử prompt bằng `--model=flash --size=1K` cho đến khi bố cục đúng, rồi chạy
+lại đúng prompt đó bằng `--model=pro --size=2K` (riêng `home` dùng `--size=4K` mới đủ
+2400 px ngang).
+
+**Cần bật billing.** Google đã bỏ gói free cho sinh ảnh (model free cũ
+`gemini-2.5-flash-image-preview` đã tắt 15/01/2026). Khoá chưa bật billing sẽ báo quota
+bằng 0. Bật tại https://aistudio.google.com/apikey. Sinh chữ vẫn chạy trên gói free.
+
+Muốn sửa prompt qua lại trong lúc chat thì có server `gemini-image` trong
+[.mcp.json](../.mcp.json). Đó là package cộng đồng, không phải của Google, mà nó nhận khoá
+API — **đọc source trước khi dùng**. Chạy hàng loạt thì dùng script ở trên, an toàn hơn và
+tự cắt ảnh luôn.
 
 ## Ba điều cấm — đã nhúng sẵn vào mọi prompt
 
@@ -27,7 +56,7 @@ Theo [shot-list.md](shot-list.md) và Luật Phòng, chống tác hại của th
 
 ## Tỉ lệ khung hình
 
-Tool chỉ nhận `1:1, 3:4, 4:3, 9:16, 16:9` — không có 3:2. Sinh ở tỉ lệ gần nhất rồi cắt:
+Sinh ở tỉ lệ gần nhất rồi cắt — `finish-photos.php` tự cắt, không phải làm tay:
 
 | Khung | Sinh ở | Cắt về |
 | --- | --- | --- |
@@ -35,6 +64,10 @@ Tool chỉ nhận `1:1, 3:4, 4:3, 9:16, 16:9` — không có 3:2. Sinh ở tỉ 
 | `stage-*`, `region` | `4:3` | 1600×1067 |
 | `leaf-*` | `4:3` | 1600×1200 — không cần cắt |
 | Ảnh nền tiêu đề trang | `16:9` | giữ nguyên |
+
+Bản Gemini mới có thêm nhiều tỉ lệ ngoài `1:1, 3:4, 4:3, 9:16, 16:9`. Nếu model đang dùng
+nhận thẳng `3:2` thì `--aspect=3:2` cho `stage-*` và `region` sẽ khỏi phải cắt — kiểm tra
+trang model rồi hãy dùng.
 
 ---
 
