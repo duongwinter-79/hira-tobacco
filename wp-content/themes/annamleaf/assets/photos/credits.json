@@ -12,10 +12,11 @@
 		"query": "reference: satatobacco.com"
 	},
 	"stage-2": {
-		"credit": "",
-		"source": "https://dongvietthanh.com/dau-tu-trong-nguyen-lieu-thuoc-la",
-		"title": "Vùng trồng nguyên liệu — Đồng Việt Thành",
-		"query": "reference: dongvietthanh.com"
+		"credit": "Duong Nguyen · Pexels",
+		"source": "https://www.pexels.com/photo/tobacco-harvest-cart-in-cao-bang-s-green-fields-37824466/",
+		"title": "A cart loaded with fresh tobacco leaves on a farm in Dam Thuy, Cao Bang, Vietnam.",
+		"query": "tobacco field Vietnam",
+		"score": 12
 	},
 	"stage-3": {
 		"credit": "",
@@ -30,10 +31,11 @@
 		"query": "reference: mibica.vn"
 	},
 	"stage-5": {
-		"credit": "",
-		"source": "https://mibica.vn/tobacco/",
-		"title": "Đối chiếu nắm lá với mẫu grade",
-		"query": "reference: mibica.vn"
+		"credit": "Duong Nguyen · Pexels",
+		"source": "https://www.pexels.com/photo/tobacco-harvest-cart-in-cao-bang-s-green-fields-37824466/",
+		"title": "A cart loaded with fresh tobacco leaves on a farm in Dam Thuy, Cao Bang, Vietnam.",
+		"query": "tobacco leaf grading Vietnam",
+		"score": 12
 	},
 	"stage-6": {
 		"credit": "",
@@ -47,34 +49,11 @@
 		"title": "Kho mát — Đồng Việt Thành",
 		"query": "reference: dongvietthanh.com"
 	},
-	"leaf-1": {
-		"credit": "",
-		"source": "https://meti.com.tr/stems-product/",
-		"title": "Stems (cọng thuốc lá)",
-		"query": "reference: meti.com.tr"
-	},
-	"leaf-2": {
-		"credit": "",
-		"source": "https://arestobacco.com/cut-rag-tobacco-product/",
-		"title": "Cut rag (sợi thuốc lá)",
-		"query": "reference: arestobacco.com"
-	},
-	"leaf-3": {
-		"credit": "",
-		"source": "https://meti.com.tr/reconstituted-tobacco/",
-		"title": "Reconstituted tobacco (lá tái chế)",
-		"query": "reference: meti.com.tr"
-	},
-	"leaf-4": {
-		"credit": "",
-		"source": "https://meti.com.tr/",
-		"title": "Lá sẫm sấy gió",
-		"query": "reference: meti.com.tr"
-	},
 	"region": {
-		"credit": "",
-		"source": "https://dongvietthanh.com/dau-tu-trong-nguyen-lieu-thuoc-la",
-		"title": "Vùng trồng — Đồng Việt Thành",
-		"query": "reference: dongvietthanh.com"
+		"credit": "Quang Nguyen Vinh · Pexels",
+		"source": "https://www.pexels.com/photo/landscape-of-mountains-and-valley-cao-bang-vietnam-14776381/",
+		"title": "A breathtaking aerial view of Cao Bang, Vietnam at sunset with mountains, rivers, and fields.",
+		"query": "Cao Bang Vietnam valley",
+		"score": 15
 	}
 }
