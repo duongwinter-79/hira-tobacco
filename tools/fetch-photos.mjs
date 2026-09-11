@@ -300,21 +300,60 @@ const VIETNAM = [
 	"cao bang", "cao bằng", "lang son", "lạng sơn", "gia lai", "ninh thuan", "ninh thuận",
 ];
 
-for (const annamleafSlot of SLOTS) {
-	// `anywhere` frames opt out: see the product slots for why a close-up is different.
-	if (annamleafSlot.anywhere) {
-		continue;
-	}
+/*
+ * A two or three word query per frame, asked first.
+ *
+ * Wikimedia's search ANDs every word, so a specific query is a narrow one: "flue cured
+ * tobacco kiln Vietnam" matches nothing on Commons, while "tobacco kiln Vietnam" returns a
+ * CC BY photograph of kilns in Đắk Lắk. Appending " Vietnam" below made this worse by adding
+ * a word to queries that were already four long, and the frames went quiet — which was read
+ * as the pictures not existing.
+ *
+ * The long queries stay: Pexels and Openverse rank loosely and do better with detail. These
+ * short ones are for the library that wants every word to count.
+ */
+const CORE_QUERY = {
+	"home": "Cao Bang landscape",
+	"region": "Cao Bang valley",
+	"stage-1": "tobacco seedling",
+	"stage-2": "tobacco field",
+	"stage-3": "tobacco harvest",
+	"stage-4": "tobacco kiln",
+	"stage-5": "tobacco grading",
+	"stage-6": "tobacco factory",
+	"stage-7": "tobacco warehouse",
+	"leaf-1": "tobacco leaf dried",
+	"leaf-2": "tobacco lamina",
+	"leaf-3": "cut tobacco",
+	"leaf-4": "tobacco stem",
+};
 
-	if (!annamleafSlot.must.some((group) => group.includes("vietnam"))) {
+for (const annamleafSlot of SLOTS) {
+	// `anywhere` frames skip the Vietnam gate: see the product slots for why a close-up on a
+	// plain background is different. They still get their short query.
+	const annamleafGated = !annamleafSlot.anywhere;
+
+	if (annamleafGated && !annamleafSlot.must.some((group) => group.includes("vietnam"))) {
 		annamleafSlot.must.push(VIETNAM);
 	}
 
-	// Ask the libraries for it as well. Filtering global results afterwards throws away the
-	// whole shortlist and burns the rate limit to do it.
-	annamleafSlot.queries = annamleafSlot.queries.map((query) =>
-		/vietnam/i.test(query) ? query : `${query} Vietnam`
-	);
+	if (annamleafGated) {
+		// Ask the libraries for it as well. Filtering global results afterwards throws away the
+		// whole shortlist and burns the rate limit to do it.
+		annamleafSlot.queries = annamleafSlot.queries.map((query) =>
+			/vietnam/i.test(query) ? query : `${query} Vietnam`
+		);
+	}
+
+	const annamleafCore = CORE_QUERY[annamleafSlot.slot];
+
+	if (annamleafCore) {
+		const annamleafShort = annamleafGated ? `${annamleafCore} Vietnam` : annamleafCore;
+
+		if (!annamleafSlot.queries.includes(annamleafShort)) {
+			annamleafSlot.queries.unshift(annamleafShort);
+		}
+	}
 }
 
 /**
@@ -367,13 +406,54 @@ const strip = (v) => String(v || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " 
 /**
  * Wikimedia Commons. Free licences, no key, but heavy on archive material.
  */
+/*
+ * Wikimedia answers 429 when pushed, and this script used to push hard: every source times
+ * every query, as fast as Node opens sockets. The 429s were logged but counted as empty
+ * results, so frame after frame reported "0 candidates shortlisted" and the conclusion drawn
+ * was that the photographs do not exist. They do — "tobacco kiln Vietnam" returns a CC BY
+ * photograph of kilns in Đắk Lắk, taken 2018, which this script had never once seen.
+ *
+ * So: one Commons request at a time, spaced, and a real retry when it still says no.
+ */
+const COMMONS_GAP_MS = 2600;
+let commonsNextAllowed = 0;
+
+async function commonsTurn() {
+	const now = Date.now();
+	const wait = Math.max(0, commonsNextAllowed - now);
+
+	commonsNextAllowed = Math.max(now, commonsNextAllowed) + COMMONS_GAP_MS;
+
+	if (wait) await new Promise((resolve) => setTimeout(resolve, wait));
+}
+
+/**
+ * A Commons request that waits its turn and backs off rather than reporting a throttle as an
+ * absence of pictures.
+ */
+async function commonsJson(url, attempt = 0) {
+	await commonsTurn();
+
+	try {
+		return await getJson(url);
+	} catch (error) {
+		if ("429" === error.message && attempt < 5) {
+			await new Promise((resolve) => setTimeout(resolve, 4000 * (attempt + 1)));
+
+			return commonsJson(url, attempt + 1);
+		}
+
+		throw error;
+	}
+}
+
 async function fromCommons(query) {
 	const url =
 		"https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search" +
 		`&gsrsearch=${encodeURIComponent(query + " filetype:bitmap")}` +
 		"&gsrnamespace=6&gsrlimit=16&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=1600";
 
-	const data = await getJson(url);
+	const data = await commonsJson(url);
 	const pages = data?.query?.pages ? Object.values(data.query.pages) : [];
 
 	return pages.flatMap((page) => {
@@ -733,14 +813,19 @@ async function exists(file) {
 async function candidatesFor(slot) {
 	const seen = new Set();
 	const scored = [];
+	let failed = 0;
+	let attempted = 0;
 
 	for (const source of SOURCES) {
 		for (const query of slot.queries) {
 			let batch = [];
 
+			attempted++;
+
 			try {
-				batch = await source.fn(query);
+				batch = await source.fn(query, source.name);
 			} catch (error) {
+				failed++;
 				console.error(`    ${source.name}: "${query}" failed (${error.message})`);
 				continue;
 			}
@@ -759,7 +844,12 @@ async function candidatesFor(slot) {
 		}
 	}
 
-	return scored.sort((a, b) => b.score - a.score);
+	scored.sort((a, b) => b.score - a.score);
+	// Carried out so the summary can tell "nothing matched" apart from "nothing was asked".
+	scored.searchesFailed = failed;
+	scored.searchesAttempted = attempted;
+
+	return scored;
 }
 
 /* ------------------------------------------------------------------- review */
@@ -1027,7 +1117,14 @@ async function runSearch() {
 		shortlists.push({ slot: slot.slot, shows: slot.shows, list: ranked.slice(0, SHORTLIST) });
 
 		if (!AUTO) {
-			console.log(`${slot.slot.padEnd(9)} ${ranked.length} candidates shortlisted`);
+			// Never print a bare zero. "Nothing matched" and "four searches never ran" look
+			// identical on the way out, and reading one as the other cost two days and produced
+			// a confident, wrong conclusion that the photographs did not exist.
+			const unanswered = ranked.searchesFailed
+				? `  \x1b[33m(${ranked.searchesFailed} of ${ranked.searchesAttempted} searches failed — not a verdict)\x1b[0m`
+				: "";
+
+			console.log(`${slot.slot.padEnd(9)} ${ranked.length} candidates shortlisted${unanswered}`);
 			continue;
 		}
 
