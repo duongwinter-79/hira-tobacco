@@ -198,47 +198,79 @@ const SLOTS = [
 	 * What the gate never addressed still stands: this is somebody else's leaf under your
 	 * grade name. Only the client's own photographs fix that.
 	 */
+	/*
+	 * The trade words matter more than the plain ones here.
+	 *
+	 * "Whole leaf" is a catalogue heading; the caption under a photograph of it is far more
+	 * likely to say flue-cured, Virginia, hands or bales. Vietnam's crop is overwhelmingly
+	 * flue-cured Virginia off the northern highlands, so those terms are the ones a caption
+	 * would actually carry. Taken from general industry knowledge rather than the client —
+	 * fine for search terms, which never reach the page, but do not copy any of it into copy
+	 * without asking them first.
+	 *
+	 * SMOKING PRODUCTS ARE NOT THE SUBJECT. Cut rag looks exactly like the loose tobacco in a
+	 * consumer pouch, so those queries pull in pouches, papers and ashtrays. The footer of
+	 * this site says it is not directed at consumers; illustrating a grade with a smoking
+	 * product would contradict the page it sits on. Hence the long `avoid` lists.
+	 */
 	{
 		slot: "leaf-1",
 		anywhere: true,
 		shows: "Whole leaf: cured leaf graded and baled whole, before threshing",
-		queries: ["whole tobacco leaf", "cured tobacco leaf", "dried tobacco leaves stacked", "graded tobacco leaf bale"],
-		must: [
-			["tobacco", "nicotiana"],
-			["leaf", "leaves", "bale", "bales", "baled", "bundle", "cured", "dried"],
+		queries: [
+			"flue cured Virginia tobacco leaf", "tobacco hands bundle", "cured tobacco leaves stacked",
+			"golden Virginia tobacco leaf", "graded tobacco leaf bale", "whole tobacco leaf",
+			"flue cured tobacco Vietnam",
 		],
-		good: ["cured", "dried", "bale", "graded", "golden", "bundle", "stacked", "flat"],
-		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "rolling"],
+		must: [
+			["tobacco", "nicotiana", "virginia"],
+			["leaf", "leaves", "bale", "bales", "baled", "bundle", "bundles", "hand", "hands", "cured", "dried", "graded"],
+		],
+		good: ["flue cured", "virginia", "cured", "dried", "bale", "graded", "golden", "bundle", "hands", "stacked"],
+		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "rolling", "pouch", "packet", "vape"],
 	},
 	{
 		slot: "leaf-2",
 		anywhere: true,
 		shows: "Threshed lamina: leaf with the stem removed, redried and baled",
-		queries: ["threshed tobacco lamina", "tobacco lamina", "destemmed tobacco leaf", "processed tobacco leaf bale"],
+		queries: [
+			"tobacco lamina strips", "threshed tobacco leaf", "tobacco strips bale",
+			"destemmed tobacco leaf", "redried tobacco lamina", "processed tobacco leaf bale",
+			"tobacco leaf processing plant",
+		],
 		must: [
 			["tobacco", "nicotiana"],
-			["lamina", "threshed", "destemmed", "strip", "strips", "processed", "bale", "bales"],
+			["lamina", "threshed", "destemmed", "strip", "strips", "redried", "processed", "bale", "bales"],
 		],
-		good: ["lamina", "threshed", "bale", "processed", "redried", "packed"],
-		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "field", "growing"],
+		good: ["lamina", "threshed", "strips", "bale", "processed", "redried", "packed", "carton"],
+		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "pouch", "field", "growing", "plant growing"],
 	},
 	{
 		slot: "leaf-3",
 		anywhere: true,
 		shows: "Cut rag: lamina cut to width, the filler a maker blends and rolls",
-		queries: ["cut rag tobacco", "tobacco cut filler", "shredded tobacco leaf", "tobacco strands"],
+		queries: [
+			"cut rag tobacco", "cut filler tobacco", "shredded tobacco leaf",
+			"tobacco cut filler blend", "expanded cut tobacco", "tobacco strands cut",
+		],
 		must: [
 			["tobacco", "nicotiana"],
-			["cut rag", "cut", "shred", "shredded", "strand", "strands", "filler", "fibre", "fiber"],
+			["cut rag", "cut filler", "cut", "shred", "shredded", "strand", "strands", "filler", "fibre", "fiber"],
 		],
-		good: ["cut rag", "shredded", "strands", "filler", "golden", "loose"],
-		avoid: ["cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "hand", "rolling paper"],
+		good: ["cut rag", "cut filler", "shredded", "strands", "filler", "golden", "loose", "blend"],
+		avoid: [
+			"cigarette", "cigar", "smoking", "smoker", "ashtray", "pipe", "rolling paper", "pouch",
+			"packet", "vape", "hookah", "shisha", "hand rolled",
+		],
 	},
 	{
 		slot: "leaf-4",
 		anywhere: true,
 		shows: "Tobacco stem: stems separated during threshing, cleaned and packed",
-		queries: ["tobacco stem", "tobacco stems dried", "tobacco midrib", "tobacco stalk dried"],
+		queries: [
+			"tobacco stem", "tobacco stems dried", "tobacco midrib", "cut rolled stem tobacco",
+			"tobacco stalk dried bundle", "tobacco stems packed",
+		],
 		must: [
 			["tobacco", "nicotiana"],
 			["stem", "stems", "stalk", "stalks", "midrib"],
@@ -468,12 +500,23 @@ async function fromUnsplash(query) {
 
 /**
  * Flickr, restricted to licences that permit commercial use and cropping. Needs
- * FLICKR_API_KEY — free, from https://www.flickr.com/services/apps/create/apply/
+ * FLICKR_API_KEY.
  *
- * Worth having because Flickr is where people upload working industry: factory floors,
- * machinery, warehouses. The curated libraries want photogenic subjects, and a threshing
- * line is not one. Openverse indexes some Flickr already, so treat this as extra reach
- * rather than a new world.
+ * BEFORE YOU GO LOOKING FOR A KEY: Flickr no longer issues them to free accounts. The apply
+ * page answers "API key creation is currently disabled for free accounts. API key creation is
+ * available to all Flickr PRO subscribers." So this source does nothing without a paid
+ * subscription, and a subscription bought for this purpose would cost about what licensing
+ * the two missing photographs outright would cost — which also actually solves the problem,
+ * where this only might.
+ *
+ * It stays wired because it is gated on the key and costs nothing switched off, and because
+ * anyone who already has PRO gets it for free. Openverse indexes a good deal of Flickr's CC
+ * pool anyway, and found nothing for the frames that need help, so the realistic gain here
+ * was always reach rather than rescue.
+ *
+ * Worth having in principle because Flickr is where people upload working industry: factory
+ * floors, machinery, warehouses. The curated libraries want photogenic subjects, and a
+ * threshing line is not one.
  *
  * The `license` filter is the whole point, so it is not optional:
  *
