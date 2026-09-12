@@ -67,19 +67,20 @@ function annamleaf_plate( array $args = array() ): void {
 			)
 		);
 
-		// A temporary photograph carries its credit on the picture, as its licence requires.
-		$credit = function_exists( 'annamleaf_photo_credit' )
-			? annamleaf_photo_credit( (int) get_post_thumbnail_id( $post_id ) )
-			: '';
-
-		if ( '' !== $credit ) {
-			printf(
-				'<figcaption class="shotchip shotchip--credit"><span class="n">%s</span><span>%s</span></figcaption>',
-				esc_html__( 'TEMPORARY', 'annamleaf' ),
-				esc_html( $credit )
-			);
-		}
-
+		/*
+		 * No credit chip on the picture, by the client's decision.
+		 *
+		 * Provenance is still recorded — assets/photos/credits.json keeps where every bundled
+		 * photograph came from, and the media library keeps it for uploads. It is simply not
+		 * printed over the image any more.
+		 *
+		 * BEFORE INSTALLING A PHOTOGRAPH, CHECK WHAT ITS LICENCE ASKS FOR. Pexels and Unsplash
+		 * make attribution optional, which is why removing this cost nothing: every picture on
+		 * the site when it went was from Pexels. CC BY and CC BY-SA do not — Wikimedia Commons
+		 * and Flickr images require visible credit, and the Đắk Lắk curing kilns photograph is
+		 * CC BY 3.0. Using one of those without credit somewhere a visitor can see breaches the
+		 * licence. A line in the footer satisfies it; this chip is not the only way.
+		 */
 		echo '</figure>';
 
 		return;
@@ -96,14 +97,8 @@ function annamleaf_plate( array $args = array() ): void {
 			esc_attr( $args['shot_note'] )
 		);
 
-		if ( '' !== $bundled['credit'] ) {
-			printf(
-				'<figcaption class="shotchip shotchip--credit"><span class="n">%s</span><span>%s</span></figcaption>',
-				esc_html__( 'TEMPORARY', 'annamleaf' ),
-				esc_html( $bundled['credit'] )
-			);
-		}
-
+		// No credit chip here either — see the note in the featured-image branch above, and read
+		// it before installing anything licensed CC BY or CC BY-SA.
 		echo '</figure>';
 
 		return;
