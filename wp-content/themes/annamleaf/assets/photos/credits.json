@@ -55,5 +55,23 @@
 		"title": "A breathtaking aerial view of Cao Bang, Vietnam at sunset with mountains, rivers, and fields.",
 		"query": "Cao Bang Vietnam valley",
 		"score": 15
+	},
+	"leaf-1": {
+		"credit": "",
+		"source": "AI generated (Google Gemini) — not a photograph of Annam Leaf product",
+		"title": "Whole leaf — generated placeholder, Gemini_Generated_Image_6do0j66do0j66do0.png",
+		"query": "generated; replace with the client’s own photograph"
+	},
+	"leaf-3": {
+		"credit": "",
+		"source": "AI generated (Google Gemini) — not a photograph of Annam Leaf product",
+		"title": "Cut rag — generated placeholder, Gemini_Generated_Image_q2y2xmq2y2xmq2y2.png",
+		"query": "generated; replace with the client’s own photograph"
+	},
+	"leaf-4": {
+		"credit": "",
+		"source": "AI generated (Google Gemini) — not a photograph of Annam Leaf product",
+		"title": "Tobacco stem — generated placeholder, Gemini_Generated_Image_ix2e7tix2e7tix2e.png",
+		"query": "generated; replace with the client’s own photograph"
 	}
 }
