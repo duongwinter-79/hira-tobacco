@@ -394,27 +394,33 @@ td.num{font-variant-numeric:tabular-nums;}
    a few degrees, the name is pushed clear and joined back by a hairline — see
    annamleaf_market_label_offset().
 
-   Sea is the darkest green in the palette and land is lifted well above it. The first version
-   put --field-2 land on a --field sea, two shades three steps apart, and the map read as an
-   empty rectangle. */
+   Light, like an ordinary atlas: pale land on a paper ground, dark type. It was a dark green
+   panel first — legible once the contrast was fixed, but it sat on the page as a heavy block
+   and looked nothing like a map. */
 .markets-map{
-  margin:26px 0 0;background:var(--field-2);border-radius:16px;padding:20px 22px;overflow:hidden;
-  box-shadow:inset 0 0 0 1px rgba(231,237,226,.07);
+  margin:26px 0 0;background:var(--card);border:1px solid var(--rule);
+  border-radius:16px;padding:20px 22px;overflow:hidden;
 }
 .markets-map svg{display:block;width:100%;height:auto;}
-.markets-map__land{fill:#2C4A34;}
 
-.markets-map__arc{fill:none;stroke:var(--cured);stroke-width:.45;opacity:.8;stroke-linecap:round;}
-.markets-map__tie{stroke:var(--onfield-soft);stroke-width:.22;opacity:.75;}
-.markets-map__dot{fill:var(--cured);}
+/* A light map, the way an atlas does it: pale land on paper, not a dark panel.
+   The coastline carries the shape, not the fill. Pale land on a pale sea is 1.24:1 — a ghost —
+   so the outline is what makes a continent legible, and it is set against the sea at 4.33:1
+   rather than the 1.44:1 the first attempt had. Fill stays pale so the gold routes and the dark
+   names stay the loudest things on the map. */
+.markets-map__land{fill:#DDE4D2;stroke:#6E7A63;stroke-width:.18;stroke-linejoin:round;}
+
+.markets-map__arc{fill:none;stroke:var(--cured-deep);stroke-width:.45;opacity:.85;stroke-linecap:round;}
+.markets-map__tie{stroke:var(--ink-faint);stroke-width:.22;opacity:.8;}
+.markets-map__dot{fill:var(--field);}
 .markets-map__name{
-  fill:var(--onfield);font-family:"IBM Plex Mono",ui-monospace,monospace;
+  fill:var(--ink);font-family:"IBM Plex Mono",ui-monospace,monospace;
   font-size:3.1px;letter-spacing:.09em;dominant-baseline:middle;
 }
-.markets-map__halo{fill:var(--cured);opacity:.18;}
-.markets-map__origin{fill:var(--paper);stroke:var(--cured);stroke-width:.9;}
+.markets-map__halo{fill:var(--cured);opacity:.22;}
+.markets-map__origin{fill:var(--card);stroke:var(--cured-deep);stroke-width:.9;}
 .markets-map__from{
-  fill:var(--cured);font-family:"IBM Plex Mono",ui-monospace,monospace;
+  fill:var(--cured-deep);font-family:"IBM Plex Mono",ui-monospace,monospace;
   font-size:3.1px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
 }
 
@@ -431,7 +437,7 @@ td.num{font-variant-numeric:tabular-nums;}
     opacity:0;animation:markets-arrive .5s ease-out forwards;
     animation-delay:calc(var(--i) * 110ms + .55s);
   }
-  /* Its own keyframe: the tie settles at .75, not 1, so it stays a hairline and never
+  /* Its own keyframe: the tie settles at .8, not 1, so it stays a hairline and never
      competes with the name it points at. */
   .markets-map__leg .markets-map__tie{
     opacity:0;animation:markets-tie .5s ease-out forwards;
@@ -440,7 +446,7 @@ td.num{font-variant-numeric:tabular-nums;}
 }
 @keyframes markets-draw{to{stroke-dashoffset:0;}}
 @keyframes markets-arrive{to{opacity:1;}}
-@keyframes markets-tie{to{opacity:.75;}}
+@keyframes markets-tie{to{opacity:.8;}}
 
 .markets-foot{margin-top:22px;display:grid;grid-template-columns:1.7fr 1fr;gap:28px;align-items:start;}
 .markets-list{
