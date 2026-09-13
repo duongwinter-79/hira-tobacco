@@ -38,3 +38,12 @@ tools/photo-picks.json
 # sinh ra bởi tools/reference-shots.mjs — ảnh của công ty khác, chỉ để tham chiếu,
 # tuyệt đối không commit và không đưa lên website
 tools/reference/
+
+# khoá API — không bao giờ commit
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# tải về bởi tools/build-markets-map.mjs — dữ liệu Natural Earth, dựng lại được
+tools/.cache/
