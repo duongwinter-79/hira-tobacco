@@ -78,6 +78,44 @@ function annamleaf_market_places(): array {
 }
 
 /**
+ * Where a market's name sits relative to its dot, in viewBox units.
+ *
+ * Names on the map beat numbers keyed to a list — a reader should not have to play matching
+ * games to learn where the leaf goes. The cost is that four of these markets sit within a few
+ * degrees of each other, so their names have to be pushed clear and joined back by a leader
+ * line. Hence a hand-set offset per market rather than one rule for all.
+ *
+ * A market with no entry gets the default: name to the right of its dot. That is right for an
+ * isolated market, which is what a newly added one usually is. Somewhere crowded needs a row
+ * here — the alternative was refusing to show markets nobody had tuned.
+ *
+ * @param string $name Market name as entered.
+ * @return array{0: float, 1: float} dx, dy.
+ */
+function annamleaf_market_label_offset( string $name ): array {
+	$offsets = array(
+		// The Southeast Asia cluster: names fanned left and right of a very tight group.
+		'laos'                 => array( -6.0, -3.0 ),
+		'cambodia'             => array( -6.0, 4.5 ),
+		'singapore'            => array( -6.0, 1.2 ),
+		'hong kong'            => array( 5.0, -1.0 ),
+		'indonesia'            => array( 5.0, 4.0 ),
+		// The spread-out four have room to breathe.
+		// Rightwards, not left: "United Kingdom" is fourteen characters and the dot sits 18
+		// units from the western edge of the crop, so an end-anchored name ran off the map.
+		'united kingdom'       => array( 5.0, -1.0 ),
+		'uk'                   => array( 5.0, -1.0 ),
+		'russia'               => array( 0.0, -4.0 ),
+		'united arab emirates' => array( 0.0, 7.0 ),
+		'uae'                  => array( 0.0, 7.0 ),
+	);
+
+	$key = strtolower( trim( $name ) );
+
+	return $offsets[ $key ] ?? array( 5.0, 1.2 );
+}
+
+/**
  * The market list as entered, parsed.
  *
  * One per line. A line may carry its own coordinates after a pipe — "Japan | 138, 36" — for
