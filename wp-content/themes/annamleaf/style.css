@@ -413,15 +413,21 @@ td.num{font-variant-numeric:tabular-nums;}
 .markets-map__arc{fill:none;stroke:var(--cured-deep);stroke-width:.45;opacity:.85;stroke-linecap:round;}
 .markets-map__tie{stroke:var(--ink-faint);stroke-width:.22;opacity:.8;}
 .markets-map__dot{fill:var(--field);}
+/* Names get the halo a map label normally gets: the text is painted over a stroke of the sea
+   colour, so it stays readable where it crosses a coastline instead of tangling with it. That
+   is what paint-order buys — without it the stroke paints on top and fattens the letters into
+   mush. Weight 500 because that is the heaviest Plex Mono this theme loads. */
 .markets-map__name{
   fill:var(--ink);font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:3.1px;letter-spacing:.09em;dominant-baseline:middle;
+  font-size:3.4px;font-weight:500;letter-spacing:.06em;dominant-baseline:middle;
+  paint-order:stroke fill;stroke:var(--card);stroke-width:.95;stroke-linejoin:round;
 }
 .markets-map__halo{fill:var(--cured);opacity:.22;}
 .markets-map__origin{fill:var(--card);stroke:var(--cured-deep);stroke-width:.9;}
 .markets-map__from{
   fill:var(--cured-deep);font-family:"IBM Plex Mono",ui-monospace,monospace;
-  font-size:3.1px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  font-size:3.4px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+  paint-order:stroke fill;stroke:var(--card);stroke-width:.95;stroke-linejoin:round;
 }
 
 /* Routes draw outward from Vietnam, one after another, then each name arrives. Staggered off
