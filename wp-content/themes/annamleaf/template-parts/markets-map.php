@@ -148,15 +148,12 @@ $annamleaf_view = '160 20 170 74';
 			</figure>
 		<?php endif; ?>
 
-		<div class="markets-foot">
-			<ul class="markets-list">
-				<?php foreach ( $annamleaf_markets as $annamleaf_market ) : ?>
-					<li><?php echo esc_html( $annamleaf_market['name'] ); ?></li>
-				<?php endforeach; ?>
-			</ul>
-			<p class="markets-note">
-				<?php esc_html_e( 'Shipped on the Incoterms you nominate. Ask for current availability and lead times when you enquire.', 'annamleaf' ); ?>
-			</p>
-		</div>
+		<?php // No trading note here. The page's opening paragraph already says the leaf ships
+		// on the Incoterms the buyer nominates, and saying it twice on one screen is filler. ?>
+		<ul class="markets-list">
+			<?php foreach ( $annamleaf_markets as $annamleaf_market ) : ?>
+				<li><?php echo esc_html( $annamleaf_market['name'] ); ?></li>
+			<?php endforeach; ?>
+		</ul>
 	</div>
 </section>

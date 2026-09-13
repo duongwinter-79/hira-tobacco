@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 // Bump on every release that changes style.css or site.js — the constant is the cache key
 // those assets are served under, so shipping CSS without changing it leaves returning
 // visitors on the old stylesheet.
-define( 'ANNAMLEAF_VERSION', '1.3.1' );
+define( 'ANNAMLEAF_VERSION', '1.3.2' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/plates.php';
