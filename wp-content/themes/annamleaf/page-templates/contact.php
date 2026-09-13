@@ -49,12 +49,26 @@ while ( have_posts() ) :
 					<li>
 						<span class="k"><?php esc_html_e( 'Phone', 'annamleaf' ); ?></span>
 						<span class="v">
-							<?php echo wp_kses_post( annamleaf_get_field( 'phone', '+84 …' ) ); ?>
 							<?php
-							$annamleaf_whatsapp = annamleaf_get( 'whatsapp' );
+							echo wp_kses_post( annamleaf_get_field( 'phone', '+84 …' ) );
 
-							if ( '' !== $annamleaf_whatsapp ) {
-								echo ' · ' . esc_html( $annamleaf_whatsapp );
+							/*
+							 * WhatsApp is usually the same handset, and it was printed regardless —
+							 * so the page showed "+84 963 785 936 · +84 963 785 936" and read as a
+							 * rendering fault. Show it only when it is a different number, and say
+							 * which it is rather than leaving a bare second number after a dot.
+							 */
+							$annamleaf_phone    = trim( wp_strip_all_tags( (string) annamleaf_get( 'phone' ) ) );
+							$annamleaf_whatsapp = trim( (string) annamleaf_get( 'whatsapp' ) );
+							$annamleaf_digits   = static fn( string $v ): string => preg_replace( '/\D+/', '', $v );
+
+							if ( '' !== $annamleaf_whatsapp
+								&& $annamleaf_digits( $annamleaf_whatsapp ) !== $annamleaf_digits( $annamleaf_phone ) ) {
+								printf(
+									/* translators: %s: WhatsApp number. */
+									' · ' . esc_html__( 'WhatsApp %s', 'annamleaf' ),
+									esc_html( $annamleaf_whatsapp )
+								);
 							}
 							?>
 						</span>

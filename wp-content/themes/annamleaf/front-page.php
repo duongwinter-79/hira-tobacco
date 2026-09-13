@@ -25,10 +25,10 @@ annamleaf_hero(
 		'text'            => annamleaf_get_meta( $annamleaf_front_id, 'hero_text' )
 			? annamleaf_get_meta( $annamleaf_front_id, 'hero_text' )
 			: sprintf(
-				/* translators: 1: company name, 2: growing region. */
-				__( '%1$s grows, cures, grades and processes its own leaf in %2$s, Vietnam — one company from the seedbed to the sealed container.', 'annamleaf' ),
+				/* translators: 1: company name, 2: growing region and country, e.g. "Cao Bằng, Vietnam". */
+				__( '%1$s grows, cures, grades and processes its own leaf in %2$s — one company from the seedbed to the sealed container.', 'annamleaf' ),
 				annamleaf_company_name(),
-				annamleaf_get_field( 'region', __( 'REGION', 'annamleaf' ) )
+				annamleaf_growing_place()
 			),
 		'cta_label'       => annamleaf_get_meta( $annamleaf_front_id, 'hero_cta_label', __( 'Request a quote', 'annamleaf' ) ),
 		'cta_url'         => annamleaf_get_meta( $annamleaf_front_id, 'hero_cta_url', annamleaf_contact_url() ),

@@ -406,3 +406,28 @@ function annamleaf_section_head( string $eyebrow, string $heading ): void {
 
 	echo '</div>';
 }
+
+/**
+ * The growing region with its country, without saying the country twice.
+ *
+ * The region is a Company profile field, and it is seeded as "Vietnam" until the client names
+ * the province — 4a062f7 left it that way deliberately. The home page hero had ", Vietnam"
+ * written into the sentence after it, so the site opened by telling every visitor the leaf is
+ * grown "in Vietnam, Vietnam".
+ *
+ * Once the province is filled in this returns "Cao Bằng, Vietnam" and the sentence is right.
+ * Until then it returns "Vietnam" once.
+ *
+ * @return string
+ */
+function annamleaf_growing_place(): string {
+	$region = annamleaf_get_field( 'region', __( 'REGION', 'annamleaf' ) );
+	$plain  = strtolower( trim( wp_strip_all_tags( (string) $region ) ) );
+
+	if ( in_array( $plain, array( 'vietnam', 'viet nam', 'việt nam' ), true ) ) {
+		return __( 'Vietnam', 'annamleaf' );
+	}
+
+	/* translators: %s: growing region, e.g. "Cao Bằng". */
+	return sprintf( __( '%s, Vietnam', 'annamleaf' ), $region );
+}
