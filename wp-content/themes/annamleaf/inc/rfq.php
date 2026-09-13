@@ -25,9 +25,13 @@ function annamleaf_rfq_fields(): array {
 	}
 
 	if ( empty( $leaf_types ) ) {
+		// Only reached with the plugin switched off, so there are no leaf posts to read. Keep it
+		// in step with annamleaf_seed_leaves(): cut rag joined the portfolio and was missed here,
+		// which would offer a buyer three types on a site that sells four.
 		$leaf_types = array(
 			__( 'Whole leaf', 'annamleaf' ),
 			__( 'Threshed lamina', 'annamleaf' ),
+			__( 'Cut rag', 'annamleaf' ),
 			__( 'Tobacco stem', 'annamleaf' ),
 		);
 	}

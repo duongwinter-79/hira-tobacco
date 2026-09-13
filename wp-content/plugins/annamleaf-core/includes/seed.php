@@ -407,15 +407,24 @@ function annamleaf_seed_page_definitions(): array {
 	$pages['leaf'] = array(
 		'title'    => __( 'Our Leaf', 'annamleaf-core' ),
 		'template' => 'page-templates/leaf.php',
+		/*
+		 * The heading and bullet list that used to open this page are gone.
+		 *
+		 * "Shipped in the form you need" repeated the hero title a few hundred pixels above it,
+		 * and each bullet repeated the card excerpt directly above it almost word for word —
+		 * "graded and baled before threshing, for buyers who run their own line" against
+		 * "graded and baled whole, before threshing — for buyers who run their own processing
+		 * line". A third of the page was saying the same thing twice, which is why it read as
+		 * empty: only the crop calendar was doing new work.
+		 *
+		 * What replaces it is the part a buyer cannot get from the cards: which form suits their
+		 * line, and what to put in an enquiry. Specification — grade, moisture, packing — stays
+		 * off this page, because 4a062f7 records the client asking for it to be removed.
+		 */
 		'content'  =>
-			annamleaf_block_h( __( 'Shipped in the form you need', 'annamleaf-core' ) )
-			. annamleaf_block_list(
-				array(
-					'<strong>' . __( 'Whole leaf', 'annamleaf-core' ) . '</strong> — ' . __( 'graded and baled before threshing, for buyers who run their own line.', 'annamleaf-core' ),
-					'<strong>' . __( 'Threshed lamina', 'annamleaf-core' ) . '</strong> — ' . __( 'destemmed, redried and baled to export standard.', 'annamleaf-core' ),
-					'<strong>' . __( 'Cut rag', 'annamleaf-core' ) . '</strong> — ' . __( 'lamina cut to width and conditioned, ready for the blending line.', 'annamleaf-core' ),
-					'<strong>' . __( 'Tobacco stem', 'annamleaf-core' ) . '</strong> — ' . __( 'separated during threshing and packed for industrial use.', 'annamleaf-core' ),
-				)
+			annamleaf_block_h( __( 'Which form suits your line', 'annamleaf-core' ) )
+			. annamleaf_block_p(
+				__( 'It depends on where your own process starts. Buyers who thresh in-house take whole leaf and grade it to their own standard. Buyers who do not take lamina and stem, which come off our line redried and baled. Cut rag arrives ready for the blending line. If you are not sure which matches what you currently buy, send us your reference sample and we will tell you.', 'annamleaf-core' )
 			)
 			. annamleaf_block_h( __( 'When the crop moves', 'annamleaf-core' ) )
 			. annamleaf_block_p( __( 'The winter–spring crop of the northern highlands. Dates move a few weeks with the weather, so confirm current availability when you enquire.', 'annamleaf-core' ) )
@@ -427,6 +436,23 @@ function annamleaf_seed_page_definitions(): array {
 					array( __( 'Harvest and curing', 'annamleaf-core' ), __( 'April – July', 'annamleaf-core' ), __( 'Several picking passes, bottom leaves first', 'annamleaf-core' ) ),
 					array( __( 'Processing', 'annamleaf-core' ), __( 'June – September', 'annamleaf-core' ), __( 'Threshing line running', 'annamleaf-core' ) ),
 					array( __( 'Shipment', 'annamleaf-core' ), __( 'August – December', 'annamleaf-core' ), __( 'Ex port of loading', 'annamleaf-core' ) ),
+				)
+			)
+			/*
+			 * Mirrors the quote form field for field, so the page and the form ask for the same
+			 * four things in the same order. Nothing here is a claim about the goods — it is a
+			 * description of this site's own form, which is why it is safe to state plainly.
+			 */
+			. annamleaf_block_h( __( 'What to send with an enquiry', 'annamleaf-core' ) )
+			. annamleaf_block_p(
+				__( 'Four things let us answer with a price instead of a question.', 'annamleaf-core' )
+			)
+			. annamleaf_block_list(
+				array(
+					'<strong>' . __( 'Leaf type', 'annamleaf-core' ) . '</strong> — ' . __( 'one of the four above, or describe it if none of them fits.', 'annamleaf-core' ),
+					'<strong>' . __( 'Volume in metric tonnes', 'annamleaf-core' ) . '</strong> — ' . __( 'per shipment, and the annual figure if it repeats.', 'annamleaf-core' ),
+					'<strong>' . __( 'Destination port', 'annamleaf-core' ) . '</strong> — ' . __( 'and the Incoterm you buy on.', 'annamleaf-core' ),
+					'<strong>' . __( 'What you buy against', 'annamleaf-core' ) . '</strong> — ' . __( 'your own specification or a reference sample, if you have one.', 'annamleaf-core' ),
 				)
 			),
 		'meta'     => array(
