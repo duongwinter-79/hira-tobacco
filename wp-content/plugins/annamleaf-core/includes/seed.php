@@ -351,7 +351,8 @@ function annamleaf_seed_page_definitions(): array {
 
 	$pages['about'] = array(
 		'title'    => __( 'About', 'annamleaf-core' ),
-		'template' => '',
+		// Same as a standard page, plus the export markets map at the foot.
+		'template' => 'page-templates/about.php',
 		'content'  =>
 			annamleaf_block_p(
 				__( 'We grow, cure, grade, process and export leaf tobacco from our own fields in Vietnam. Most suppliers buy what the market offers; we start at the seedbed, which is why every bale we ship can be traced back to the field it grew in, the barn it was cured in and the week it was graded.', 'annamleaf-core' ),
@@ -541,6 +542,12 @@ function annamleaf_seed_pages( bool $force = false ): void {
 				'age_gate'          => '1',
 				'noindex'           => '1',
 				'trade_notice'      => __( 'This site is intended for industrial buyers and trade partners. It is not directed at consumers.', 'annamleaf-core' ),
+				/*
+				 * Shipped as a starting point, not as fact. These came from the client verbally
+				 * and belong in the list the client signs off — see docs/khach-can-cung-cap.md.
+				 * Where a supplier says it ships is a claim a buyer may check.
+				 */
+				'export_markets'    => "Indonesia\nLaos\nCambodia\nSingapore\nHong Kong\nUnited Kingdom\nRussia\nUnited Arab Emirates",
 			),
 			$options
 		)

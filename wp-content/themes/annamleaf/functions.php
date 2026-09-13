@@ -11,12 +11,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ANNAMLEAF_VERSION', '1.0.0' );
+// Bump on every release that changes style.css or site.js — the constant is the cache key
+// those assets are served under, so shipping CSS without changing it leaves returning
+// visitors on the old stylesheet.
+define( 'ANNAMLEAF_VERSION', '1.1.0' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/plates.php';
 require_once get_template_directory() . '/inc/rfq.php';
 require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/markets.php';
 
 /**
  * Theme supports, menus and image sizes.

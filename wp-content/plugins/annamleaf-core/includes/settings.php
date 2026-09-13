@@ -69,6 +69,16 @@ function annamleaf_option_fields(): array {
 				),
 			),
 		),
+		'markets' => array(
+			'title'  => __( 'Export markets', 'annamleaf-core' ),
+			'fields' => array(
+				'export_markets' => array(
+					'label' => __( 'Markets', 'annamleaf-core' ),
+					'type'  => 'textarea',
+					'hint'  => __( 'One market per line, shown on the About page as a list and as dots on a world map. Most country names are recognised and placed automatically; for anywhere unusual, add its position after a pipe — "Japan | 138, 36". A name that cannot be placed still appears in the list, just without a dot. These are a claim to buyers about where you ship, so list only markets you have actually supplied.', 'annamleaf-core' ),
+				),
+			),
+		),
 	);
 
 	/**
